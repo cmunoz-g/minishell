@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/04 13:39:46 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/04 13:50:32 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 /*
 	Por ahora solo gestionamos un arg
+	Until Makefile is created, to run do:
+	1. make -s libft
+	2. gcc exec/*.c -L./libft -lft
 */
 
 void	print_cmd(t_cmd_table *tbl)
@@ -37,9 +40,9 @@ t_cmd_table	*init_cmd(char *cmd, char *arg, int in, int out)
 	t = malloc(sizeof(t_cmd_table));
 	if (!t)
 		exit(0);
-	t->cmd = malloc(sizeof(char) * strlen(cmd));
+	t->cmd = malloc(sizeof(char) * ft_strlen(cmd));
 	strcpy(t->cmd, cmd);
-	t->arg = malloc(sizeof(char) * strlen(arg));
+	t->arg = malloc(sizeof(char) * ft_strlen(arg));
 	strcpy(t->arg, arg);
 	t->in = in;
 	t->out = out;

@@ -2,7 +2,14 @@
 
 char	**lexer(char *cmd_line)
 {
-	
+	int i;
+	int start;
+
+	while (cmd_line[i])
+	{
+		
+
+	}
 
 
 }

@@ -2,35 +2,7 @@
 
 char	**lexer(char *cmd_line)
 {
-	t_token	*tokens;
-	int		i;
-	int		token_start;
-	bool	in_quotes;
-	char	current_quote_type;
-
-	i = 0;
-	in_quotes = false;
-	while (cmd_line[i])
-	{
-		if (in_quotes)
-		{
-
-		}
-		else 
-		{
-			if (cmd_line[i] == '"' || cmd_line[i] == '\'')
-			{
-				in_quotes = true;
-				current_quote_type = cmd_line[i];
-
-			}
-			else if (ft_isspace(cmd_line[i]))
-			{
-				 
-			}
-		}
-		
-	}
+	
 
 
 }

@@ -6,7 +6,7 @@
 #    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/04 17:36:19 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/04 17:44:59 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -134,4 +134,4 @@ re: fclean all
 norm:
 	@norminette $(SRC) | grep -v Norme -B1 || true
 
-.PHONY: all clean fclean re norm libft
+.PHONY: all clean fclean re norm libft parse exec

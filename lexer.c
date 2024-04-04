@@ -4,6 +4,7 @@ char	**lexer(char *cmd_line)
 {
 	t_token	*tokens;
 	int		i;
+	int		token_start;
 	bool	in_quotes;
 	char	current_quote_type;
 
@@ -22,6 +23,10 @@ char	**lexer(char *cmd_line)
 				in_quotes = true;
 				current_quote_type = cmd_line[i];
 
+			}
+			else if (ft_isspace(cmd_line[i]))
+			{
+				 
 			}
 		}
 		

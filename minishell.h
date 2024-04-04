@@ -1,18 +1,29 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-typedef enum	e_token_type
-{
-	TOK_CMD,
-	TOK_ARG,
-	TOK_OPR;
-}				t_token_type;
+# define EMPTY 0
+# define CMD 1
+# define ARG 2
+# define TRUNC 3
+# define APPEND 4
+# define INPUT 5
+# define PIPE 6
+# define END 7
 
-typedef struct	s_token;
+typedef struct	s_token
 {
-	t_token_type	type;
+	int				type;
 	char			*value;
 	struct s_token	*next;
+	struct s_token	*prev;
 }				t_token;
+
+typedef struct	s_cmd_table
+{
+	char	*cmd;
+	char	**args;
+	int		in;
+	int		out;
+}				t_cmd_table;
 
 #endif

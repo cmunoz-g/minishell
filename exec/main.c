@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_suite.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/05 11:02:32 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/05 11:56:31 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "test_suite.h"
+#include "exec.h"
 
 /*
 	Por ahora solo gestionamos un arg
@@ -30,7 +30,9 @@ void	print_cmd(t_cmd_table *tbl)
 
 void	handle_cmd(t_cmd_table *tbl)
 {
-	
+	if (tbl)
+		exit(0);
+	exit(1);
 }
 
 int	main(void)

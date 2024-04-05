@@ -1,13 +1,25 @@
 //#include "minishell.h"
 #include "parsing_tests.h"
 
-// 2>errors.txt
-// gestionar ;
 // gestionar malloc error en add_token
 // norminette
 // ft para limpiar el array de tokens, justo despues de crear el cmd table. limpiar strings (value) y cada nodo
 
-//		ls -la | cat >output
+// para crear la tabla de comandos, mirar como expandir variables ("$" y no se si hay alguna mas) y crear dos tablas de comandos si hay un ;
+
+void	check_redirections(t_token **token_list)
+{
+	t_token *it_filename;
+
+	it_filename = *(token_list);
+	while (it_filename)
+	{
+		if ((it_filename->next && (it_filename->value[0] == '0' || it_filename->value[0] == '1' || it_filename->value[0] == '2')
+			&& (it_filename->next->type == TRUNC || it_filename->next->type == APPEND || it_filename->next->type == INPUT)))
+			it_filename->type = FILENAME;
+		it_filename = it_filename->next;
+	}
+}
 
 void	lexer_redir(t_token **token_list, char *cmd_line, int *start, int *i)
 {
@@ -69,8 +81,9 @@ void	lexer(char *cmd_line, t_token **token_list)
         }
         i++;
     }
-    if (i > start) 
-        add_token(token_list, cmd_line, start, i);
+    if (i > start)
+		add_token(token_list, cmd_line, start, i);
+	check_redirections(token_list);
 }
 
 int	add_token(t_token **token_list, char *cmd_line, int start, int end)
@@ -94,7 +107,7 @@ int	add_token(t_token **token_list, char *cmd_line, int start, int end)
 	}
 	new_token->value = ft_strdup_mod(cmd_line + start, end - start);
 	new_token->next = NULL;
-	get_token_type(new_token); 
+	get_token_type(new_token);
 	return (0);
 }
 

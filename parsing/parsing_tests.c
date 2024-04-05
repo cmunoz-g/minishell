@@ -67,7 +67,7 @@ t_token *get_last_token(t_token *token_list)
 }
 int main()
 {
-	char *str = "echo \"New line of text\" >> existing_file.txt";
+	char *str = "grep \"specific_string\" * 2>errors.txt ; cat | wc -w";
 	t_token	*token_list;
 
 	token_list = NULL;

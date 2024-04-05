@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_suite.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:59:41 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/04 13:46:44 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/05 09:45:13 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_cmd_table
 	char				*arg;
 	int					in;
 	int					out;
+	char				*filename;
 	struct s_cmd_table	*prev;
 	struct s_cmd_table	*next;
 }				t_cmd_table;

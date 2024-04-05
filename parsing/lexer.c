@@ -1,12 +1,37 @@
 //#include "minishell.h"
 #include "parsing_tests.h"
 
-// ver como hacer el if en get_token_type para input y append. probar con "" y todos los casos que se me ocurran
+// 2>errors.txt
 // gestionar ;
 // gestionar malloc error en add_token
+// norminette
 // ft para limpiar el array de tokens, justo despues de crear el cmd table. limpiar strings (value) y cada nodo
 
 //		ls -la | cat >output
+
+void	lexer_redir(t_token **token_list, char *cmd_line, int *start, int *i)
+{
+	if ((*i) > (*start))
+		add_token(token_list, cmd_line, (*start), (*i));
+	if (cmd_line[(*i) + 1] == '>')
+	{
+		add_token(token_list, cmd_line, (*i), (*i) + 2);
+		(*i)++;
+	}
+	else 
+		add_token(token_list, cmd_line, (*i), (*i) + 1);
+	(*start) = (*i) + 1;
+
+}
+
+void	lexer_quotes(t_token **token_list, char *cmd_line, int *start, int i)
+{
+	if (i > (*start)) 
+	{
+    	add_token(token_list, cmd_line, (*start), i);
+        (*start) = i;
+    }
+}
 
 void	lexer(char *cmd_line, t_token **token_list)
 {
@@ -31,12 +56,10 @@ void	lexer(char *cmd_line, t_token **token_list)
 			{
                 quotes = true;
                 quote_type = cmd_line[i];
-                if (i > start) 
-				{
-                    add_token(token_list, cmd_line, start, i);
-                    start = i;
-                }
+                lexer_quotes(token_list, cmd_line, &start, i);
             } 
+			else if (cmd_line[i] == '<' || cmd_line[i] == '>')
+				lexer_redir(token_list, cmd_line, &start, &i);
 			else if (ft_isspace(cmd_line[i])) 
 			{
                 if (i > start) 
@@ -58,14 +81,14 @@ int	add_token(t_token **token_list, char *cmd_line, int start, int end)
 	new_token = (t_token *)malloc(sizeof(t_token));
 	if (!new_token)
 		return (-1);
-	if (!(*token_list))
+	last = get_last_token(*token_list);
+	if (!last)
 	{
 		*token_list = new_token;
 		new_token->prev = NULL;
 	}
 	else  
 	{
-		last = get_last_token(*token_list);
 		last->next = new_token;
 		new_token->prev = last;
 	}
@@ -79,17 +102,19 @@ void	get_token_type(t_token *token)
 {
 	if (!ft_strcmp(token->value, ""))
 		token->type = EMPTY;
-	else if (!ft_strcmp(token->value, "<"))
+	else if (token->value[0] == '<')
 		token->type = INPUT;
-	else if (*(token->value) == '>')
+	else if (token->value[0] == '>')
 		token->type = TRUNC;
-	else if (!ft_strcmp(token->value, ">>"))
+	else if (token->value[0] == '>' && token->value[1] == '>')
 		token->type = APPEND;
 	else if (!ft_strcmp(token->value, "|"))
 		token->type = PIPE;
 	else if (!ft_strcmp(token->value, ";"))
 		token->type = END;
-	else if (token->prev == NULL || (token->prev->type >= 3))
+	else if (token->prev && (token->prev->type == TRUNC || token->prev->type == APPEND || token->prev->type == INPUT))
+		token->type = FILENAME;
+	else if (token->prev == NULL || (token->prev->type >= 6))
 		token->type = CMD;
 	else
 		token->type = ARG;

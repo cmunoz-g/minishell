@@ -6,7 +6,7 @@
 #    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/05 09:38:15 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/05 09:42:10 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,11 +74,13 @@ $(LIBFT):
 clean:
 	@rm -rf $(OBJ_DIR)
 	@make clean -sC $(LIBFT_PATH)
+	@make clean -sC exec
 	@echo "$(BLUE)minishell object files cleaned!$(DEF_COLOR)"
 
 fclean: clean
 	@rm -f $(NAME)
 	@make fclean -sC $(LIBFT_PATH)
+	@make fclean -sC exec
 	@echo "$(CYAN)minishell executable files cleaned!$(DEF_COLOR)"
 
 re: fclean all
@@ -86,5 +88,8 @@ re: fclean all
 
 norm:
 	@norminette $(SRC) | grep -v Norme -B1 || true
+
+miniexec:
+	make -sC exec
 
 .PHONY: all clean fclean re norm libft

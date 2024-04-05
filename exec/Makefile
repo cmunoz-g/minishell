@@ -6,12 +6,12 @@
 #    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/05 09:37:41 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/05 09:40:23 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Name
-NAME 		= 	miniparse
+NAME 		= 	miniexec
 
 # Compiler
 CC 			= 	gcc
@@ -57,7 +57,7 @@ all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(INC)
-	@echo "$(GREEN)minishell compiled!$(DEF_COLOR)"
+	@echo "$(GREEN)miniexec compiled!$(DEF_COLOR)"
 
 libft:
 	@make -sC $(LIBFT_PATH)
@@ -69,15 +69,15 @@ $(LIBFT):
 clean:
 	@rm -f *.o
 	@make clean -sC $(LIBFT_PATH)
-	@echo "$(BLUE)miniparse object files cleaned!$(DEF_COLOR)"
+	@echo "$(BLUE)miniexec object files cleaned!$(DEF_COLOR)"
 
 fclean: clean
 	@rm -f $(NAME)
 	@make fclean -sC $(LIBFT_PATH)
-	@echo "$(CYAN)miniparse executable files cleaned!$(DEF_COLOR)"
+	@echo "$(CYAN)miniexec executable files cleaned!$(DEF_COLOR)"
 
 re: fclean all
-	@echo "$(GREEN)Cleaned and rebuilt everything for miniparse!$(DEF_COLOR)"
+	@echo "$(GREEN)Cleaned and rebuilt everything for miniexec!$(DEF_COLOR)"
 
 norm:
 	@norminette $(SRC) | grep -v Norme -B1 || true

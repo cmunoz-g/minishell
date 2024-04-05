@@ -59,15 +59,18 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 
 t_token *get_last_token(t_token *token_list)
 {
+	if (!token_list)
+		return (0);
 	while (token_list->next)
 		token_list = token_list->next;
 	return (token_list);
 }
 int main()
 {
-	char *str = "ls -la | cat >output";
+	char *str = "grep \"specific_string\" * 2>errors.txt ; cat | wc -w";
 	t_token	*token_list;
 
+	token_list = NULL;
 	lexer(str, &token_list);
 	while (token_list)
 	{
@@ -76,3 +79,28 @@ int main()
 	}
 	return 0;
 }
+
+
+/*
+	"ls -la | cat >output"
+	head -n 10 large_file.txt > excerpt.txt
+	cat file1.txt file2.txt file3.txt | grep "search_term" -c > count.txt
+	grep "search_term" < input_file.txt
+	echo "New line of text" >> existing_file.txt
+	grep "specific_string" * 2>errors.txt
+
+
+*/
+
+/*
+
+# define EMPTY 0
+# define CMD 1
+# define ARG 2
+# define TRUNC 3
+# define APPEND 4
+# define INPUT 5
+# define PIPE 6
+# define END 7
+
+*/

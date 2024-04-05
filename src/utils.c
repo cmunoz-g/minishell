@@ -23,6 +23,8 @@ int	ft_strcmp(const char *str1, const char *str2)
 
 t_token *get_last_token(t_token *token_list)
 {
+	if (!token_list)
+		return (0);
 	while (token_list->next)
 		token_list = token_list->next;
 	return (token_list);

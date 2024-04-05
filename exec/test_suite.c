@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_suite.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/04 13:50:32 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/05 09:36:45 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,10 @@
 
 /*
 	Por ahora solo gestionamos un arg
-	Until Makefile is created, to run do:
-	1. make -s libft
-	2. gcc exec/*.c -L./libft -lft
 */
 
 void	print_cmd(t_cmd_table *tbl)
 {
-	int	i;
-
-	i = 0;
 	if (!tbl)
 		;
 	printf("cmd: %s\n", tbl->cmd);

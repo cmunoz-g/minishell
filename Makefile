@@ -6,7 +6,7 @@
 #    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/04 17:49:53 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/05 09:38:15 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ $(OBJF):
 
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(INC)
-	@echo "$(GREEN)minishell compiled!$(DEF_COLOR)
+	@echo "$(GREEN)minishell compiled!$(DEF_COLOR)"
 
 libft:
 	@make -sC $(LIBFT_PATH)

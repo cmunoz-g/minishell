@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:59:41 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/05 12:02:21 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/05 13:05:19 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ typedef struct s_cmd_table
 	char				*arg;
 	int					in;
 	int					out;
-	char				*filename;
+	t_token				*redirections;
+	int					n_redirections;
 	struct s_cmd_table	*prev;
 	struct s_cmd_table	*next;
 }				t_cmd_table;

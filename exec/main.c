@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/05 11:56:31 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/05 12:45:21 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	main(void)
 		exit(0);
 	tbl->cmd = "ls";
 	tbl->arg = "-la";
-	tbl->filename = NULL;
 	tbl->in = STDIN;
 	tbl->out = PIPE;
 	tbl2 = malloc(sizeof(t_cmd_table));
@@ -53,7 +52,6 @@ int	main(void)
 		exit(0);
 	tbl2->cmd = "grep";
 	tbl2->arg = "a";
-	tbl2->filename = "out";
 	tbl2->in = PIPE;
 	tbl2->out = FILE;
 	tbl->next = tbl2;

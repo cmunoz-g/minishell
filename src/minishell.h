@@ -9,6 +9,7 @@
 # define INPUT 5
 # define PIPE 6
 # define END 7
+# define FILENAME 8
 
 typedef struct	s_token
 {

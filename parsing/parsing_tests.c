@@ -56,27 +56,28 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	}
 	return (ft_strlen(src));
 }
-
-t_token *get_last_token(t_token *token_list)
-{
-	if (!token_list)
-		return (0);
-	while (token_list->next)
-		token_list = token_list->next;
-	return (token_list);
-}
 int main()
 {
-	char *str = "grep \"specific_string\" * 2>errors.txt ; cat | wc -w";
+	char *str = "echo hi > \"doble\"quote;cat doblequote;rm doblequote@echo hi > \"doble\"quote";
 	t_token	*token_list;
+	t_token *reference;
 
 	token_list = NULL;
 	lexer(str, &token_list);
-	while (token_list)
+	
+	reference = token_list;
+	while (reference)
 	{
-		printf("value:%s type:%d\n",token_list->value, token_list->type);
-		token_list = token_list->next;
+		token_list = reference;
+		while (token_list)
+		{
+			printf("value:%s type:%d\n",token_list->value, token_list->type);
+			token_list = token_list->next;
+		}
+		reference = reference->next_cmd;
+		printf("\n");
 	}
+	//parser(&token_list);
 	return 0;
 }
 
@@ -88,6 +89,7 @@ int main()
 	grep "search_term" < input_file.txt
 	echo "New line of text" >> existing_file.txt
 	grep "specific_string" * 2>errors.txt
+	"echo hi > \"doble\"quote;cat doblequote;rm doblequote@echo hi > \"doble\"quote"
 
 
 */

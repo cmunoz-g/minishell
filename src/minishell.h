@@ -17,6 +17,7 @@ typedef struct	s_token
 	char			*value;
 	struct s_token	*next;
 	struct s_token	*prev;
+	struct s_token	*next_cmd;
 }				t_token;
 
 typedef struct	s_cmd_table
@@ -25,6 +26,7 @@ typedef struct	s_cmd_table
 	char	**args;
 	int		in;
 	int		out;
+	int		err;
 	struct 	s_cmd_table *next;
 	struct 	s_cmd_table *prev;
 }				t_cmd_table;

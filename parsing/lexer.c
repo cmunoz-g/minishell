@@ -1,11 +1,32 @@
 //#include "minishell.h"
 #include "parsing_tests.h"
 
-// gestionar malloc error en add_token
-// norminette
-// ft para limpiar el array de tokens, justo despues de crear el cmd table. limpiar strings (value) y cada nodo
+// tener en cuenta las combinaciones que si son posibles de <, >, >>. Por ejemplo, algo que lleve >>>> daria error. Pensar cuando comprobarlo
 
-// para crear la tabla de comandos, mirar como expandir variables ("$" y no se si hay alguna mas) y crear dos tablas de comandos si hay un ;
+t_token *get_last_token(t_token *token_list)
+{
+	if (!token_list)
+		return (0);
+	while (token_list->next)
+		token_list = token_list->next;
+	return (token_list);
+}
+
+void	clean_token_list(t_token **token_list)
+{
+	t_token *tmp;
+
+	if ((*token_list)->next_cmd)
+		clean_token_list(&(*token_list)->next_cmd);
+	while (*token_list)
+	{
+		tmp = (*token_list)->next;
+		if ((*token_list)->value)
+			free((*token_list)->value);
+		free(*token_list);
+		(*token_list) = tmp;
+	}
+}
 
 void	check_redirections(t_token **token_list)
 {
@@ -21,22 +42,31 @@ void	check_redirections(t_token **token_list)
 	}
 }
 
-void	lexer_redir(t_token **token_list, char *cmd_line, int *start, int *i)
+void	lexer_new_token(t_token **token_list, char *cmd_line, int *start, int *i)
 {
-	if ((*i) > (*start))
-		add_token(token_list, cmd_line, (*start), (*i));
-	if (cmd_line[(*i) + 1] == '>')
+	if (ft_isspace(cmd_line[*i]))
 	{
-		add_token(token_list, cmd_line, (*i), (*i) + 2);
-		(*i)++;
+		if (*i > *start) 
+			add_token(token_list, cmd_line, *start, *i);
+   	 	*start = *i + 1;
 	}
-	else 
-		add_token(token_list, cmd_line, (*i), (*i) + 1);
-	(*start) = (*i) + 1;
+	else
+	{
+		if ((*i) > (*start))
+			add_token(token_list, cmd_line, (*start), (*i));
+		if (cmd_line[(*i) + 1] == '>')
+		{
+			add_token(token_list, cmd_line, (*i), (*i) + 2);
+			(*i)++;
+		}
+		else 
+			add_token(token_list, cmd_line, (*i), (*i) + 1);
+		(*start) = (*i) + 1;
+	}
 
 }
 
-void	lexer_quotes(t_token **token_list, char *cmd_line, int *start, int i)
+void	lexer_qt(t_token **token_list, char *cmd_line, int *start, int i)
 {
 	if (i > (*start)) 
 	{
@@ -45,55 +75,64 @@ void	lexer_quotes(t_token **token_list, char *cmd_line, int *start, int i)
     }
 }
 
+void	set_qt(bool *quotes, char *quote_type, char *cmd_line, int i)
+{
+	(*quotes) = true;
+	(*quote_type) = cmd_line[i];
+}
+void	lexer_new_cmd(t_token **token_list, char *cmd_line, int *start, int *i)
+{
+	t_token	*new_cmd;
+
+	new_cmd = NULL;
+	lexer((cmd_line + (*i) + 1), &new_cmd);
+	(*token_list)->next_cmd = new_cmd;
+}
+
+void	init_lexer(bool *qt, int *i, int *start)
+{
+	*qt = false;
+	*i = -1;
+	*start = 0;
+}
+
+
 void	lexer(char *cmd_line, t_token **token_list)
 {
 	int 	i;
 	int 	start;
-	char	quote_type;
-	bool	quotes;
+	char	qt_type;
+	bool	qt;
 
-	i = 0;
-	start = 0;
-	quotes = false;
-	while (cmd_line[i])
+	init_lexer(&qt, &i, &start);
+	while (cmd_line[++i])
 	{
-        if (quotes) 
-		{
-            if (cmd_line[i] == quote_type && (i == 0 || cmd_line[i - 1] != '\\')) 
-                quotes = false;
-		}
-		else 
+        if (qt && (cmd_line[i] == qt_type && (i == 0 || cmd_line[i - 1] != '\\'))) 
+                qt = false;
+		else if (!qt) 
 		{
             if (cmd_line[i] == '"' || cmd_line[i] == '\'') 
+				(set_qt(&qt, &qt_type, cmd_line, i), lexer_qt(token_list, cmd_line, &start, i));
+			else if (ft_isspace(cmd_line[i]) || cmd_line[i] == '<' || cmd_line[i] == '>')
+				lexer_new_token(token_list, cmd_line, &start, &i);
+			else if (cmd_line[i] == ';')
 			{
-                quotes = true;
-                quote_type = cmd_line[i];
-                lexer_quotes(token_list, cmd_line, &start, i);
-            } 
-			else if (cmd_line[i] == '<' || cmd_line[i] == '>')
-				lexer_redir(token_list, cmd_line, &start, &i);
-			else if (ft_isspace(cmd_line[i])) 
-			{
-                if (i > start) 
-					add_token(token_list, cmd_line, start, i);
-                start = i + 1;
-            }
+				lexer_new_cmd(token_list, cmd_line, &start, &i);
+				break ;
+			}
         }
-        i++;
     }
-    if (i > start)
-		add_token(token_list, cmd_line, start, i);
-	check_redirections(token_list);
+	(add_token(token_list, cmd_line, start, i), check_redirections(token_list));
 }
 
-int	add_token(t_token **token_list, char *cmd_line, int start, int end)
+void	add_token(t_token **token_list, char *cmd_line, int start, int end)
 {
 	t_token *new_token;
 	t_token *last;
 
 	new_token = (t_token *)malloc(sizeof(t_token));
 	if (!new_token)
-		return (-1);
+		clean_token_list(token_list);
 	last = get_last_token(*token_list);
 	if (!last)
 	{
@@ -107,8 +146,8 @@ int	add_token(t_token **token_list, char *cmd_line, int start, int end)
 	}
 	new_token->value = ft_strdup_mod(cmd_line + start, end - start);
 	new_token->next = NULL;
+	new_token->next_cmd = NULL;
 	get_token_type(new_token);
-	return (0);
 }
 
 void	get_token_type(t_token *token)

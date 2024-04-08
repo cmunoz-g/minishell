@@ -56,18 +56,9 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	}
 	return (ft_strlen(src));
 }
-
-t_token *get_last_token(t_token *token_list)
-{
-	if (!token_list)
-		return (0);
-	while (token_list->next)
-		token_list = token_list->next;
-	return (token_list);
-}
 int main()
 {
-	char *str = "grep \"specific_string\" * 2>errors.txt ; cat | wc -w";
+	char *str = "cat *.txt | grep \"search_term\" -c > count.txt";
 	t_token	*token_list;
 
 	token_list = NULL;
@@ -77,6 +68,7 @@ int main()
 		printf("value:%s type:%d\n",token_list->value, token_list->type);
 		token_list = token_list->next;
 	}
+	//parser(&token_list);
 	return 0;
 }
 

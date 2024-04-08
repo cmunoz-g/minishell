@@ -24,11 +24,21 @@ typedef struct	s_token
 	struct s_token	*prev;
 }				t_token;
 
+typedef struct	s_cmd_table
+{
+	char	*cmd;
+	char	**args;
+	int		in;
+	int		out;
+	struct 	s_cmd_table *next;
+	struct 	s_cmd_table *prev;
+}				t_cmd_table;
+
 char	*ft_strdup_mod(const char *s, size_t size);
 int	ft_strcmp(const char *str1, const char *str2);
 int main();
 void	lexer(char *cmd_line, t_token **token_list);
-int	add_token(t_token **token_list, char *cmd_line, int start, int end);
+void	add_token(t_token **token_list, char *cmd_line, int start, int end);
 void	get_token_type(t_token *token);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 int		ft_isspace(int c);

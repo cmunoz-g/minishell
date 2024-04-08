@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/08 12:27:08 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/08 12:34:46 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ void	print_cmd(t_cmd_table *tbl)
 		;
 	i = 0;
 	printf("cmd: %s\n", tbl->cmd);
-	while (tbl->args[i++])
+	while (tbl->args[i])
+	{
 		printf("arg %d: %s\n", i, tbl->args[i]);
+		i++;
+	}
 	printf("in: %d\n", tbl->in);
 	printf("out: %d\n", tbl->out);
 	printf("--------\n");
@@ -73,15 +76,15 @@ int	main(int argc, char **argv, char **envp)
 	redirections->prev = NULL;
 	redirections->next = NULL;
 	tbl2->cmd = "grep";
-	tbl->args = ft_calloc(sizeof(char *), 2);
-	tbl->args[0] = "Make";
+	tbl2->args = ft_calloc(sizeof(char *), 2);
+	tbl2->args[0] = "Make";
 	tbl2->in = PIPE;
 	tbl2->out = FILE;
 	tbl->next = tbl2;
 	tbl2->prev = tbl;
 	tbl2->redirections = redirections;
 	tbl2->n_redirections = 1;
-	while (tbl)
+	while (tbl && envp)
 	{
 		print_cmd(tbl);
 		handle_cmd(tbl, envp);

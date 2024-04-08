@@ -6,29 +6,29 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/05 11:15:28 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/08 12:27:26 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-void	exec_process(char *cmd, char **env)
+void	exec_process(t_cmd_table *tbl, char **env)
 {
-	char	**cmd_s;
+	char	**cmd;
 	char	*path;
 
-	cmd_s = ft_split(cmd, ' ');
-	path = get_path(cmd_s[0], env);
+	cmd = ft_str_arr_join_exec(tbl->cmd, tbl->args);
+	path = get_path(cmd[0], env);
 	if (!path)
 	{
-		send_to_stderr(cmd_s[0], NULL, "command not found");
-		free_split(cmd_s);
+		send_to_stderr(cmd[0], NULL, "command not found");
+		free_split(cmd);
 		exit(1);
 	}
-	if (execve(path, cmd_s, env) == -1)
+	if (execve(path, cmd, env) == -1)
 	{
-		send_to_stderr(cmd, NULL, strerror(errno));
-		free_split(cmd_s);
+		send_to_stderr(cmd[0], NULL, strerror(errno));
+		free_split(cmd);
 		exit(1);
 	}
 }
@@ -70,7 +70,7 @@ void	here_doc(char **argv)
 	}
 }
 
-void	do_pipe(char *cmd, char **envp)
+void	do_pipe(t_cmd_table *tbl, char **envp)
 {
 	int		p_fd[2];
 	pid_t	pid;
@@ -84,7 +84,7 @@ void	do_pipe(char *cmd, char **envp)
 	{
 		close(p_fd[0]);
 		dup2(p_fd[1], 1);
-		exec_process(cmd, envp);
+		exec_process(tbl, envp);
 	}
 	else
 	{

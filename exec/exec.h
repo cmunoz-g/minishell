@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:59:41 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/05 13:05:19 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/08 12:28:31 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,24 @@ typedef struct s_token
 	char			*value;
 	struct s_token	*next;
 	struct s_token	*prev;
-}				t_token;
+}					t_token;
 
 typedef struct s_cmd_table
 {
 	char				*cmd;
-	char				*arg;
+	char				**args;
 	int					in;
 	int					out;
 	t_token				*redirections;
 	int					n_redirections;
 	struct s_cmd_table	*prev;
 	struct s_cmd_table	*next;
-}				t_cmd_table;
+}						t_cmd_table;
 
 /*	exec  */
-void	do_pipe(char *cmd, char **envp);
+void	do_pipe(t_cmd_table *tbl, char **envp);
 void	here_doc(char **argv);
-void	exec_process(char *cmd, char **env);
+void	exec_process(t_cmd_table *tbl, char **env);
 /*	error_handlers  */
 void	send_to_stderr(char *co, char *ar, char *err);
 void	exit_handler(void);
@@ -65,4 +65,10 @@ void	exit_handler(void);
 int		open_file(char *name, int to_write);
 char	*get_path(char *cmd, char **env);
 void	free_split(char **arr);
+/*	redirections */
+int 	redirect(t_cmd_table *tbl);
+/*	exec_utils */
+char    **ft_str_arr_join_exec(char *s1, char **strarr);
+
+
 #endif

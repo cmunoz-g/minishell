@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/08 12:34:46 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/08 13:09:29 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_cmd(t_cmd_table *tbl)
 
 void	handle_cmd(t_cmd_table *tbl, char **envp)
 {
-	if (tbl)
+	if (!tbl)
 		exit(0);
 	if (tbl->redirections)
 		if (redirect(tbl))
@@ -44,7 +44,6 @@ void	handle_cmd(t_cmd_table *tbl, char **envp)
 		exec_process(tbl, envp);
 	else if (tbl->next)
 		do_pipe(tbl, envp);
-	exit(1);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -71,7 +70,7 @@ int	main(int argc, char **argv, char **envp)
 	redirections = malloc(sizeof(t_token));
 	if (!redirections)
 		exit(0);
-	redirections->type = FILE;
+	redirections->type = TRUNC;
 	redirections->value = "out.txt";
 	redirections->prev = NULL;
 	redirections->next = NULL;

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/08 12:29:34 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/08 13:07:44 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int handle_outfile(t_token *tkn)
         fd = open(tkn->value, O_WRONLY | O_CREAT | O_APPEND, 0777);
     if (fd == -1)
         return (1);
-    if (dup2(1, fd) < 0)
+    if (dup2(fd, 1) < 0)
         return (1);
     return (0);
 }
@@ -34,7 +34,7 @@ int handle_infile(t_token *tkn)
     fd = open(tkn->value, O_RDONLY, 0777);
     if (fd == -1)
         return (1);
-    if (dup2(0, fd) < 0)
+    if (dup2(fd, 0) < 0)
         return (1);
     // ref. point closes fd after opening them. Why?????
     /*
@@ -55,12 +55,12 @@ int redirect(t_cmd_table *tbl)
     {
         if (tbl->redirections->type == TRUNC || tbl->redirections->type == APPEND)
         {
-            if (handle_infile(tbl->redirections))
+            if (handle_outfile(tbl->redirections))
                 return (1);
         }
         else if (tbl->redirections->type == FILE)
         {
-            if (handle_outfile(tbl->redirections))
+            if (handle_infile(tbl->redirections))
                 return (1);
         }
         tbl->redirections = tbl->redirections->next;

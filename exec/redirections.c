@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/09 10:41:13 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/04/09 11:40:53 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int redirect(t_cmd_table *tbl)
             if (handle_outfile(tbl->redirections))
                 return (1);
         }
-        else if (tbl->redirections->type == FILE)
+        else if (tbl->redirections->type == INPUT)
         {
             if (handle_infile(tbl->redirections))
                 return (1);

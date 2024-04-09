@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/08 13:09:29 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/09 11:53:52 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,24 @@ void	handle_cmd(t_cmd_table *tbl, char **envp)
 	if (tbl->redirections)
 		if (redirect(tbl))
 			exit(0);
-	if (!tbl->next || tbl->out == FILE)
+	if (!tbl->next || tbl->out == TRUNC || tbl->out == APPEND)
 		exec_process(tbl, envp);
 	else if (tbl->next)
 		do_pipe(tbl, envp);
 }
 
-int	main(int argc, char **argv, char **envp)
+/*
+	| cmd  | args     | in    | out   | n_redirections | redirections                    |
+	|------|----------|-------|-------|----------------|---------------------------------|
+	| ls   | ["-la"]  | STDIN | PIPE  | 0              | NULL                            |
+	| grep | ["Make"] | PIPE  | TRUNC | 1              | {type: TRUNC, value: "out.txt"} |
+*/
+t_cmd_table	*get_example_1(void)
 {
 	t_cmd_table	*tbl;
 	t_cmd_table	*tbl2;
 	t_token		*redirections;
 
-	if (argc != 1 || argv[1])
-		exit(1);
 	tbl = malloc(sizeof(t_cmd_table));
 	if (!tbl)
 		exit(0);
@@ -78,11 +82,21 @@ int	main(int argc, char **argv, char **envp)
 	tbl2->args = ft_calloc(sizeof(char *), 2);
 	tbl2->args[0] = "Make";
 	tbl2->in = PIPE;
-	tbl2->out = FILE;
+	tbl2->out = TRUNC;
 	tbl->next = tbl2;
 	tbl2->prev = tbl;
 	tbl2->redirections = redirections;
 	tbl2->n_redirections = 1;
+	return (tbl);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_cmd_table	*tbl;
+
+	if (argc != 1 || argv[1])
+		exit(1);
+	tbl = get_example_1();
 	while (tbl && envp)
 	{
 		print_cmd(tbl);

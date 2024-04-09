@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:59:41 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/09 10:55:19 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/04/09 11:58:59 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@
 # define PIPE 6
 # define END 7
 # define STDIN 8
-# define FILENAME 9
-# define HEREDOC 10
+# define STDOUT 9
+# define FILENAME 10
+# define HEREDOC 11
 
 typedef struct s_token
 {

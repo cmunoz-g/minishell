@@ -2,6 +2,7 @@
 #include "parsing_tests.h"
 
 // tener en cuenta las combinaciones que si son posibles de <, >, >>. Por ejemplo, algo que lleve >>>> daria error. Pensar cuando comprobarlo
+// HEREDOC
 
 t_token *get_last_token(t_token *token_list)
 {
@@ -80,7 +81,7 @@ void	set_qt(bool *quotes, char *quote_type, char *cmd_line, int i)
 	(*quotes) = true;
 	(*quote_type) = cmd_line[i];
 }
-void	lexer_new_cmd(t_token **token_list, char *cmd_line, int *start, int *i)
+void	lexer_new_cmd(t_token **token_list, char *cmd_line, int *i)
 {
 	t_token	*new_cmd;
 
@@ -117,7 +118,7 @@ void	lexer(char *cmd_line, t_token **token_list)
 				lexer_new_token(token_list, cmd_line, &start, &i);
 			else if (cmd_line[i] == ';')
 			{
-				lexer_new_cmd(token_list, cmd_line, &start, &i);
+				lexer_new_cmd(token_list, cmd_line, &i);
 				break ;
 			}
         }

@@ -24,9 +24,9 @@ typedef struct	s_cmd_table
 {
 	char	*cmd;
 	char	**args;
-	int		in;
-	int		out;
-	int		err;
+	char	in;
+	char	out;
+	char	err;
 	struct 	s_cmd_table *next;
 	struct 	s_cmd_table *prev;
 }				t_cmd_table;

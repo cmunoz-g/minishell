@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:59:41 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/08 12:28:31 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/09 10:55:19 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@
 # define PIPE 6
 # define END 7
 # define STDIN 8
-# define FILE 9
+# define FILENAME 9
+# define HEREDOC 10
 
 typedef struct s_token
 {
@@ -40,6 +41,7 @@ typedef struct s_token
 	char			*value;
 	struct s_token	*next;
 	struct s_token	*prev;
+	struct s_token	*next_cmd;
 }					t_token;
 
 typedef struct s_cmd_table
@@ -48,6 +50,7 @@ typedef struct s_cmd_table
 	char				**args;
 	int					in;
 	int					out;
+	int 				err;
 	t_token				*redirections;
 	int					n_redirections;
 	struct s_cmd_table	*prev;

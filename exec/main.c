@@ -6,19 +6,32 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/09 11:58:41 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/09 12:05:42 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
 /*
-	Por ahora solo gestionamos un arg
+	| cmd  | args     | in    | out   | n_redirections | redirections                    |
+	|------|----------|-------|-------|----------------|---------------------------------|
+	| ls   | ["-la"]  | STDIN | PIPE  | 0              | NULL                            |
+	| grep | ["Make"] | PIPE  | TRUNC | 1              | {type: TRUNC, value: "out.txt"} |
 */
+t_cmd_table	*get_example_1(void);
+/*
+	| cmd  | args     | in    | out    | n_redirections | redirections |
+	|------|----------|-------|--------|----------------|--------------|
+	| ls   | ["-la"]  | STDIN | PIPE   | 0              | NULL         |
+	| grep | ["Make"] | PIPE  | PIPE   | 0              | NULL         |
+	| wc   | ["-w"]   | PIPE  | STDOUT | 0              | NULL         |
+*/
+t_cmd_table	*get_example_2(void);
 
 void	print_cmd(t_cmd_table *tbl)
 {
 	int	i;
+
 	if (!tbl)
 		;
 	i = 0;
@@ -44,6 +57,22 @@ void	handle_cmd(t_cmd_table *tbl, char **envp)
 		exec_process(tbl, envp);
 	else if (tbl->next)
 		do_pipe(tbl, envp);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_cmd_table	*tbl;
+
+	if (argc != 1 || argv[1])
+		exit(1);
+	tbl = get_example_2();
+	while (tbl && envp)
+	{
+		print_cmd(tbl);
+		handle_cmd(tbl, envp);
+		tbl = tbl->next;
+	}
+	return (0);
 }
 
 /*
@@ -138,20 +167,4 @@ t_cmd_table	*get_example_2(void)
 	tbl2->next = tbl3;
 	tbl3->prev = tbl2;
 	return (tbl);
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	t_cmd_table	*tbl;
-
-	if (argc != 1 || argv[1])
-		exit(1);
-	tbl = get_example_2();
-	while (tbl && envp)
-	{
-		print_cmd(tbl);
-		handle_cmd(tbl, envp);
-		tbl = tbl->next;
-	}
-	return (0);
 }

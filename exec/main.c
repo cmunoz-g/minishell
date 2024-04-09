@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/09 12:05:42 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/09 12:25:17 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ t_cmd_table	*get_example_1(void);
 	| wc   | ["-w"]   | PIPE  | STDOUT | 0              | NULL         |
 */
 t_cmd_table	*get_example_2(void);
+/*
+	| cmd | args | in      | out   | n_redirections | redirections                                                     |
+	|-----|------|---------|-------|----------------|------------------------------------------------------------------|
+	| cat | NULL | HEREDOC | TRUNC | 2              | {{type: HEREDOC, value: "END"}, {type: TRUNC, value: "out.txt"}} |
+*/
+t_cmd_table	*get_example_3(void);
 
 void	print_cmd(t_cmd_table *tbl)
 {
@@ -65,7 +71,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1 || argv[1])
 		exit(1);
-	tbl = get_example_2();
+	tbl = get_example_1();
 	while (tbl && envp)
 	{
 		print_cmd(tbl);
@@ -100,13 +106,11 @@ t_cmd_table	*get_example_1(void)
 	tbl2 = malloc(sizeof(t_cmd_table));
 	if (!tbl2)
 		exit(0);
-	redirections = malloc(sizeof(t_token));
+	redirections = ft_calloc(sizeof(t_token), 2);
 	if (!redirections)
 		exit(0);
-	redirections->type = TRUNC;
-	redirections->value = "out.txt";
-	redirections->prev = NULL;
-	redirections->next = NULL;
+	redirections[0].type = TRUNC;
+	redirections[0].value = "out.txt";
 	tbl2->cmd = "grep";
 	tbl2->args = ft_calloc(sizeof(char *), 2);
 	tbl2->args[0] = "Make";
@@ -166,5 +170,36 @@ t_cmd_table	*get_example_2(void)
 	tbl3->n_redirections = 0;
 	tbl2->next = tbl3;
 	tbl3->prev = tbl2;
+	return (tbl);
+}
+
+
+
+/*
+	| cmd | args | in      | out   | n_redirections | redirections                                                     |
+	|-----|------|---------|-------|----------------|------------------------------------------------------------------|
+	| cat | NULL | HEREDOC | TRUNC | 2              | {{type: HEREDOC, value: "END"}, {type: TRUNC, value: "out.txt"}} |
+*/
+t_cmd_table	*get_example_3(void)
+{
+	t_cmd_table	*tbl;
+	t_token		*redirections;
+
+	tbl = malloc(sizeof(t_cmd_table));
+	if (!tbl)
+		exit(0);
+	tbl->cmd = "cat";
+	tbl->args = NULL;
+	tbl->in = HEREDOC;
+	tbl->out = TRUNC;
+	tbl->n_redirections = 2;
+	redirections = ft_calloc(sizeof(t_token), 3);
+	if (!redirections)
+		exit(0);
+	redirections[0].type = HEREDOC;
+	redirections[0].value = "END";
+	redirections[1].type = TRUNC;
+	redirections[1].value = "out.txt";
+	tbl->redirections = redirections;
 	return (tbl);
 }

@@ -6,20 +6,20 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/09 11:40:53 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/09 12:22:58 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-int handle_outfile(t_token *tkn)
+int handle_outfile(t_token tkn)
 {
     int fd;
 
-    if (tkn->type == TRUNC)
-        fd = open(tkn->value, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-    if (tkn->type == APPEND)
-        fd = open(tkn->value, O_WRONLY | O_CREAT | O_APPEND, 0777);
+    if (tkn.type == TRUNC)
+        fd = open(tkn.value, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+    if (tkn.type == APPEND)
+        fd = open(tkn.value, O_WRONLY | O_CREAT | O_APPEND, 0777);
     if (fd == -1)
         return (1);
     if (dup2(fd, 1) < 0)
@@ -27,11 +27,11 @@ int handle_outfile(t_token *tkn)
     return (0);
 }
 
-int handle_infile(t_token *tkn)
+int handle_infile(t_token tkn)
 {
     int fd;
     
-    fd = open(tkn->value, O_RDONLY, 0777);
+    fd = open(tkn.value, O_RDONLY, 0777);
     if (fd == -1)
         return (1);
     if (dup2(fd, 0) < 0)
@@ -48,23 +48,22 @@ int handle_infile(t_token *tkn)
 
 int redirect(t_cmd_table *tbl)
 {
-    t_token *start;
+    int i;
 
-    start = tbl->redirections;
-    while (tbl->redirections)
+    i = 0;
+    while (i < tbl->n_redirections)
     {
-        if (tbl->redirections->type == TRUNC || tbl->redirections->type == APPEND)
+        if (tbl->redirections[i].type == TRUNC || tbl->redirections[i].type == APPEND)
         {
-            if (handle_outfile(tbl->redirections))
+            if (handle_outfile(tbl->redirections[i]))
                 return (1);
         }
-        else if (tbl->redirections->type == INPUT)
+        else if (tbl->redirections[i].type == INPUT)
         {
-            if (handle_infile(tbl->redirections))
+            if (handle_infile(tbl->redirections[i]))
                 return (1);
         }
-        tbl->redirections = tbl->redirections->next;
+        i++;
     }
-    tbl->redirections = start;
     return (0);
 }

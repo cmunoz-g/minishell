@@ -6,7 +6,7 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:59:41 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/09 10:55:19 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/04/09 12:24:54 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@
 # define PIPE 6
 # define END 7
 # define STDIN 8
-# define FILENAME 9
-# define HEREDOC 10
+# define STDOUT 9
+# define STDERR 10
+# define FILENAME 11
+# define HEREDOC 12
 
 typedef struct s_token
 {

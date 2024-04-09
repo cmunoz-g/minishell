@@ -10,8 +10,10 @@
 # define PIPE 6
 # define END 7
 # define STDIN 8
-# define FILENAME 9
-# define HEREDOC 10
+# define STDOUT 9
+# define STDERR 10
+# define FILENAME 11
+# define HEREDOC 12
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,12 +36,14 @@ typedef struct s_cmd_table
 	int					in;
 	int					out;
 	int 				err;
-	t_token				*redirections;
-	int					n_redirections;
+	t_token				**redirections;
+	int					n_redirections;		
+	bool				new_cmd;		
 	struct s_cmd_table	*prev;
 	struct s_cmd_table	*next;
 }						t_cmd_table;
 
+void	parser(t_cmd_table **cmd_table, t_token **token_list);
 char	*ft_strdup_mod(const char *s, size_t size);
 int	ft_strcmp(const char *str1, const char *str2);
 int main();
@@ -50,5 +54,11 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 int		ft_isspace(int c);
 size_t	ft_strlen(const char *str);
 t_token *get_last_token(t_token *token_list);
+t_cmd_table *get_last_cmd_table(t_cmd_table *cmd_list);
+int		get_nbr_args(t_token *token_list, int nbr_tokens);
+int		get_nbr_redir(t_token *token_list, int nbr_tokens);
+void	gen_cmd_table(t_token *token_list, t_cmd_table **cmd_list, int nbr_tokens, bool new_cmd);
+void	populate_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int nbr_tokens);
+char	*ft_strdup(const char *s1);
 
 #endif

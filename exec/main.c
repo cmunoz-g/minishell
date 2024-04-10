@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/10 12:03:18 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/10 12:24:34 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int	create_hd_file(char *filename, char *eof)
 
 	line = readline(HEREDOC_MSG);
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	ft_putendl_fd("HOLA", 1);
 	if (fd < 0)
 		return (1);
 	while (line && ft_strncmp(line, eof, ft_strlen(eof)))
@@ -114,7 +113,7 @@ void	handle_cmd(t_cmd_table *tbl, char **envp)
 	if (!tbl)
 		exit(0);
 	check_heredocs(tbl);
-	if (tbl->redirections)
+	if (tbl->n_redirections > 0)
 		if (redirect(tbl))
 			exit(0);
 	if (!tbl->next || tbl->out == TRUNC || tbl->out == APPEND)

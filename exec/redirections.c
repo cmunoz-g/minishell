@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/10 13:01:41 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/10 13:18:07 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	handle_outfile(t_token tkn)
 		return (1);
 	if (dup2(fd, STDOUT_FILENO) < 0)
 		return (1);
+	close(fd);
 	return (0);
 }
 
@@ -43,6 +44,7 @@ int	handle_infile(char *str)
 		or maybe, they only close them if cmds > 1, in which case those
 		fd will be opened again during the do_pipe function.
 	*/
+	close(fd);
 	return (0);
 }
 

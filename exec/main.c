@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/10 11:32:15 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/10 11:58:20 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	print_cmd(t_cmd_table *tbl)
 		;
 	i = 0;
 	printf("cmd: %s\n", tbl->cmd);
-	while (tbl->args[i])
+	while (tbl->args && tbl->args[i])
 	{
 		printf("arg %d: %s\n", i, tbl->args[i]);
 		i++;
@@ -59,9 +59,10 @@ char	*get_heredoc_filename(void)
 	char		*filename;
 
 	n = ft_itoa(i++);
-	filename = ft_strjoin("/tmp/heredocs/file_", n);
+	filename = ft_strjoin("build/tmp_file_", n);
 	if (!filename)
 		return (NULL);
+	free(n);
 	return (filename);
 }
 
@@ -71,13 +72,14 @@ int	create_hd_file(char *filename, char *eof)
 	int		fd;
 
 	line = readline(HEREDOC_MSG);
-	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	printf("filename is %s, fd is %d\n", filename, fd);
+	ft_putendl_fd("HOLA", 1);
 	if (fd < 0)
 		return (1);
 	while (line && ft_strncmp(line, eof, ft_strlen(eof)))
 	{
-		ft_putstr_fd(line, fd);
-		write(fd, "\n", 1);
+		ft_putendl_fd(line, fd);
 		free(line);
 		line = readline(HEREDOC_MSG);
 	}

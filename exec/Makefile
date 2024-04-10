@@ -6,7 +6,7 @@
 #    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/10 11:32:02 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/10 11:56:23 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,9 @@ LIBFT_PATH	= 	../libft/
 LIBFT_NAME	= 	libft.a
 LIBFT		= 	$(LIBFT_PATH)$(LIBFT_NAME)
 
+# build path
+B_PATH = build/
+
 # Includes
 INC			=	-I ./../libft
 
@@ -50,7 +53,7 @@ MAKEFLAGS 	+=	--no-print-directory
 
 ###
 
-all: $(LIBFT) $(NAME)
+all: $(B_PATH) $(LIBFT) $(NAME)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@ $(INC)
@@ -58,6 +61,9 @@ all: $(LIBFT) $(NAME)
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) -lreadline $(INC)
 	@echo "$(GREEN)miniexec compiled!$(DEF_COLOR)"
+
+$(B_PATH):
+	@mkdir $(B_PATH)
 
 libft:
 	@make -sC $(LIBFT_PATH)
@@ -73,6 +79,7 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
+	@rm -rf $(B_PATH)
 	@make fclean -sC $(LIBFT_PATH)
 	@echo "$(CYAN)miniexec executable files cleaned!$(DEF_COLOR)"
 

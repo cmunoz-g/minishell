@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/10 12:53:36 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/10 13:01:41 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	handle_outfile(t_token tkn)
 		fd = open(tkn.value, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (fd < 0)
 		return (1);
-	if (dup2(fd, 1) < 0)
+	if (dup2(fd, STDOUT_FILENO) < 0)
 		return (1);
 	return (0);
 }
@@ -34,7 +34,7 @@ int	handle_infile(char *str)
 	fd = open(str, O_RDONLY, 0777);
 	if (fd < 0)
 		return (1);
-	if (dup2(fd, 0) < 0)
+	if (dup2(fd, STDIN_FILENO) < 0)
 		return (1);
 	// ref. point closes fd after opening them. Why?????
 	/*

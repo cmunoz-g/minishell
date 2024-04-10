@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/10 12:23:12 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/10 12:53:36 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	handle_infile(char *str)
 	int	fd;
 
 	fd = open(str, O_RDONLY, 0777);
-	if (fd == -1)
+	if (fd < 0)
 		return (1);
 	if (dup2(fd, 0) < 0)
 		return (1);

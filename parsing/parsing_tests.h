@@ -57,7 +57,8 @@ t_token *get_last_token(t_token *token_list);
 t_cmd_table *get_last_cmd_table(t_cmd_table *cmd_list);
 int		get_nbr_args(t_token *token_list, int nbr_tokens);
 int		get_nbr_redir(t_token *token_list, int nbr_tokens);
-void	gen_cmd_table(t_token *token_list, t_cmd_table **cmd_list, int start, int end, bool new_cmd);
+void	gen_cmd_table(t_token *token_list, t_cmd_table **cmd_list, int start, int end);
+void	alloc_cmd_table(t_cmd_table **cmd_list, bool new_cmd);
 void	populate_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int nbr_tokens);
 char	*ft_strdup(const char *s1);
 

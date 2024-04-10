@@ -75,7 +75,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 int main()
 {
 	int i = 0;
-	char *str = "grep \"specific_string\" * 2>errors.txt 1>hola.txt 0>gg.txt";
+	char *str = "ls -la | cat >output";
 	t_token	*token_list;
 	//t_token *reference;
 	t_cmd_table *cmd_table;
@@ -97,7 +97,7 @@ int main()
 	// }
 	cmd_table = NULL;
 	parser(&cmd_table, &token_list);
-	while (cmd_table) // no entra en el while
+	while (cmd_table) 
 	{
 		printf("CMD:%s\n",cmd_table->cmd);
 		while (cmd_table->args[i])
@@ -120,6 +120,7 @@ int main()
 		else 
 			printf("new cdm FALSE\n");
 		cmd_table = cmd_table->next;
+		printf("\n");
 	}
 	return 0;
 }

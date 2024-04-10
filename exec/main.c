@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/10 11:58:20 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/10 12:03:18 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*get_heredoc_filename(void)
 	char		*filename;
 
 	n = ft_itoa(i++);
-	filename = ft_strjoin("build/tmp_file_", n);
+	filename = ft_strjoin("exec/build/tmp_file_", n);
 	if (!filename)
 		return (NULL);
 	free(n);
@@ -73,7 +73,6 @@ int	create_hd_file(char *filename, char *eof)
 
 	line = readline(HEREDOC_MSG);
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	printf("filename is %s, fd is %d\n", filename, fd);
 	ft_putendl_fd("HOLA", 1);
 	if (fd < 0)
 		return (1);

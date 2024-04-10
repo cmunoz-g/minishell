@@ -75,7 +75,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 int main()
 {
 	int i = 0;
-	char *str = "echo hi | cat hi ; cat | wc -wc -w | cat ; ls -la";
+	char *str = "echo hi | cat hi ; cat";
 	t_token	*token_list;
 	//t_token *reference;
 	t_cmd_table *cmd_table;

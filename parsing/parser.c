@@ -1,6 +1,7 @@
 #include "parsing_tests.h"
 
 // norminette
+// probar con inputs no validos a ver como se comporta
 // gestionar memoria de lexer y parser con leaks, crear ft y archivo clean.c
 // organizar ft en archivos
 
@@ -12,17 +13,20 @@ t_cmd_table *get_last_cmd_table(t_cmd_table *cmd_list)
 		cmd_list = cmd_list->next;
 	return (cmd_list);
 }
-
-void	parser(t_cmd_table **cmd_table, t_token **token_list) // arreglar para que ponga TRUE o FALSE correctamente en new_cmd, luego arreglar el problema del primer comando
+void	init_parser(int *start, int *end, t_token **tmp, t_token **token_list)
+{
+	*start = 0;
+	*end = 0;
+	(*tmp) = (*token_list);
+}
+void	parser(t_cmd_table **cmd_table, t_token **token_list)
 {
 	t_token		*tmp;
 	int 		start;
 	int			end;
 	bool		new_cmd;
 
-	start = 0;
-	end = 0;
-	tmp = (*token_list);	
+	init_parser(&start, &end, &tmp, token_list);	
 	while (tmp)
 	{
 		(*token_list) = tmp;

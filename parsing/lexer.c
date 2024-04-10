@@ -2,7 +2,6 @@
 #include "parsing_tests.h"
 
 // tener en cuenta las combinaciones que si son posibles de <, >, >>. Por ejemplo, algo que lleve >>>> daria error. Pensar cuando comprobarlo
-// HEREDOC
 
 t_token *get_last_token(t_token *token_list)
 {
@@ -28,17 +27,22 @@ void	clean_token_list(t_token **token_list)
 		(*token_list) = tmp;
 	}
 }
+// esto es algo a revisar. se supone que puedes hacer redirecciones del palo de 1>, 0>, 2>, 2>>. Solo si el numero esta pegado al >. Con 0 y otros numeros el out es stdout. Con 2 es stderr y con 1 el archivo de despues
+// MUY IMPORTANTE: si el char * que le paso a lexer es 1 > a.txt no deberia redireccionar como si fuera 1>a.txt.
 
-void	check_redirections(t_token **token_list)
+void	check_redirections(t_token **token_list) 
 {
 	t_token *it_filename;
 
 	it_filename = *(token_list);
 	while (it_filename)
 	{
-		if ((it_filename->next && (it_filename->value[0] == '0' || it_filename->value[0] == '1' || it_filename->value[0] == '2')
-			&& (it_filename->next->type == TRUNC || it_filename->next->type == APPEND || it_filename->next->type == INPUT)))
-			it_filename->type = FILENAME;
+		if ((it_filename->next && !ft_strcmp(it_filename->value, "2")
+			&& (it_filename->next->type == HEREDOC || it_filename->next->type == TRUNC || it_filename->next->type == APPEND || it_filename->next->type == INPUT)))
+			it_filename->type = STDERR;
+		if ((it_filename->next && (!ft_strcmp(it_filename->value, "1"))
+			&& (it_filename->next->type == HEREDOC || it_filename->next->type == TRUNC || it_filename->next->type == APPEND || it_filename->next->type == INPUT)))
+			it_filename->type = STDOUT;
 		it_filename = it_filename->next;
 	}
 }
@@ -55,7 +59,12 @@ void	lexer_new_token(t_token **token_list, char *cmd_line, int *start, int *i)
 	{
 		if ((*i) > (*start))
 			add_token(token_list, cmd_line, (*start), (*i));
-		if (cmd_line[(*i) + 1] == '>')
+		if (cmd_line[(*i)] == '>' && cmd_line[(*i) + 1] == '>')
+		{
+			add_token(token_list, cmd_line, (*i), (*i) + 2);
+			(*i)++;
+		}
+		else if (cmd_line[(*i)] == '<' && cmd_line[(*i) + 1] == '<')
 		{
 			add_token(token_list, cmd_line, (*i), (*i) + 2);
 			(*i)++;
@@ -64,7 +73,6 @@ void	lexer_new_token(t_token **token_list, char *cmd_line, int *start, int *i)
 			add_token(token_list, cmd_line, (*i), (*i) + 1);
 		(*start) = (*i) + 1;
 	}
-
 }
 
 void	lexer_qt(t_token **token_list, char *cmd_line, int *start, int i)
@@ -155,17 +163,19 @@ void	get_token_type(t_token *token)
 {
 	if (!ft_strcmp(token->value, ""))
 		token->type = EMPTY;
+	else if (token->value[0] == '>' && token->value[1] == '>')
+		token->type = APPEND;
+	else if (token->value[0] == '<' && token->value[1] == '<')
+		token->type = HEREDOC;
 	else if (token->value[0] == '<')
 		token->type = INPUT;
 	else if (token->value[0] == '>')
 		token->type = TRUNC;
-	else if (token->value[0] == '>' && token->value[1] == '>')
-		token->type = APPEND;
 	else if (!ft_strcmp(token->value, "|"))
 		token->type = PIPE;
 	else if (!ft_strcmp(token->value, ";"))
 		token->type = END;
-	else if (token->prev && (token->prev->type == TRUNC || token->prev->type == APPEND || token->prev->type == INPUT))
+	else if (token->prev && (token->prev->type == TRUNC || token->prev->type == APPEND || token->prev->type == INPUT || token->prev->type == HEREDOC))
 		token->type = FILENAME;
 	else if (token->prev == NULL || (token->prev->type >= 6))
 		token->type = CMD;

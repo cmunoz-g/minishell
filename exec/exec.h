@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:59:41 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/10 13:13:02 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/10 18:31:33 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@
 # define END 7
 # define STDIN 8
 # define STDOUT 9
-# define FILENAME 10
-# define HEREDOC 11
+# define STDERR 10
+# define FILENAME 11
+# define HEREDOC 12
 
 # define HEREDOC_MSG "\033[1;34m> \033[0m"
 

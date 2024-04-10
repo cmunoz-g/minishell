@@ -6,7 +6,7 @@
 #    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/08 12:28:50 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/10 11:32:02 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ all: $(LIBFT) $(NAME)
 	@$(CC) $(CFLAGS) -c $< -o $@ $(INC)
 
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(INC)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) -lreadline $(INC)
 	@echo "$(GREEN)miniexec compiled!$(DEF_COLOR)"
 
 libft:

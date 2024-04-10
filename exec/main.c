@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/09 12:25:17 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/10 11:32:15 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,67 @@ void	print_cmd(t_cmd_table *tbl)
 	printf("--------\n");
 }
 
+char	*get_heredoc_filename(void)
+{
+	static int	i = 0;
+	char		*n;
+	char		*filename;
+
+	n = ft_itoa(i++);
+	filename = ft_strjoin("/tmp/heredocs/file_", n);
+	if (!filename)
+		return (NULL);
+	return (filename);
+}
+
+int	create_hd_file(char *filename, char *eof)
+{
+	char	*line;
+	int		fd;
+
+	line = readline(HEREDOC_MSG);
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (fd < 0)
+		return (1);
+	while (line && ft_strncmp(line, eof, ft_strlen(eof)))
+	{
+		ft_putstr_fd(line, fd);
+		write(fd, "\n", 1);
+		free(line);
+		line = readline(HEREDOC_MSG);
+	}
+	free(line);
+	close(fd);
+	return (0);
+}
+
+int	check_heredocs(t_cmd_table *tbl)
+{
+	int	i;
+
+	i = 0;
+	while (i < tbl->n_redirections)
+	{
+		if (tbl->redirections[i].type == HEREDOC)
+		{
+			if (tbl->hd_file)
+				free(tbl->hd_file);
+			tbl->hd_file = get_heredoc_filename();
+			if (!tbl->hd_file)
+				return (1);
+			if (create_hd_file(tbl->hd_file, tbl->redirections[i].value))
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 void	handle_cmd(t_cmd_table *tbl, char **envp)
 {
 	if (!tbl)
 		exit(0);
+	check_heredocs(tbl);
 	if (tbl->redirections)
 		if (redirect(tbl))
 			exit(0);
@@ -71,7 +128,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1 || argv[1])
 		exit(1);
-	tbl = get_example_1();
+	tbl = get_example_3();
 	while (tbl && envp)
 	{
 		print_cmd(tbl);

@@ -6,7 +6,7 @@
 #    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/10 11:56:23 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/10 13:12:34 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ CC 			= 	gcc
 CFLAGS 		= 	-Wall -Werror -Wextra
 
 # Sources
-SRC_FILES 	= 	main utils exec error_handlers redirections exec_utils
+SRC_FILES 	= 	main utils exec error_handlers redirections \
+				exec_utils heredoc
 SRC 		=	$(addsuffix .c, $(SRC_FILES))
 
 # Objects

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:59:41 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/10 11:28:42 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/10 13:13:02 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,7 @@ void	free_split(char **arr);
 int		redirect(t_cmd_table *tbl);
 /*	exec_utils */
 char	**ft_str_arr_join_exec(char *s1, char **strarr);
+/*	heredoc */
+int		check_heredocs(t_cmd_table *tbl);
 
 #endif

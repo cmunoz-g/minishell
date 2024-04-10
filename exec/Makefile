@@ -6,7 +6,7 @@
 #    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/08 12:28:50 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/10 13:26:14 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,11 @@ NAME 		= 	miniexec
 
 # Compiler
 CC 			= 	gcc
-CFLAGS 		= 	-Wall -Werror -Wextra
+CFLAGS 		= 	-Wall -Werror -Wextra -g
 
 # Sources
-SRC_FILES 	= 	main utils exec error_handlers redirections exec_utils
+SRC_FILES 	= 	main utils exec error_handlers redirections \
+				exec_utils heredoc
 SRC 		=	$(addsuffix .c, $(SRC_FILES))
 
 # Objects
@@ -28,6 +29,9 @@ OBJ 		=	$(addsuffix .o, $(SRC_FILES))
 LIBFT_PATH	= 	../libft/
 LIBFT_NAME	= 	libft.a
 LIBFT		= 	$(LIBFT_PATH)$(LIBFT_NAME)
+
+# build path
+B_PATH = build/
 
 # Includes
 INC			=	-I ./../libft
@@ -50,14 +54,17 @@ MAKEFLAGS 	+=	--no-print-directory
 
 ###
 
-all: $(LIBFT) $(NAME)
+all: $(B_PATH) $(LIBFT) $(NAME)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@ $(INC)
 
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(INC)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) -lreadline $(INC)
 	@echo "$(GREEN)miniexec compiled!$(DEF_COLOR)"
+
+$(B_PATH):
+	@mkdir $(B_PATH)
 
 libft:
 	@make -sC $(LIBFT_PATH)
@@ -73,6 +80,7 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
+	@rm -rf $(B_PATH)
 	@make fclean -sC $(LIBFT_PATH)
 	@echo "$(CYAN)miniexec executable files cleaned!$(DEF_COLOR)"
 

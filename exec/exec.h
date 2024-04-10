@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:59:41 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/09 12:24:54 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/04/10 18:31:33 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <string.h>
-#include "../libft/libft.h"
+# include "../libft/libft.h"
 # include <unistd.h>
 # include <errno.h>
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # define EMPTY 0
 # define CMD 1
@@ -37,6 +39,8 @@
 # define FILENAME 11
 # define HEREDOC 12
 
+# define HEREDOC_MSG "\033[1;34m> \033[0m"
+
 typedef struct s_token
 {
 	int				type;
@@ -50,9 +54,10 @@ typedef struct s_cmd_table
 {
 	char				*cmd;
 	char				**args;
+	char				*hd_file;
 	int					in;
 	int					out;
-	int 				err;
+	int					err;
 	t_token				*redirections;
 	int					n_redirections;
 	struct s_cmd_table	*prev;
@@ -71,9 +76,10 @@ int		open_file(char *name, int to_write);
 char	*get_path(char *cmd, char **env);
 void	free_split(char **arr);
 /*	redirections */
-int 	redirect(t_cmd_table *tbl);
+int		redirect(t_cmd_table *tbl);
 /*	exec_utils */
-char    **ft_str_arr_join_exec(char *s1, char **strarr);
-
+char	**ft_str_arr_join_exec(char *s1, char **strarr);
+/*	heredoc */
+int		check_heredocs(t_cmd_table *tbl);
 
 #endif

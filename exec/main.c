@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/10 13:11:44 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/10 17:50:51 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ t_cmd_table	*get_example_2(void);
 	| cat | NULL | HEREDOC | TRUNC | 2              | {{type: HEREDOC, value: "END"}, {type: TRUNC, value: "out.txt"}} |
 */
 t_cmd_table	*get_example_3(void);
+
+/*
+	| cmd | args | in      | out   | n_redirections | redirections                                                      |
+	|-----|------|---------|-------|----------------|------------------------------------------------------------------ |
+	| cat | NULL | HEREDOC | TRUNC | 2              | {{type: INPUT, value: "in.txt"}, {type: TRUNC, value: "out.txt"}} |
+*/
+t_cmd_table	*get_example_4(void);
 
 void	print_cmd(t_cmd_table *tbl)
 {
@@ -72,7 +79,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1 || argv[1])
 		exit(1);
-	tbl = get_example_3();
+	tbl = get_example_4();
 	while (tbl && envp)
 	{
 		print_cmd(tbl);
@@ -207,6 +214,34 @@ t_cmd_table	*get_example_3(void)
 	redirections[0].value = "END";
 	redirections[1].type = TRUNC;
 	redirections[1].value = "out.txt";
+	tbl->redirections = redirections;
+	return (tbl);
+}
+/*
+	| cmd | args | in      | out   | n_redirections | redirections                                                      |
+	|-----|------|---------|-------|----------------|------------------------------------------------------------------ |
+	| cat | NULL | HEREDOC | TRUNC | 2              | {{type: INPUT, value: "in.txt"}, {type: TRUNC, value: "out.txt"}} |
+*/
+t_cmd_table	*get_example_4(void)
+{
+	t_cmd_table	*tbl;
+	t_token		*redirections;
+
+	tbl = malloc(sizeof(t_cmd_table));
+	if (!tbl)
+		exit(0);
+	tbl->cmd = "cat";
+	tbl->args = NULL;
+	tbl->in = HEREDOC;
+	tbl->out = TRUNC;
+	tbl->n_redirections = 2;
+	redirections = ft_calloc(sizeof(t_token), 3);
+	if (!redirections)
+		exit(0);
+	redirections[0].type = INPUT;
+	redirections[0].value = "exec/in.txt";
+	redirections[1].type = TRUNC;
+	redirections[1].value = "exec/out.txt";
 	tbl->redirections = redirections;
 	return (tbl);
 }

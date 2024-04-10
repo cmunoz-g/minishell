@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/10 17:50:51 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/10 18:28:18 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1 || argv[1])
 		exit(1);
-	tbl = get_example_4();
-	while (tbl && envp)
+	tbl = get_example_3();
+	while (tbl)
 	{
 		print_cmd(tbl);
 		handle_cmd(tbl, envp);
@@ -186,9 +186,6 @@ t_cmd_table	*get_example_2(void)
 	tbl3->prev = tbl2;
 	return (tbl);
 }
-
-
-
 /*
 	| cmd | args | in      | out   | n_redirections | redirections                                                     |
 	|-----|------|---------|-------|----------------|------------------------------------------------------------------|
@@ -213,7 +210,7 @@ t_cmd_table	*get_example_3(void)
 	redirections[0].type = HEREDOC;
 	redirections[0].value = "END";
 	redirections[1].type = TRUNC;
-	redirections[1].value = "out.txt";
+	redirections[1].value = "exec/out.txt";
 	tbl->redirections = redirections;
 	return (tbl);
 }

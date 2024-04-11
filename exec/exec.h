@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:59:41 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/10 18:31:33 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/11 10:29:49 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	here_doc(char **argv);
 void	exec_process(t_cmd_table *tbl, char **env);
 /*	error_handlers  */
 void	send_to_stderr(char *co, char *ar, char *err);
-void	exit_handler(void);
 /*	utils  */
 int		open_file(char *name, int to_write);
 char	*get_path(char *cmd, char **env);

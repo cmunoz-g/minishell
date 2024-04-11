@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/08 12:27:26 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/11 10:29:44 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,34 +92,3 @@ void	do_pipe(t_cmd_table *tbl, char **envp)
 		dup2(p_fd[0], 0);
 	}
 }
-
-/*
-int	main(int argc, char *argv[], char *envp[])
-{
-	int		i;
-	size_t	fd_in;
-	size_t	fd_out;
-
-	if (argc < 5)
-		exit_handler();
-	if (ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0)
-	{
-		if (argc < 6)
-			exit_handler();
-		i = 3;
-		fd_out = open_file(argv[argc - 1], 2);
-		here_doc(argv);
-	}
-	else
-	{
-		i = 2;
-		fd_in = open_file(argv[1], 0);
-		fd_out = open_file(argv[argc - 1], 1);
-		dup2(fd_in, 0);
-	}
-	while (i < argc - 2)
-		do_pipe(argv[i++], envp);
-	dup2(fd_out, 1);
-	exec_process(argv[argc - 2], envp);
-}
-*/

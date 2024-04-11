@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/10 18:28:18 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/11 10:22:37 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,16 @@ void	handle_cmd(t_cmd_table *tbl, char **envp)
 		do_pipe(tbl, envp);
 }
 
+void	executor(t_cmd_table *tbl)
+{
+	while (tbl)
+	{
+		print_cmd(tbl);
+		handle_cmd(tbl, envp);
+		tbl = tbl->next;
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_cmd_table	*tbl;
@@ -80,12 +90,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1 || argv[1])
 		exit(1);
 	tbl = get_example_3();
-	while (tbl)
-	{
-		print_cmd(tbl);
-		handle_cmd(tbl, envp);
-		tbl = tbl->next;
-	}
+	executor(tbl);
 	return (0);
 }
 

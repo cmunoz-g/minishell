@@ -1,5 +1,4 @@
-// #include "minishel.h"
-#include "parsing_tests.h"
+#include "minishell.h"
 
 void	clean_token_list(t_token **token_list)
 {
@@ -16,6 +15,27 @@ void	clean_token_list(t_token **token_list)
 		(*token_list) = tmp;
 	}
 }
+// typedef struct s_token
+// {
+// 	int				type;
+// 	char			*value;
+// 	struct s_token	*next;
+// 	struct s_token	*prev;
+// 	struct s_token	*next_cmd;
+// }					t_token;
+
+void	clean_cmd_table_redir(t_cmd_table **cmd_table, int *j)
+{
+	while (*j < (*cmd_table)->n_redirections)
+	{
+		free((*cmd_table)->redirections[*j]->value);
+		free((*cmd_table)->redirections[*j]);
+		(*j)++;
+	}
+	free((*cmd_table)->redirections);
+}
+
+
 void	clean_cmd_table_list(t_cmd_table **cmd_table)
 {
 	t_cmd_table *tmp;
@@ -27,16 +47,16 @@ void	clean_cmd_table_list(t_cmd_table **cmd_table)
 	while (*cmd_table)
 	{
 		tmp = (*cmd_table)->next;
-		while ((*cmd_table)->args[i])
-			free((*cmd_table)->args[i++]);
-		while (j < (*cmd_table)->n_redirections)
+		if ((*cmd_table)->args)
 		{
-			free((*cmd_table)->redirections[j]->value);
-			free((*cmd_table)->redirections[j]);
-			j++;
+			while ((*cmd_table)->args[i])
+				free((*cmd_table)->args[i++]);
+			free((*cmd_table)->args);
 		}
-		free((*cmd_table)->redirections);
-		free((*cmd_table)->cmd);
+		if ((*cmd_table)->redirections)
+			clean_cmd_table_redir(cmd_table, &j);
+		if ((*cmd_table)->cmd)
+			free((*cmd_table)->cmd);
 		free(*cmd_table);
 		i = 0;
 		j = 0;

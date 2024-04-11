@@ -11,22 +11,6 @@ t_token *get_last_token(t_token *token_list)
 		token_list = token_list->next;
 	return (token_list);
 }
-
-void	clean_token_list(t_token **token_list)
-{
-	t_token *tmp;
-
-	if ((*token_list)->next_cmd)
-		clean_token_list(&(*token_list)->next_cmd);
-	while (*token_list)
-	{
-		tmp = (*token_list)->next;
-		if ((*token_list)->value)
-			free((*token_list)->value);
-		free(*token_list);
-		(*token_list) = tmp;
-	}
-}
 // esto es algo a revisar. se supone que puedes hacer redirecciones del palo de 1>, 0>, 2>, 2>>. Solo si el numero esta pegado al >. Con 0 y otros numeros el out es stdout. Con 2 es stderr y con 1 el archivo de despues
 // MUY IMPORTANTE: si el char * que le paso a lexer es 1 > a.txt no deberia redireccionar como si fuera 1>a.txt.
 

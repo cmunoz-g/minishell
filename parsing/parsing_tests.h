@@ -61,5 +61,7 @@ void	gen_cmd_table(t_token *token_list, t_cmd_table **cmd_list, int start, int e
 void	alloc_cmd_table(t_cmd_table **cmd_list, bool new_cmd);
 void	populate_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int nbr_tokens);
 char	*ft_strdup(const char *s1);
+void	clean_token_list(t_token **token_list);
+void	clean_cmd_table_list(t_cmd_table **cmd_table);
 
 #endif

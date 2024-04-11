@@ -72,17 +72,25 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	}
 	return (ft_strlen(src));
 }
+
+void leaks(void)
+{
+	system("leaks a.out");
+}
+
 int main()
 {
-	int i = 0;
-	char *str = "history | awk '{print $2}' | sort | uniq -c | sort -nr | head -n 1";
+	//int i = 0;
+	char *str = "head -n 10 large_file.txt > excerpt.txt";
 	t_token	*token_list;
+	t_token *token_list_head;
 	//t_token *reference;
 	t_cmd_table *cmd_table;
+	t_cmd_table *cmd_table_head;
 
+	atexit(leaks);
 	token_list = NULL;
 	lexer(str, &token_list);
-	
 	// reference = token_list;
 	// while (reference)
 	// {
@@ -95,34 +103,39 @@ int main()
 	// 	reference = reference->next_cmd;
 	// 	printf("\n");
 	// }
+
 	cmd_table = NULL;
+	token_list_head = token_list;
+	cmd_table_head = cmd_table;
 	parser(&cmd_table, &token_list);
-	printf("%s\n\n",str);
-	while (cmd_table) 
-	{
-		printf("CMD:%s\n",cmd_table->cmd);
-		while (cmd_table->args[i])
-		{
-			printf("ARG%d:%s\n", i, cmd_table->args[i]);
-			i++;
-		}
-		printf("IN:%d\n", cmd_table->in);
-		printf("OUT:%d\n", cmd_table->out);
-		printf("ERR:%d\n", cmd_table->err);
-		i = 0;
-		while (i < cmd_table->n_redirections)
-		{
-			printf("redir: %d type: %d value: %s\n", i, cmd_table->redirections[i]->type, cmd_table->redirections[i]->value);
-			i++;
-		}
-		printf("nbr redir: %d\n", cmd_table->n_redirections);
-		if (cmd_table->new_cmd)
-			printf("new cdm TRUE\n");
-		else 
-			printf("new cdm FALSE\n");
-		cmd_table = cmd_table->next;
-		printf("\n");
-	}
+	clean_token_list(&token_list_head);
+	clean_cmd_table_list(&cmd_table);
+	// printf("%s\n\n",str);
+	// while (cmd_table) 
+	// {
+	// 	printf("CMD:%s\n",cmd_table->cmd);
+	// 	while (cmd_table->args[i])
+	// 	{
+	// 		printf("ARG%d:%s\n", i, cmd_table->args[i]);
+	// 		i++;
+	// 	}
+	// 	printf("IN:%d\n", cmd_table->in);
+	// 	printf("OUT:%d\n", cmd_table->out);
+	// 	printf("ERR:%d\n", cmd_table->err);
+	// 	i = 0;
+	// 	while (i < cmd_table->n_redirections)
+	// 	{
+	// 		printf("redir: %d type: %d value: %s\n", i, cmd_table->redirections[i]->type, cmd_table->redirections[i]->value);
+	// 		i++;
+	// 	}
+	// 	printf("nbr redir: %d\n", cmd_table->n_redirections);
+	// 	if (cmd_table->new_cmd)
+	// 		printf("new cdm TRUE\n");
+	// 	else 
+	// 		printf("new cdm FALSE\n");
+	// 	cmd_table = cmd_table->next;
+	// 	printf("\n");
+	// }
 	return 0;
 }
 

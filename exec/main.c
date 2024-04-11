@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/11 10:22:37 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/11 10:40:54 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 */
 t_cmd_table	*get_example_1(void);
 /*
-	| cmd  | args     | in    | out    | n_redirections | redirections                     |
-	|------|----------|-------|--------|----------------|----------------------------------|
-	| ls   | ["-la"]  | STDIN | PIPE   | 0              | NULL                             |
-	| grep | ["Make"] | PIPE  | PIPE   | 0              | NULL                             |
-	| wc   | ["-w"]   | PIPE  | APPEND | 1              | {type: APPEND, value: "out.txt"} |
+	| cmd  | args         | in    | out    | n_redirections | redirections                     |
+	|------|--------------|-------|--------|----------------|----------------------------------|
+	| ls   | ["-la"]      | STDIN | PIPE   | 0              | NULL                             |
+	| grep | ["Make"]     | PIPE  | PIPE   | 0              | NULL                             |
+	| wc   | ["-w", "-l"] | PIPE  | APPEND | 1              | {type: APPEND, value: "out.txt"} |
 */
 t_cmd_table	*get_example_2(void);
 /*
@@ -73,7 +73,7 @@ void	handle_cmd(t_cmd_table *tbl, char **envp)
 		do_pipe(tbl, envp);
 }
 
-void	executor(t_cmd_table *tbl)
+void	executor(t_cmd_table *tbl, char **envp)
 {
 	while (tbl)
 	{
@@ -89,8 +89,8 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1 || argv[1])
 		exit(1);
-	tbl = get_example_3();
-	executor(tbl);
+	tbl = get_example_2();
+	executor(tbl, envp);
 	return (0);
 }
 
@@ -137,11 +137,11 @@ t_cmd_table	*get_example_1(void)
 }
 
 /*
-	| cmd  | args     | in    | out    | n_redirections | redirections |
-	|------|----------|-------|--------|----------------|--------------|
-	| ls   | ["-la"]  | STDIN | PIPE   | 0              | NULL         |
-	| grep | ["Make"] | PIPE  | PIPE   | 0              | NULL         |
-	| wc   | ["-w"]   | PIPE  | STDOUT | 0              | NULL         |
+	| cmd  | args         | in    | out    | n_redirections | redirections                     |
+	|------|--------------|-------|--------|----------------|----------------------------------|
+	| ls   | ["-la"]      | STDIN | PIPE   | 0              | NULL                             |
+	| grep | ["Make"]     | PIPE  | PIPE   | 0              | NULL                             |
+	| wc   | ["-w", "-l"] | PIPE  | APPEND | 1              | {type: APPEND, value: "out.txt"} |
 */
 t_cmd_table	*get_example_2(void)
 {
@@ -176,8 +176,9 @@ t_cmd_table	*get_example_2(void)
 	if (!tbl3)
 		exit(0);
 	tbl3->cmd = "wc";
-	tbl3->args = ft_calloc(sizeof(char *), 2);
+	tbl3->args = ft_calloc(sizeof(char *), 3);
 	tbl3->args[0] = "-w";
+	tbl3->args[1] = "-l";
 	tbl3->in = PIPE;
 	tbl3->out = APPEND;
 	redirections = ft_calloc(sizeof(t_token *), 2);

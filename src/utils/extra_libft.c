@@ -20,3 +20,11 @@ int	ft_strcmp(const char *str1, const char *str2)
 		i++;
 	return ((unsigned char)str1[i] - (unsigned char)str2[i]);
 }
+
+int	ft_isspace(int c)
+{
+	c = (unsigned char)c;
+	if (c == '\t' || c == '\n' || c == '\f' || c == '\v' || c == '\r' || c == ' ')
+		return (1);
+	return (0);
+}

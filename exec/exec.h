@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:59:41 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/12 10:58:55 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/12 11:26:04 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ typedef struct s_cmd_table
 
 /*	exec  */
 void	do_pipe(t_cmd_table *tbl, char **envp);
-void	here_doc(char **argv);
 void	exec_process(t_cmd_table *tbl, char **env);
 /*	error_handlers  */
 void	send_to_stderr(char *co, char *ar, char *err);
@@ -78,9 +77,9 @@ char	*my_getenv(char *key, char **env);
 /*	redirections */
 int		redirect(t_cmd_table *tbl);
 /*	exec_utils */
-char	**ft_str_arr_join_exec(char *s1, char **strarr);
+char	**ft_str_arr_join_exec(char *s1, char **strarr, char **envp);
 /*	heredoc */
-int	check_heredocs(t_cmd_table *tbl, char **envp);
+int		check_heredocs(t_cmd_table *tbl, char **envp);
 /*	expand */
 char	*expand(char *str, int is_heredoc, char **envp);
 

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/12 11:00:14 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/12 11:20:02 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ t_cmd_table	*get_example_3(void);
 	| cat | NULL | HEREDOC | TRUNC | 2              | {{type: INPUT, value: "in.txt"}, {type: TRUNC, value: "out.txt"}} |
 */
 t_cmd_table	*get_example_4(void);
+/*
+	| cmd  | args   | in    | out    | n_redirections | redirections |
+	|------|--------|-------|--------|----------------|--------------|
+	| echo | "$PWD" | STDIN | PIPE   | 0              | NULL         |
+	| wc   | "-c"   | PIPE  | STDOUT | 0              | NULL         |
+*/
+t_cmd_table	*get_example_5(void);
 
 void	print_cmd(t_cmd_table *tbl)
 {
@@ -89,7 +96,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1 || argv[1])
 		exit(1);
-	tbl = get_example_3();
+	tbl = get_example_5();
 	executor(tbl, envp);
 	return (0);
 }
@@ -223,7 +230,7 @@ t_cmd_table	*get_example_3(void)
 /*
 	| cmd | args | in      | out   | n_redirections | redirections                                                      |
 	|-----|------|---------|-------|----------------|------------------------------------------------------------------ |
-	| cat | NULL | HEREDOC | TRUNC | 2              | {{type: INPUT, value: "in.txt"}, {type: TRUNC, value: "out.txt"}} |
+	| cat | NULL | INPUT   | TRUNC | 2              | {{type: INPUT, value: "in.txt"}, {type: TRUNC, value: "out.txt"}} |
 */
 t_cmd_table	*get_example_4(void)
 {
@@ -246,5 +253,40 @@ t_cmd_table	*get_example_4(void)
 	redirections[1].type = TRUNC;
 	redirections[1].value = "exec/out.txt";
 	tbl->redirections = redirections;
+	return (tbl);
+}
+/*
+	| cmd  | args   | in    | out    | n_redirections | redirections |
+	|------|--------|-------|--------|----------------|--------------|
+	| echo | "$PWD" | STDIN | PIPE   | 0              | NULL         |
+	| wc   | "-c"   | PIPE  | STDOUT | 0              | NULL         |
+*/
+t_cmd_table	*get_example_5(void)
+{
+	t_cmd_table	*tbl;
+	t_cmd_table	*tbl2;
+
+	tbl = malloc(sizeof(t_cmd_table));
+	if (!tbl)
+		exit(0);
+	tbl->cmd = "echo";
+	tbl->args = ft_calloc(sizeof(char *), 2);
+	tbl->args[0] = "\"$PWD\"";
+	tbl->in = STDIN;
+	tbl->out = PIPE;
+	tbl->redirections = NULL;
+	tbl->n_redirections = 0;
+	tbl2 = malloc(sizeof(t_cmd_table));
+	if (!tbl2)
+		exit(0);
+	tbl2->cmd = "wc";
+	tbl2->args = ft_calloc(sizeof(char *), 2);
+	tbl2->args[0] = "-c";
+	tbl2->in = PIPE;
+	tbl2->out = STDOUT;
+	tbl2->redirections = NULL;
+	tbl2->n_redirections = 0;
+	tbl->next = tbl2;
+	tbl2->prev = tbl;
 	return (tbl);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/11 10:29:44 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/12 11:26:16 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	exec_process(t_cmd_table *tbl, char **env)
 	char	**cmd;
 	char	*path;
 
-	cmd = ft_str_arr_join_exec(tbl->cmd, tbl->args);
+	cmd = ft_str_arr_join_exec(tbl->cmd, tbl->args, env);
 	path = get_path(cmd[0], env);
 	if (!path)
 	{
@@ -30,43 +30,6 @@ void	exec_process(t_cmd_table *tbl, char **env)
 		send_to_stderr(cmd[0], NULL, strerror(errno));
 		free_split(cmd);
 		exit(1);
-	}
-}
-
-static void	here_doc_ingest(char **argv, int *p_fd)
-{
-	char	*ret;
-
-	while (1)
-	{
-		ret = get_next_line(0);
-		if (ft_strncmp(ret, argv[2], ft_strlen(argv[2])) == 0)
-		{
-			free(ret);
-			exit(0);
-		}
-		ft_putstr_fd(ret, p_fd[1]);
-		free(ret);
-	}
-}
-
-void	here_doc(char **argv)
-{
-	int		p_fd[2];
-	pid_t	pid;
-
-	if (pipe(p_fd) == -1)
-		exit(1);
-	pid = fork();
-	if (pid == -1)
-		exit(1);
-	if (pid == 0)
-		here_doc_ingest(argv, p_fd);
-	else
-	{
-		close(p_fd[1]);
-		dup2(p_fd[0], 0);
-		wait(NULL);
 	}
 }
 

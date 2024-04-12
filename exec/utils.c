@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:17:12 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/05 11:56:47 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/12 10:51:05 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	open_file(char *name, int to_write)
 	return (ret);
 }
 
-static char	*my_getenv(char *key, char **env)
+char	*my_getenv(char *key, char **env)
 {
 	char	*comp;
 	int		i;

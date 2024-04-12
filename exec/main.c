@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/11 10:40:54 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/12 11:00:14 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	handle_cmd(t_cmd_table *tbl, char **envp)
 {
 	if (!tbl)
 		exit(0);
-	check_heredocs(tbl);
+	check_heredocs(tbl, envp);
 	if (tbl->n_redirections > 0)
 		if (redirect(tbl))
 			exit(0);
@@ -89,7 +89,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1 || argv[1])
 		exit(1);
-	tbl = get_example_2();
+	tbl = get_example_3();
 	executor(tbl, envp);
 	return (0);
 }

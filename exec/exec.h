@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:59:41 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/11 10:29:49 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/12 10:58:55 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,14 @@ void	send_to_stderr(char *co, char *ar, char *err);
 int		open_file(char *name, int to_write);
 char	*get_path(char *cmd, char **env);
 void	free_split(char **arr);
+char	*my_getenv(char *key, char **env);
 /*	redirections */
 int		redirect(t_cmd_table *tbl);
 /*	exec_utils */
 char	**ft_str_arr_join_exec(char *s1, char **strarr);
 /*	heredoc */
-int		check_heredocs(t_cmd_table *tbl);
+int	check_heredocs(t_cmd_table *tbl, char **envp);
+/*	expand */
+char	*expand(char *str, int is_heredoc, char **envp);
 
 #endif

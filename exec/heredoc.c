@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:11:14 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/10 13:12:16 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/12 11:11:11 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ static char	*get_heredoc_filename(void)
 	return (filename);
 }
 
-static int	create_hd_file(char *filename, char *eof)
+static int	create_hd_file(char *filename, char *eof, char **envp)
 {
 	char	*line;
+	char	*expanded;
 	int		fd;
 
 	line = readline(HEREDOC_MSG);
@@ -37,8 +38,9 @@ static int	create_hd_file(char *filename, char *eof)
 		return (1);
 	while (line && ft_strncmp(line, eof, ft_strlen(eof)))
 	{
-		ft_putendl_fd(line, fd);
-		free(line);
+		expanded = expand(line, 1, envp);
+		ft_putendl_fd(expanded, fd);
+		free(expanded);
 		line = readline(HEREDOC_MSG);
 	}
 	free(line);
@@ -46,7 +48,7 @@ static int	create_hd_file(char *filename, char *eof)
 	return (0);
 }
 
-int	check_heredocs(t_cmd_table *tbl)
+int	check_heredocs(t_cmd_table *tbl, char **envp)
 {
 	int	i;
 
@@ -60,7 +62,7 @@ int	check_heredocs(t_cmd_table *tbl)
 			tbl->hd_file = get_heredoc_filename();
 			if (!tbl->hd_file)
 				return (1);
-			if (create_hd_file(tbl->hd_file, tbl->redirections[i].value))
+			if (create_hd_file(tbl->hd_file, tbl->redirections[i].value, envp))
 				return (1);
 		}
 		i++;

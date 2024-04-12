@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:52 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/10 18:26:54 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/12 12:26:18 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@ static int	get_str_arr_len(char **strarr)
 	return (n);
 }
 
-char	**ft_str_arr_join_exec(char *s1, char **strarr)
+char	**ft_str_arr_join_exec(char *s1, char **strarr, char **envp)
 {
 	int		i;
 	char	**str3;
+	char	*expanded;
 	int		len;
 
 	len = get_str_arr_len(strarr);
@@ -38,7 +39,8 @@ char	**ft_str_arr_join_exec(char *s1, char **strarr)
 		return (str3);
 	while (i < len + 1)
 	{
-		str3[i] = strarr[i - 1];
+		expanded = expand(strarr[i - 1], 0, envp);
+		str3[i] = expanded;
 		i++;
 	}
 	return (str3);

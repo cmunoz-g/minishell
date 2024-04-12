@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:11:14 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/12 11:00:57 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/12 11:11:11 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static int	create_hd_file(char *filename, char *eof, char **envp)
 		expanded = expand(line, 1, envp);
 		ft_putendl_fd(expanded, fd);
 		free(expanded);
-		free(line);
 		line = readline(HEREDOC_MSG);
 	}
 	free(line);

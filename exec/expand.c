@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/12 11:00:04 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/12 11:12:20 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*expand_word(char *str, int start, int end, char **envp)
 	char	*keyword;
 	char	*value;
 
-	keyword = ft_substr(str, start + 1, end); // dragons may be here due to start, check in other examples
+	keyword = ft_substr(str, start + 1, end);
 	value = my_getenv(keyword, envp);
 	free(keyword);
 	return (value);
@@ -32,11 +32,10 @@ static char	*expand_str(char *str, int start, int *i, char **envp)
 
 	begin = ft_substr(str, 0, start);
 	word = expand_word(str, start, *i, envp);
-	end = ft_substr(str, *i, ft_strlen(str) - *i); // there can be dragons here due to strlen - i
-	*i = start + ft_strlen(word) - 1; // there can be dragons here due to the fact that we are substracting the $ from the equation 
+	end = ft_substr(str, *i, ft_strlen(str) - *i);
+	*i = start + ft_strlen(word) - 1;
 	newstr = ft_strjoin(begin, word);
 	free(begin);
-	free(word);
 	begin = ft_strjoin(newstr, end);
 	free(newstr);
 	free(end);

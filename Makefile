@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
+#    By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/05 09:42:10 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/11 11:37:06 by cmunoz-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,11 +19,22 @@ CFLAGS 		= 	-Wall -Werror -Wextra
 
 # Sources
 SRC_DIR 	= 	src/
-SRC_FILES 	= 	main utils
+SRC_FILES 	= 	main\
+				lexer/lexer_utils\
+				lexer/lexer\
+				lexer/tokens\
+				parser/cmd_table_utils\
+				parser/cmd_table\
+				parser/parser_utils\
+				parser/parser\
+				utils/clean\
+				utils/extra_libft
+				
 SRC 		=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 
 # Objects
 OBJ_DIR 	= 	obj/
+OBJ_DIRS	=	$(sort $(dir $(OBJ)))
 OBJ 		=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 
 # libft
@@ -33,6 +44,7 @@ LIBFT		= 	$(LIBFT_PATH)$(LIBFT_NAME)
 
 # Includes
 INC			=	-I ./libft
+INC_MS		= -I inc/
 
 # Colors
 DEF_COLOR 	= 	\033[0;39m
@@ -54,11 +66,14 @@ MAKEFLAGS 	+=	--no-print-directory
 
 all: $(LIBFT) $(NAME)
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJF)
-	@$(CC) $(CFLAGS) -c $< -o $@ $(INC)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJF) $(OBJ_DIRS)
+	@$(CC) $(CFLAGS) $(INC_MS) $(INC) -c $< -o $@
 
 $(OBJF):
 	@mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIRS):
+	@mkdir -p $@
 
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(INC)

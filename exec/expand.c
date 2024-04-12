@@ -6,11 +6,23 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/12 11:12:20 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/12 12:31:15 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
+
+static char	*remove_quotes(char *str)
+{
+	char	*keyword_cleaned;
+	char	*keyword;
+
+	keyword_cleaned = ft_strtrim(str, "\"");
+	// free(str); // same thing as below for example_5: should we malloc?
+	keyword = ft_strtrim(keyword_cleaned, "\'");
+	free(keyword_cleaned);
+	return (keyword);
+}
 
 static char	*expand_word(char *str, int start, int end, char **envp)
 {
@@ -39,7 +51,7 @@ static char	*expand_str(char *str, int start, int *i, char **envp)
 	begin = ft_strjoin(newstr, end);
 	free(newstr);
 	free(end);
-	free(str);
+	// free(str); // this should be done always? when using example_5 it´s not done, but i think it´s because the args[0] is not malloc'ed
 	return (begin);
 }
 
@@ -52,7 +64,7 @@ char	*expand(char *str, int is_heredoc, char **envp)
 	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'' && !is_heredoc)
 		return (str);
 	if (str[0] == '\'' || str[0] == '\"')
-		i++;
+		str = remove_quotes(str);
 	while (str[i])
 	{
 		if (str[i] == '$' && str[i + 1] && !ft_isspace(str[i + 1]))

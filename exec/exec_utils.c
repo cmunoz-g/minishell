@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:52 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/12 11:26:33 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/12 12:26:18 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ char	**ft_str_arr_join_exec(char *s1, char **strarr, char **envp)
 	while (i < len + 1)
 	{
 		expanded = expand(strarr[i - 1], 0, envp);
-		printf("eyo: %s\n", expanded);
 		str3[i] = expanded;
 		i++;
 	}

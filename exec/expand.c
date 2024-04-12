@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/12 12:31:15 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/12 12:34:53 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*remove_quotes(char *str)
 	char	*keyword;
 
 	keyword_cleaned = ft_strtrim(str, "\"");
-	// free(str); // same thing as below for example_5: should we malloc?
+	free(str); // same thing as below for example_5: should we malloc?
 	keyword = ft_strtrim(keyword_cleaned, "\'");
 	free(keyword_cleaned);
 	return (keyword);
@@ -51,7 +51,7 @@ static char	*expand_str(char *str, int start, int *i, char **envp)
 	begin = ft_strjoin(newstr, end);
 	free(newstr);
 	free(end);
-	// free(str); // this should be done always? when using example_5 it´s not done, but i think it´s because the args[0] is not malloc'ed
+	free(str); // this should be done always? when using example_5 it´s not done, but i think it´s because the args[0] is not malloc'ed
 	return (begin);
 }
 

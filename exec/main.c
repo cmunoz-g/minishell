@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/12 11:20:02 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/12 12:34:34 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,13 @@ t_cmd_table	*get_example_5(void)
 		exit(0);
 	tbl->cmd = "echo";
 	tbl->args = ft_calloc(sizeof(char *), 2);
-	tbl->args[0] = "\"$PWD\"";
+	tbl->args[0] = ft_calloc(sizeof(char), 7);
+	tbl->args[0][0] = '\"';
+	tbl->args[0][1] = '$';
+	tbl->args[0][2] = 'P';
+	tbl->args[0][3] = 'W';
+	tbl->args[0][4] = 'D';
+	tbl->args[0][5] = '\"';
 	tbl->in = STDIN;
 	tbl->out = PIPE;
 	tbl->redirections = NULL;

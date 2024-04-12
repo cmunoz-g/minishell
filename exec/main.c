@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/12 12:34:34 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/12 12:38:42 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ t_cmd_table	*get_example_3(void);
 */
 t_cmd_table	*get_example_4(void);
 /*
-	| cmd  | args   | in    | out    | n_redirections | redirections |
-	|------|--------|-------|--------|----------------|--------------|
-	| echo | "$PWD" | STDIN | PIPE   | 0              | NULL         |
-	| wc   | "-c"   | PIPE  | STDOUT | 0              | NULL         |
+	| cmd  | args            | in    | out    | n_redirections | redirections |
+	|------|-----------------|-------|--------|----------------|--------------|
+	| echo | "$PWD", "$USER" | STDIN | PIPE   | 0              | NULL         |
+	| cat   | "-e"            | PIPE  | STDOUT | 0              | NULL         |
 */
 t_cmd_table	*get_example_5(void);
 
@@ -256,10 +256,10 @@ t_cmd_table	*get_example_4(void)
 	return (tbl);
 }
 /*
-	| cmd  | args   | in    | out    | n_redirections | redirections |
-	|------|--------|-------|--------|----------------|--------------|
-	| echo | "$PWD" | STDIN | PIPE   | 0              | NULL         |
-	| wc   | "-c"   | PIPE  | STDOUT | 0              | NULL         |
+	| cmd  | args            | in    | out    | n_redirections | redirections |
+	|------|-----------------|-------|--------|----------------|--------------|
+	| echo | "$PWD", "$USER" | STDIN | PIPE   | 0              | NULL         |
+	| cat   | "-e"            | PIPE  | STDOUT | 0              | NULL         |
 */
 t_cmd_table	*get_example_5(void)
 {
@@ -270,7 +270,7 @@ t_cmd_table	*get_example_5(void)
 	if (!tbl)
 		exit(0);
 	tbl->cmd = "echo";
-	tbl->args = ft_calloc(sizeof(char *), 2);
+	tbl->args = ft_calloc(sizeof(char *), 3);
 	tbl->args[0] = ft_calloc(sizeof(char), 7);
 	tbl->args[0][0] = '\"';
 	tbl->args[0][1] = '$';
@@ -278,6 +278,14 @@ t_cmd_table	*get_example_5(void)
 	tbl->args[0][3] = 'W';
 	tbl->args[0][4] = 'D';
 	tbl->args[0][5] = '\"';
+	tbl->args[1] = ft_calloc(sizeof(char), 8);
+	tbl->args[1][0] = '\"';
+	tbl->args[1][1] = '$';
+	tbl->args[1][2] = 'U';
+	tbl->args[1][3] = 'S';
+	tbl->args[1][4] = 'E';
+	tbl->args[1][5] = 'R';
+	tbl->args[1][6] = '\"';
 	tbl->in = STDIN;
 	tbl->out = PIPE;
 	tbl->redirections = NULL;
@@ -285,9 +293,9 @@ t_cmd_table	*get_example_5(void)
 	tbl2 = malloc(sizeof(t_cmd_table));
 	if (!tbl2)
 		exit(0);
-	tbl2->cmd = "wc";
+	tbl2->cmd = "cat";
 	tbl2->args = ft_calloc(sizeof(char *), 2);
-	tbl2->args[0] = "-c";
+	tbl2->args[0] = "-e";
 	tbl2->in = PIPE;
 	tbl2->out = STDOUT;
 	tbl2->redirections = NULL;

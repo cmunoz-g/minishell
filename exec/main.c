@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/15 09:58:07 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/15 11:03:17 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ t_cmd_table	*get_example_3(void);
 */
 t_cmd_table	*get_example_4(void);
 /*
-	| cmd  | args                            | in    | out    | n_redirections | redirections |
-	|------|---------------------------------|-------|--------|----------------|--------------|
-	| echo | "$PWD", "$USER", "$NOTEXISTING" | STDIN | PIPE   | 0              | NULL         |
-	| cat   | "-e"                           | PIPE  | STDOUT | 0              | NULL         |
+	| cmd  | args                              | in    | out    | n_redirections | redirections |
+	|------|-----------------------------------|-------|--------|----------------|--------------|
+	| echo | "$PWD", "hi$USER", "$NOTEXISTING" | STDIN | PIPE   | 0              | NULL         |
+	| cat   | "-e"                             | PIPE  | STDOUT | 0              | NULL         |
 */
 t_cmd_table	*get_example_5(void);
 
@@ -256,10 +256,10 @@ t_cmd_table	*get_example_4(void)
 	return (tbl);
 }
 /*
-	| cmd  | args                            | in    | out    | n_redirections | redirections |
-	|------|---------------------------------|-------|--------|----------------|--------------|
-	| echo | "$PWD", "$USER", "$NOTEXISTING" | STDIN | PIPE   | 0              | NULL         |
-	| cat   | "-e"                           | PIPE  | STDOUT | 0              | NULL         |
+	| cmd  | args                              | in    | out    | n_redirections | redirections |
+	|------|-----------------------------------|-------|--------|----------------|--------------|
+	| echo | "$PWD", "hi$USER", "$NOTEXISTING" | STDIN | PIPE   | 0              | NULL         |
+	| cat   | "-e"                             | PIPE  | STDOUT | 0              | NULL         |
 */
 t_cmd_table	*get_example_5(void)
 {
@@ -278,14 +278,16 @@ t_cmd_table	*get_example_5(void)
 	tbl->args[0][3] = 'W';
 	tbl->args[0][4] = 'D';
 	tbl->args[0][5] = '\"';
-	tbl->args[1] = ft_calloc(sizeof(char), 8);
+	tbl->args[1] = ft_calloc(sizeof(char), 10);
 	tbl->args[1][0] = '\"';
-	tbl->args[1][1] = '$';
-	tbl->args[1][2] = 'U';
-	tbl->args[1][3] = 'S';
-	tbl->args[1][4] = 'E';
-	tbl->args[1][5] = 'R';
-	tbl->args[1][6] = '\"';
+	tbl->args[1][1] = 'h';
+	tbl->args[1][2] = 'i';
+	tbl->args[1][3] = '$';
+	tbl->args[1][4] = 'U';
+	tbl->args[1][5] = 'S';
+	tbl->args[1][6] = 'E';
+	tbl->args[1][7] = 'R';
+	tbl->args[1][8] = '\"';
 	tbl->args[2] = ft_calloc(sizeof(char), 15);
 	tbl->args[2][0] = '\"';
 	tbl->args[2][1] = '$';

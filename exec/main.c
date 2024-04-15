@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/15 12:05:09 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/15 12:39:18 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,8 @@ t_cmd_table	*get_example_2(void);
 t_cmd_table	*get_example_3(void);
 
 /*
-	| cmd | args | in      | out   | n_redirections | redirections                                                      |
-	|-----|------|---------|-------|----------------|------------------------------------------------------------------ |
-	| cat | NULL | HEREDOC | TRUNC | 2              | {{type: INPUT, value: "in.txt"}, {type: TRUNC, value: "out.txt"}} |
+	| cmd | args | in    | out   | n_redirections |redirections                                                       |
+	| cat | NULL | INPUT | TRUNC | 2              | {{type: INPUT, value: "in.txt"}, {type: TRUNC, value: "out.txt"}} |
 */
 t_cmd_table	*get_example_4(void);
 /*
@@ -104,7 +103,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1 || argv[1])
 		exit(1);
-	tbl = get_example_6();
+	tbl = get_example_3();
 	executor(tbl, envp);
 	return (0);
 }
@@ -236,9 +235,8 @@ t_cmd_table	*get_example_3(void)
 	return (tbl);
 }
 /*
-	| cmd | args | in      | out   | n_redirections | redirections                                                      |
-	|-----|------|---------|-------|----------------|------------------------------------------------------------------ |
-	| cat | NULL | INPUT   | TRUNC | 2              | {{type: INPUT, value: "in.txt"}, {type: TRUNC, value: "out.txt"}} |
+	| cmd | args | in    | out   | n_redirections |redirections                                                       |
+	| cat | NULL | INPUT | TRUNC | 2              | {{type: INPUT, value: "in.txt"}, {type: TRUNC, value: "out.txt"}} |
 */
 t_cmd_table	*get_example_4(void)
 {
@@ -250,7 +248,7 @@ t_cmd_table	*get_example_4(void)
 		exit(0);
 	tbl->cmd = "cat";
 	tbl->args = NULL;
-	tbl->in = HEREDOC;
+	tbl->in = INPUT;
 	tbl->out = TRUNC;
 	tbl->n_redirections = 2;
 	redirections = ft_calloc(sizeof(t_token), 3);

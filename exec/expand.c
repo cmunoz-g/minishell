@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/12 12:34:53 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/15 10:05:44 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*remove_quotes(char *str)
 	char	*keyword;
 
 	keyword_cleaned = ft_strtrim(str, "\"");
-	free(str); // same thing as below for example_5: should we malloc?
+	free(str);
 	keyword = ft_strtrim(keyword_cleaned, "\'");
 	free(keyword_cleaned);
 	return (keyword);

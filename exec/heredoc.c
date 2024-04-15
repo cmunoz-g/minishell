@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:11:14 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/12 11:11:11 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/15 12:06:25 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	create_hd_file(char *filename, char *eof, char **envp)
 	return (0);
 }
 
-int	check_heredocs(t_cmd_table *tbl, char **envp)
+static int	check_heredocs(t_cmd_table *tbl, char **envp)
 {
 	int	i;
 
@@ -66,6 +66,17 @@ int	check_heredocs(t_cmd_table *tbl, char **envp)
 				return (1);
 		}
 		i++;
+	}
+	return (0);
+}
+
+int	check_all_heredocs(t_cmd_table *tbl, char **envp)
+{
+	while (tbl)
+	{
+		if (check_heredocs(tbl, envp))
+			return (1);
+		tbl = tbl->next;
 	}
 	return (0);
 }

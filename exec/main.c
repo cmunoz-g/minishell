@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/15 11:03:17 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/15 12:05:09 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@ t_cmd_table	*get_example_4(void);
 	| cat   | "-e"                             | PIPE  | STDOUT | 0              | NULL         |
 */
 t_cmd_table	*get_example_5(void);
+/*
+	| cmd  | args    | in      | out   | n_redirections | redirections                   |
+	|------|---------|---------|-------|----------------|--------------------------------|
+	| cat  | NULL    | HEREDOC | PIPE  | 1              | {{type: HEREDOC, value: "END"} |
+	| echo | "hello" | PIPE    | PIPE  | 0              | NULL                           |
+	| cat  | NULL    | HEREDOC | PIPE  | 1              | {{type: HEREDOC, value: "BYE"} |
+*/
+t_cmd_table	*get_example_6(void);
 
 void	print_cmd(t_cmd_table *tbl)
 {
@@ -70,7 +78,6 @@ void	handle_cmd(t_cmd_table *tbl, char **envp)
 {
 	if (!tbl)
 		exit(0);
-	check_heredocs(tbl, envp);
 	if (tbl->n_redirections > 0)
 		if (redirect(tbl))
 			exit(0);
@@ -82,6 +89,7 @@ void	handle_cmd(t_cmd_table *tbl, char **envp)
 
 void	executor(t_cmd_table *tbl, char **envp)
 {
+	check_all_heredocs(tbl, envp);
 	while (tbl)
 	{
 		print_cmd(tbl);
@@ -96,7 +104,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1 || argv[1])
 		exit(1);
-	tbl = get_example_5();
+	tbl = get_example_6();
 	executor(tbl, envp);
 	return (0);
 }
@@ -319,5 +327,69 @@ t_cmd_table	*get_example_5(void)
 	tbl2->n_redirections = 0;
 	tbl->next = tbl2;
 	tbl2->prev = tbl;
+	return (tbl);
+}
+/*
+	| cmd  | args    | in      | out   | n_redirections | redirections                   |
+	|------|---------|---------|-------|----------------|--------------------------------|
+	| cat  | NULL    | HEREDOC | PIPE  | 1              | {{type: HEREDOC, value: "END"} |
+	| echo | "hello" | PIPE    | PIPE  | 0              | NULL                           |
+	| cat  | NULL    | HEREDOC | PIPE  | 1              | {{type: HEREDOC, value: "BYE"} |
+*/
+t_cmd_table	*get_example_6(void)
+{
+	t_cmd_table	*tbl;
+	t_cmd_table	*tbl2;
+	t_cmd_table	*tbl3;
+	t_token		*redirections;
+	t_token		*redirections2;
+
+	tbl = malloc(sizeof(t_cmd_table));
+	if (!tbl)
+		exit(0);
+	tbl->cmd = "cat";
+	tbl->args = NULL;
+	tbl->in = HEREDOC;
+	tbl->out = PIPE;
+	tbl->n_redirections = 1;
+	redirections = ft_calloc(sizeof(t_token), 2);
+	if (!redirections)
+		exit(0);
+	redirections[0].type = HEREDOC;
+	redirections[0].value = "END";
+	tbl->redirections = redirections;
+	tbl2 = malloc(sizeof(t_cmd_table));
+	if (!tbl2)
+		exit(0);
+	tbl2->cmd = "echo";
+	tbl2->args = ft_calloc(sizeof(char **), 2);
+	tbl2->args[0] = ft_calloc(sizeof(char *), 6);
+	tbl2->args[0][0] = 'H';
+	tbl2->args[0][1] = 'e';
+	tbl2->args[0][2] = 'l';
+	tbl2->args[0][3] = 'l';
+	tbl2->args[0][4] = 'o';
+	tbl2->in = PIPE;
+	tbl2->out = PIPE;
+	tbl2->n_redirections = 0;
+	tbl2->redirections = NULL;
+	tbl2->prev = tbl;
+	tbl->next = tbl2;
+	tbl3 = malloc(sizeof(t_cmd_table));
+	if (!tbl3)
+		exit(0);
+	tbl3->cmd = "cat";
+	tbl3->args = NULL;
+	tbl3->in = HEREDOC;
+	tbl3->out = STDOUT;
+	tbl3->n_redirections = 1;
+	redirections2 = ft_calloc(sizeof(t_token), 2);
+	if (!redirections2)
+		exit(0);
+	redirections2[0].type = HEREDOC;
+	redirections2[0].value = "BYE";
+	tbl3->redirections = redirections2;
+	tbl3->prev = tbl2;
+	tbl2->next = tbl3;
 	return (tbl);
 }

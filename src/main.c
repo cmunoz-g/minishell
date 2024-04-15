@@ -1,44 +1,26 @@
 #include "minishell.h"
 
-// void leaks(void)
-// {
-// 	system("leaks a.out");
-// }
-
-int main()
+void	print_tokens(t_token *token_list)
 {
-	int i = 0;
-	char *str = "cat file1.txt file2.txt file3.txt | grep \"search_term\" -c > count.txt ; cat";
-	t_token	*token_list;
-	t_token *token_list_head;
-	//t_token *reference;
-	t_cmd_table *cmd_table;
-	t_cmd_table *cmd_table_head;
+	t_token *reference = token_list;
 
-	// atexit(leaks);
-	token_list = NULL;
-	lexer(str, &token_list);
-	
-	// reference = token_list;
-	// while (reference)
-	// {
-	// 	token_list = reference;
-	// 	while (token_list)
-	// 	{
-	// 		printf("value:%s type:%d\n",token_list->value, token_list->type);
-	// 		token_list = token_list->next;
-	// 	}
-	// 	reference = reference->next_cmd;
-	// 	printf("\n");
-	// }
+	while (reference)
+	{
+		token_list = reference;
+	 	while (token_list)
+		{
+	 		printf("value:%s type:%d\n",token_list->value, token_list->type);
+	 		token_list = token_list->next;
+	 	}
+		reference = reference->next_cmd;
+		printf("\n");
+	}
+}
 
-	cmd_table = NULL;
-	token_list_head = token_list;
-	cmd_table_head = cmd_table;
-	parser(&cmd_table, &token_list);
-	//clean_token_list(&token_list_head);
-	//clean_cmd_table_list(&cmd_table);
-	printf("%s\n\n",str);
+void	print_cmd_table(t_cmd_table *cmd_table) //brrar
+{
+	int i = 0; 
+
 	while (cmd_table) 
 	{
 		printf("CMD:%s\n",cmd_table->cmd);
@@ -64,45 +46,106 @@ int main()
 		cmd_table = cmd_table->next;
 		printf("\n");
 	}
-	return 0;
+}	
+
+void	arguments(t_minishell *data)
+{
+	char 		*line;
+	t_token 	*token_tmp;
+	t_cmd_table *cmd_tmp;
+
+	token_tmp = data->token_list;
+	cmd_tmp = data->cmd_table;
+	while (1)
+	{
+		line = readline("\e[1;34m""minishell: ""\e[m"); // dejarlo bonito
+		// if (!line)
+		// 	// error ft
+		if (line)// cambiar por else
+		{
+			add_history(line);
+			lexer(line, &(data->token_list));
+			parser(&(data->cmd_table), &(data->token_list)); // EL PARSER ESTA FALLANDO LA SEGUNDA VUELTA ! WHY?
+			clean_token_list(&token_tmp);
+			print_cmd_table(data->cmd_table);
+			// executor
+			clean_cmd_table_list(&cmd_tmp);
+		}
+		break ;
+	}
+
+
 }
 
-/*
-typedef struct s_cmd_table
+int main(void)
 {
-	char				*cmd;
-	char				**args;
-	int					in;
-	int					out;
-	int 				err;
-	t_token				*redirections;
-	int					n_redirections;		
-	bool				new_cmd;		
-	struct s_cmd_table	*prev;
-	struct s_cmd_table	*next;
-}						t_cmd_table;*/
+	t_minishell *data;
 
-/*
-	"ls -la | cat >output"
-	head -n 10 large_file.txt > excerpt.txt
-	cat file1.txt file2.txt file3.txt | grep "search_term" -c > count.txt
-	grep "search_term" < input_file.txt
-	echo "New line of text" >> existing_file.txt
-	grep "specific_string" * 2>errors.txt
-	"echo hi > \"doble\"quote;cat doblequote;rm doblequote@echo hi > \"doble\"quote"
+	data = init(); // iniciar env variables aqui
+	// signals
+	arguments(data);
 
+	
+}
 
-*/
+// int main()
+// {
+// 	int i = 0;
+// 	char *str = "cat file1.txt file2.txt file3.txt | grep \"search_term\" -c > count.txt ; cat";
+// 	t_token	*token_list;
+// 	//t_token *token_list_head;
+// 	//t_token *reference;
+// 	t_cmd_table *cmd_table;
+// 	//t_cmd_table *cmd_table_head;
 
-/*
+// 	// atexit(leaks);
+// 	token_list = NULL;
+// 	lexer(str, &token_list);
+	
+// 	// reference = token_list;
+// 	// while (reference)
+// 	// {
+// 	// 	token_list = reference;
+// 	// 	while (token_list)
+// 	// 	{
+// 	// 		printf("value:%s type:%d\n",token_list->value, token_list->type);
+// 	// 		token_list = token_list->next;
+// 	// 	}
+// 	// 	reference = reference->next_cmd;
+// 	// 	printf("\n");
+// 	// }
 
-# define EMPTY 0
-# define CMD 1
-# define ARG 2
-# define TRUNC 3
-# define APPEND 4
-# define INPUT 5
-# define PIPE 6
-# define END 7
-
-*/
+// 	cmd_table = NULL;
+// 	//token_list_head = token_list;
+// 	//cmd_table_head = cmd_table;
+// 	parser(&cmd_table, &token_list);
+// 	//clean_token_list(&token_list_head);
+// 	//clean_cmd_table_list(&cmd_table);
+// 	printf("%s\n\n",str);
+// 	while (cmd_table) 
+// 	{
+// 		printf("CMD:%s\n",cmd_table->cmd);
+// 		while (cmd_table->args[i])
+// 		{
+// 			printf("ARG%d:%s\n", i, cmd_table->args[i]);
+// 			i++;
+// 		}
+// 		printf("IN:%d\n", cmd_table->in);
+// 		printf("OUT:%d\n", cmd_table->out);
+// 		printf("ERR:%d\n", cmd_table->err);
+// 		i = 0;
+// 		while (i < cmd_table->n_redirections)
+// 		{
+// 			printf("redir: %d type: %d value: %s\n", i, cmd_table->redirections[i]->type, cmd_table->redirections[i]->value);
+// 			i++;
+// 		}
+// 		printf("nbr redir: %d\n", cmd_table->n_redirections);
+// 		if (cmd_table->new_cmd)
+// 			printf("new cdm TRUE\n");
+// 		else 
+// 			printf("new cdm FALSE\n");
+// 		cmd_table = cmd_table->next;
+// 		printf("\n");
+// 	}
+// 	return 0;
+// }

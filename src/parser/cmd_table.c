@@ -22,7 +22,6 @@ void	gen_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int start, int 
 		last->redirections[j] = (t_token *)malloc(sizeof(t_token));
 		j++;
 	}
-	last->next = NULL;
 	populate_cmd_table(token_list, &last, (end - start));
 }
 
@@ -45,6 +44,7 @@ void	alloc_cmd_table(t_cmd_table **cmd_list, bool new_cmd)
 		last->next = cmd_table;
 		cmd_table->prev = last;
 	}
+	cmd_table->next = NULL;
 	cmd_table->new_cmd = new_cmd;
 }
 

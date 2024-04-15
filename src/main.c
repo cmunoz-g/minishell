@@ -55,6 +55,7 @@ void	arguments(t_minishell *data)
 	t_cmd_table *cmd_tmp;
 
 	token_tmp = data->token_list;
+	//cmd_tmp = data->cmd_table;
 	cmd_tmp = data->cmd_table;
 	while (1)
 	{
@@ -65,16 +66,16 @@ void	arguments(t_minishell *data)
 		{
 			add_history(line);
 			lexer(line, &(data->token_list));
-			parser(&(data->cmd_table), &(data->token_list)); // EL PARSER ESTA FALLANDO LA SEGUNDA VUELTA ! WHY?
+			parser(&(data->cmd_table), &(data->token_list)); // EL PARSER ESTA FALLANDO LA SEGUNDA VUELTA. Si declaro token_list y cmd_table (las variables dentro del struct) aqui y las 
+			// seteo a NULL, si funciona esto. Pero si mando las de data no, aunque esten inicializadas a NULL, porque??? averiguar y arreglar
 			clean_token_list(&token_tmp);
 			print_cmd_table(data->cmd_table);
+			exit(0);
 			// executor
 			clean_cmd_table_list(&cmd_tmp);
 		}
 		break ;
 	}
-
-
 }
 
 int main(void)

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/15 12:39:18 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/15 13:05:01 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,13 @@ t_cmd_table	*get_example_5(void);
 	| cat  | NULL    | HEREDOC | PIPE  | 1              | {{type: HEREDOC, value: "BYE"} |
 */
 t_cmd_table	*get_example_6(void);
+/*
+	| cmd  | args     | in    | out    | n_redirections | redirections                    |
+	|------|----------|-------|--------|----------------|---------------------------------|
+	| echo | "hi"     | STDIN | PIPE   | 0              | NULL                            |
+	| ls   | "-la"    | PIPE  | STDOUT | 1              | NULL                            |
+*/
+t_cmd_table	*get_example_7(void);
 
 void	print_cmd(t_cmd_table *tbl)
 {
@@ -103,7 +110,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1 || argv[1])
 		exit(1);
-	tbl = get_example_3();
+	tbl = get_example_7();
 	executor(tbl, envp);
 	return (0);
 }
@@ -389,5 +396,43 @@ t_cmd_table	*get_example_6(void)
 	tbl3->redirections = redirections2;
 	tbl3->prev = tbl2;
 	tbl2->next = tbl3;
+	return (tbl);
+}
+/*
+	| cmd  | args     | in    | out    | n_redirections | redirections                    |
+	|------|----------|-------|--------|----------------|---------------------------------|
+	| echo | "hi"     | STDIN | PIPE   | 0              | NULL                            |
+	| ls   | "-la"    | PIPE  | STDOUT | 1              | NULL                            |
+*/
+t_cmd_table	*get_example_7(void)
+{
+	t_cmd_table	*tbl;
+	t_cmd_table	*tbl2;
+
+	tbl = malloc(sizeof(t_cmd_table));
+	if (!tbl)
+		exit(0);
+	tbl->cmd = "echo";
+	tbl->args = ft_calloc(sizeof(char **), 2);
+	tbl->args[0] = ft_calloc(sizeof(char *), 3);
+	tbl->args[0][0] = 'h';
+	tbl->args[0][1] = 'i';
+	tbl->in = STDIN;
+	tbl->out = PIPE;
+	tbl->redirections = NULL;
+	tbl->n_redirections = 0;
+	tbl2 = malloc(sizeof(t_cmd_table));
+	if (!tbl2)
+		exit(0);
+	tbl2->cmd = "ls";
+	tbl2->args = ft_calloc(sizeof(char **), 2);
+	tbl2->args[0] = ft_calloc(sizeof(char *), 4);
+	tbl2->args[0][0] = '-';
+	tbl2->args[0][1] = 'l';
+	tbl2->args[0][2] = 'a';
+	tbl2->in = PIPE;
+	tbl2->out = STDOUT;
+	tbl->next = tbl2;
+	tbl2->prev = tbl;
 	return (tbl);
 }

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/15 10:05:44 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/15 10:53:05 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,21 @@ static char	*expand_str(char *str, int start, int *i, char **envp)
 	begin = ft_substr(str, 0, start);
 	word = expand_word(str, start, *i, envp);
 	end = ft_substr(str, *i, ft_strlen(str) - *i);
-	*i = start + ft_strlen(word) - 1;
-	newstr = ft_strjoin(begin, word);
+	if (!word)
+	{
+		*i = start - 1;
+		newstr = ft_strdup(begin);
+	}
+	else
+	{
+		*i = start + ft_strlen(word) - 1;
+		newstr = ft_strjoin(begin, word);
+	}
 	free(begin);
 	begin = ft_strjoin(newstr, end);
 	free(newstr);
 	free(end);
-	free(str); // this should be done always? when using example_5 it´s not done, but i think it´s because the args[0] is not malloc'ed
+	free(str);
 	return (begin);
 }
 

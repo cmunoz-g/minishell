@@ -6,11 +6,18 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/15 10:53:05 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/15 11:08:27 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
+
+/*
+	TODO: Pending to implement $?, we require:
+		1. a global struct where we store all exitcodes of previous calls.
+		2. a loop over the instructions -> that's the main Carlos is implementing.
+			We need that because this returns the latest exit code.
+*/
 
 static char	*remove_quotes(char *str)
 {

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+         #
+#    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/11 11:37:06 by cmunoz-g         ###   ########.fr        #
+#    Updated: 2024/04/16 09:28:17 by camunozg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,9 @@ SRC_FILES 	= 	main\
 				parser/parser_utils\
 				parser/parser\
 				utils/clean\
-				utils/extra_libft
+				utils/extra_libft\
+				utils/error\
+				init
 				
 SRC 		=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 
@@ -76,7 +78,7 @@ $(OBJ_DIRS):
 	@mkdir -p $@
 
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(INC)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(INC) -lreadline
 	@echo "$(GREEN)minishell compiled!$(DEF_COLOR)"
 
 libft:

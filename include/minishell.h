@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 11:46:57 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 13:18:02 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ char		*my_getenv(char *key, char **env);
 int			redirect(t_cmd_table *tbl);
 /*	arr_utils */
 char		**ft_str_arr_join_exec(char *s1, char **strarr, char **envp);
-void		free_split(char **arr);
+void		free_arr(char **arr);
 /*	heredoc */
 int			check_all_heredocs(t_cmd_table *tbl, char **envp);
 /*	expand */

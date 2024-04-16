@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:54:27 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 11:33:21 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 13:18:06 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	send_to_stderr(char *co, char *ar, char *err)
 		ft_putstr_fd(": ", 2);
 		tmp = ft_split(co, ' ');
 		ft_putendl_fd(tmp[0], 2);
-		free_split(tmp);
+		free_arr(tmp);
 		return ;
 	}
 	if (co)
@@ -31,7 +31,7 @@ void	send_to_stderr(char *co, char *ar, char *err)
 		tmp = ft_split(co, ' ');
 		ft_putstr_fd(tmp[0], 2);
 		ft_putstr_fd(": ", 2);
-		free_split(tmp);
+		free_arr(tmp);
 	}
 	if (ar)
 	{

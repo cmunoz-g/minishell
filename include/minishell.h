@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 13:18:02 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 13:24:11 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct	s_minishell
 {
 	t_token		*token_list;
 	t_cmd_table	*cmd_table;
+	char		**env_vars;
 
 }				t_minishell;
 
@@ -105,7 +106,7 @@ void		assign_redir_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int *
 void		assign_redir_cmd_table_aux(t_cmd_table **cmd_table, int *w, int type, char *value);
 
 // INIT
-t_minishell	*init(void);
+t_minishell	*init(char **envp);
 
 // UTILS
 void		clean_token_list(t_token **token_list);
@@ -132,6 +133,7 @@ int			redirect(t_cmd_table *tbl);
 /*	arr_utils */
 char		**ft_str_arr_join_exec(char *s1, char **strarr, char **envp);
 void		free_arr(char **arr);
+char		**ft_arrdup(char **arr);
 /*	heredoc */
 int			check_all_heredocs(t_cmd_table *tbl, char **envp);
 /*	expand */

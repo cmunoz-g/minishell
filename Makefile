@@ -6,7 +6,7 @@
 #    By: juramos <juramos@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/16 11:49:49 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/16 12:00:36 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,14 +74,12 @@ MAKEFLAGS 	+=	--no-print-directory
 
 all: $(LIBFT) $(NAME)
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJF) $(OBJ_DIRS)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJF)
 	@$(CC) $(CFLAGS) $(INC_MS) $(INC) -c $< -o $@
 
 $(OBJF):
 	@mkdir -p $(OBJ_DIR)
-
-$(OBJ_DIRS):
-	@mkdir -p $@
+	@mkdir -p  $(OBJ_DIRS)
 
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(INC) -lreadline
@@ -96,13 +94,13 @@ $(LIBFT):
 
 clean:
 	@rm -rf $(OBJ_DIR)
-	@make clean -sC libft
+	@make clean -sC $(LIBFT_PATH)
 	@make clean -sC src/exec
 	@echo "$(BLUE)minishell object files cleaned!$(DEF_COLOR)"
 
 fclean: clean
 	@rm -f $(NAME)
-	@make fclean -sC $(LIBFT)
+	@make fclean -sC $(LIBFT_PATH)
 	@make fclean -sC src/exec
 	@echo "$(CYAN)minishell executable files cleaned!$(DEF_COLOR)"
 

@@ -6,7 +6,7 @@
 #    By: juramos <juramos@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/16 11:43:10 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/16 11:56:53 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,13 +75,11 @@ $(LIBFT):
 
 clean:
 	@rm -f *.o
-	@make clean -sC $(LIBFT_PATH)
 	@echo "$(BLUE)miniexec object files cleaned!$(DEF_COLOR)"
 
 fclean: clean
 	@rm -f $(NAME)
 	@rm -rf $(B_PATH)
-	@make fclean -sC $(LIBFT_PATH)
 	@echo "$(CYAN)miniexec executable files cleaned!$(DEF_COLOR)"
 
 re: fclean all

@@ -59,7 +59,7 @@ void	arguments(t_minishell *data) // en el git de referencia, hacen una comproba
 	cmd_tmp = data->cmd_table;
 	while (1)
 	{
-		line = readline("\e[1;34m""minishell: ""\e[m"); // dejarlo bonito
+		line = readline("\e[1;34m""minishell> ""\e[m"); // dejarlo bonito
 		if (!line)
 			error(data, "readline() error");
 		else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/15 12:33:44 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 10:27:44 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,29 @@ void	do_pipe(t_cmd_table *tbl, char **envp)
 	{
 		close(p_fd[1]);
 		dup2(p_fd[0], 0);
+	}
+}
+
+static void	handle_cmd(t_cmd_table *tbl, char **envp)
+{
+	if (!tbl)
+		exit(0);
+	if (tbl->n_redirections > 0)
+		if (redirect(tbl))
+			exit(0);
+	if (!tbl->next || tbl->out == TRUNC || tbl->out == APPEND)
+		exec_process(tbl, envp);
+	else if (tbl->next)
+		do_pipe(tbl, envp);
+}
+
+void	executor(t_cmd_table *tbl, char **envp)
+{
+	check_all_heredocs(tbl, envp);
+	while (tbl)
+	{
+		print_cmd(tbl);
+		handle_cmd(tbl, envp);
+		tbl = tbl->next;
 	}
 }

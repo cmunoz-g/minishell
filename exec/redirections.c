@@ -6,13 +6,13 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 10:26:25 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 10:28:37 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-int	handle_outfile(t_token tkn)
+static int	handle_outfile(t_token tkn)
 {
 	int	fd;
 
@@ -28,7 +28,7 @@ int	handle_outfile(t_token tkn)
 	return (0);
 }
 
-int	handle_infile(char *str)
+static int	handle_infile(char *str)
 {
 	int	fd;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/15 13:05:01 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 10:27:32 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,30 +78,6 @@ void	print_cmd(t_cmd_table *tbl)
 	printf("in: %d\n", tbl->in);
 	printf("out: %d\n", tbl->out);
 	printf("--------\n");
-}
-
-void	handle_cmd(t_cmd_table *tbl, char **envp)
-{
-	if (!tbl)
-		exit(0);
-	if (tbl->n_redirections > 0)
-		if (redirect(tbl))
-			exit(0);
-	if (!tbl->next || tbl->out == TRUNC || tbl->out == APPEND)
-		exec_process(tbl, envp);
-	else if (tbl->next)
-		do_pipe(tbl, envp);
-}
-
-void	executor(t_cmd_table *tbl, char **envp)
-{
-	check_all_heredocs(tbl, envp);
-	while (tbl)
-	{
-		print_cmd(tbl);
-		handle_cmd(tbl, envp);
-		tbl = tbl->next;
-	}
 }
 
 int	main(int argc, char **argv, char **envp)

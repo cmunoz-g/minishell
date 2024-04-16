@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
+#    By: juramos <juramos@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/12 10:56:59 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/16 10:30:40 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CC 			= 	gcc
 CFLAGS 		= 	-Wall -Werror -Wextra -g
 
 # Sources
-SRC_FILES 	= 	main utils exec error_handlers redirections \
+SRC_FILES 	= 	main arr_utils exec error_handlers redirections \
 				exec_utils heredoc expand
 SRC 		=	$(addsuffix .c, $(SRC_FILES))
 

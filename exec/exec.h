@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:59:41 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/15 12:05:26 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 10:30:14 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,18 @@ typedef struct s_cmd_table
 /*	exec  */
 void	do_pipe(t_cmd_table *tbl, char **envp);
 void	exec_process(t_cmd_table *tbl, char **env);
+void	executor(t_cmd_table *tbl, char **envp);
 /*	error_handlers  */
 void	send_to_stderr(char *co, char *ar, char *err);
-/*	utils  */
+/*	exec_utils  */
 int		open_file(char *name, int to_write);
 char	*get_path(char *cmd, char **env);
-void	free_split(char **arr);
 char	*my_getenv(char *key, char **env);
 /*	redirections */
 int		redirect(t_cmd_table *tbl);
-/*	exec_utils */
+/*	arr_utils */
 char	**ft_str_arr_join_exec(char *s1, char **strarr, char **envp);
+void	free_split(char **arr);
 /*	heredoc */
 int		check_all_heredocs(t_cmd_table *tbl, char **envp);
 /*	expand */

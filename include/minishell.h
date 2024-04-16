@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
+/*   Updated: 2024/04/16 11:46:57 by juramos          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
@@ -15,10 +27,12 @@
 # define FILENAME 11
 # define HEREDOC 12
 
+# define HEREDOC_MSG "\033[1;34m> \033[0m"
+
 # include <stdlib.h>
 # include <stdio.h>
 # include <string.h>
-# include "../libft/libft.h"
+# include "libft.h"
 # include <unistd.h>
 # include <errno.h>
 # include <sys/stat.h>
@@ -46,7 +60,7 @@ typedef struct s_cmd_table
 	char				**args;
 	int					in;
 	int					out;
-	int 				err;
+	int					err;
 	char				*hd_file;
 	t_token				**redirections;
 	int					n_redirections;		
@@ -57,8 +71,8 @@ typedef struct s_cmd_table
 
 typedef struct	s_minishell
 {
-	t_token 	*token_list;
-	t_cmd_table *cmd_table;
+	t_token		*token_list;
+	t_cmd_table	*cmd_table;
 
 }				t_minishell;
 
@@ -103,11 +117,34 @@ int			ft_isspace(int c);
 char		*ft_strdup_mod(const char *s, size_t size);
 void		error(t_minishell *data, char *error_message);
 
+<<<<<<< HEAD:inc/minishell.h
 // SIGNALS
 void	signals(void);
 void	signal_handler(int signal);
+=======
+// EXEC
+/*	exec */
+void		do_pipe(t_cmd_table *tbl, char **envp);
+void		exec_process(t_cmd_table *tbl, char **env);
+void		executor(t_cmd_table *tbl, char **envp);
+/*	error_handlers  */
+void		send_to_stderr(char *co, char *ar, char *err);
+/*	exec_utils  */
+int			open_file(char *name, int to_write);
+char		*get_path(char *cmd, char **env);
+char		*my_getenv(char *key, char **env);
+/*	redirections */
+int			redirect(t_cmd_table *tbl);
+/*	arr_utils */
+char		**ft_str_arr_join_exec(char *s1, char **strarr, char **envp);
+void		free_split(char **arr);
+/*	heredoc */
+int			check_all_heredocs(t_cmd_table *tbl, char **envp);
+/*	expand */
+char		*expand(char *str, int is_heredoc, char **envp);
+>>>>>>> 95642c9c080644ff770dc04b9b4c8dde3b85923a:include/minishell.h
 
 // DELETE
-void	print_tokens(t_token *token_list);
+void		print_tokens(t_token *token_list);
 
 #endif

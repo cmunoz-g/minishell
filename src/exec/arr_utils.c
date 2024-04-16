@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_utils.c                                       :+:      :+:    :+:   */
+/*   arr_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:52 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/15 10:57:13 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 11:33:21 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "minishell.h"
 
 static int	get_str_arr_len(char **strarr)
 {
@@ -47,4 +47,14 @@ char	**ft_str_arr_join_exec(char *s1, char **strarr, char **envp)
 		i++;
 	}
 	return (str3);
+}
+
+void	free_split(char **arr)
+{
+	int	pos;
+
+	pos = -1;
+	while (arr[++pos])
+		free(arr[pos]);
+	free(arr);
 }

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:11:14 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/15 12:34:24 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 12:35:47 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "minishell.h"
 
 static char	*get_heredoc_filename(void)
 {
@@ -19,7 +19,7 @@ static char	*get_heredoc_filename(void)
 	char		*filename;
 
 	n = ft_itoa(i++);
-	filename = ft_strjoin("exec/build/tmp_file_", n);
+	filename = ft_strjoin("build/tmp_file_", n);
 	if (!filename)
 		return (NULL);
 	free(n);
@@ -55,14 +55,14 @@ static int	check_heredocs(t_cmd_table *tbl, char **envp)
 	i = 0;
 	while (i < tbl->n_redirections)
 	{
-		if (tbl->redirections[i].type == HEREDOC)
+		if (tbl->redirections[i]->type == HEREDOC)
 		{
 			if (tbl->hd_file)
 				free(tbl->hd_file);
 			tbl->hd_file = get_heredoc_filename();
 			if (!tbl->hd_file)
 				return (1);
-			if (create_hd_file(tbl->hd_file, tbl->redirections[i].value, envp))
+			if (create_hd_file(tbl->hd_file, tbl->redirections[i]->value, envp))
 				return (1);
 		}
 		i++;

@@ -50,7 +50,7 @@ void	print_cmd_table(t_cmd_table *cmd_table) // borrar
 	}
 }	
 
-void	arguments(t_minishell *data) // en el git de referencia, hacen una comprobacion de que line no este vacio. Si lo esta, imprimen un salto de linea
+void	arguments(t_minishell *data, char **envp) // en el git de referencia, hacen una comprobacion de que line no este vacio. Si lo esta, imprimen un salto de linea
 {
 	char 		*line;
 	t_token 	*token_tmp;
@@ -69,22 +69,23 @@ void	arguments(t_minishell *data) // en el git de referencia, hacen una comproba
 			token_tmp = data->token_list;
 			parser(&(data->cmd_table), &(data->token_list));
 			clean_token_list(&token_tmp);
-			print_cmd_table(data->cmd_table);
-			// executor
-			clean_cmd_table_list(&cmd_tmp); // parece que no lo esta limpiando bien
+			// print_cmd_table(data->cmd_table);
+			executor(data->cmd_table, envp); // esto es temporal, hasta que hagamos en init() la copia de envp
+			clean_cmd_table_list(&cmd_tmp);
 		}
 	}
 }
 
-int main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	t_minishell *data;
 
+	if (argc != 1 || argv[1])
+		exit(1);
 	data = init(); // iniciar env variables aqui
 	signals();
-	arguments(data);
+	arguments(data, envp);
 
-	
 }
 
 // int main()

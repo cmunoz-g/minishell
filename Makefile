@@ -6,7 +6,7 @@
 #    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/16 09:44:16 by camunozg         ###   ########.fr        #
+#    Updated: 2024/04/16 12:56:32 by camunozg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,14 @@ SRC_FILES 	= 	main\
 				utils/clean\
 				utils/extra_libft\
 				utils/error\
+				exec/arr_utils\
+				exec/exec\
+				exec/error_handlers\
+				exec/redirections\
+				exec/exec_utils\
+				exec/heredoc\
+				exec/expand\
+				init
 				
 SRC 		=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 
@@ -45,9 +53,11 @@ LIBFT_PATH	= 	libft/
 LIBFT_NAME	= 	libft.a
 LIBFT		= 	$(LIBFT_PATH)$(LIBFT_NAME)
 
+# build path
+B_PATH = build/
+
 # Includes
-INC			=	-I ./libft
-INC_MS		= -I inc/
+INC_MS		= -I include/
 
 # Colors
 DEF_COLOR 	= 	\033[0;39m
@@ -67,20 +77,21 @@ MAKEFLAGS 	+=	--no-print-directory
 
 ###
 
-all: $(LIBFT) $(NAME)
+all: $(B_PATH) $(LIBFT) $(NAME)
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJF) $(OBJ_DIRS)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJF)
 	@$(CC) $(CFLAGS) $(INC_MS) $(INC) -c $< -o $@
 
 $(OBJF):
 	@mkdir -p $(OBJ_DIR)
-
-$(OBJ_DIRS):
-	@mkdir -p $@
+	@mkdir -p  $(OBJ_DIRS)
 
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(INC) -lreadline
 	@echo "$(GREEN)minishell compiled!$(DEF_COLOR)"
+
+$(B_PATH):
+	@mkdir $(B_PATH)
 
 libft:
 	@make -sC $(LIBFT_PATH)
@@ -91,14 +102,15 @@ $(LIBFT):
 
 clean:
 	@rm -rf $(OBJ_DIR)
+	@rm -rf $(B_PATH)
 	@make clean -sC $(LIBFT_PATH)
-	@make clean -sC exec
+	@make clean -sC src/exec
 	@echo "$(BLUE)minishell object files cleaned!$(DEF_COLOR)"
 
 fclean: clean
 	@rm -f $(NAME)
 	@make fclean -sC $(LIBFT_PATH)
-	@make fclean -sC exec
+	@make fclean -sC src/exec
 	@echo "$(CYAN)minishell executable files cleaned!$(DEF_COLOR)"
 
 re: fclean all
@@ -108,6 +120,6 @@ norm:
 	@norminette $(SRC) | grep -v Norme -B1 || true
 
 miniexec:
-	make -sC exec
+	make -sC src/exec
 
 .PHONY: all clean fclean re norm libft

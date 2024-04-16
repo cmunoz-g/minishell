@@ -1,26 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:17:12 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/12 10:51:05 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 11:33:21 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
-
-void	free_split(char **arr)
-{
-	int	pos;
-
-	pos = -1;
-	while (arr[++pos])
-		free(arr[pos]);
-	free(arr);
-}
+#include "minishell.h"
 
 int	open_file(char *name, int to_write)
 {

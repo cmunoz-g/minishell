@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   examples.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/15 13:05:01 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 12:26:43 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "minishell.h"
 
 /*
 	| cmd  | args     | in    | out   | n_redirections | redirections                    |
@@ -62,55 +62,13 @@ t_cmd_table	*get_example_6(void);
 */
 t_cmd_table	*get_example_7(void);
 
-void	print_cmd(t_cmd_table *tbl)
-{
-	int	i;
-
-	if (!tbl)
-		;
-	i = 0;
-	printf("cmd: %s\n", tbl->cmd);
-	while (tbl->args && tbl->args[i])
-	{
-		printf("arg %d: %s\n", i, tbl->args[i]);
-		i++;
-	}
-	printf("in: %d\n", tbl->in);
-	printf("out: %d\n", tbl->out);
-	printf("--------\n");
-}
-
-void	handle_cmd(t_cmd_table *tbl, char **envp)
-{
-	if (!tbl)
-		exit(0);
-	if (tbl->n_redirections > 0)
-		if (redirect(tbl))
-			exit(0);
-	if (!tbl->next || tbl->out == TRUNC || tbl->out == APPEND)
-		exec_process(tbl, envp);
-	else if (tbl->next)
-		do_pipe(tbl, envp);
-}
-
-void	executor(t_cmd_table *tbl, char **envp)
-{
-	check_all_heredocs(tbl, envp);
-	while (tbl)
-	{
-		print_cmd(tbl);
-		handle_cmd(tbl, envp);
-		tbl = tbl->next;
-	}
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_cmd_table	*tbl;
 
 	if (argc != 1 || argv[1])
 		exit(1);
-	tbl = get_example_7();
+	tbl = get_example_3();
 	executor(tbl, envp);
 	return (0);
 }
@@ -125,7 +83,7 @@ t_cmd_table	*get_example_1(void)
 {
 	t_cmd_table	*tbl;
 	t_cmd_table	*tbl2;
-	t_token		*redirections;
+	t_token		**redirections;
 
 	tbl = malloc(sizeof(t_cmd_table));
 	if (!tbl)
@@ -140,11 +98,11 @@ t_cmd_table	*get_example_1(void)
 	tbl2 = malloc(sizeof(t_cmd_table));
 	if (!tbl2)
 		exit(0);
-	redirections = ft_calloc(sizeof(t_token), 2);
+	redirections = ft_calloc(sizeof(t_token **), 2);
 	if (!redirections)
 		exit(0);
-	redirections[0].type = TRUNC;
-	redirections[0].value = "out.txt";
+	redirections[0]->type = TRUNC;
+	redirections[0]->value = "out.txt";
 	tbl2->cmd = "grep";
 	tbl2->args = ft_calloc(sizeof(char *), 2);
 	tbl2->args[0] = "Make";
@@ -169,7 +127,7 @@ t_cmd_table	*get_example_2(void)
 	t_cmd_table	*tbl;
 	t_cmd_table	*tbl2;
 	t_cmd_table	*tbl3;
-	t_token		*redirections;
+	t_token		**redirections;
 
 	tbl = malloc(sizeof(t_cmd_table));
 	if (!tbl)
@@ -202,11 +160,13 @@ t_cmd_table	*get_example_2(void)
 	tbl3->args[1] = "-l";
 	tbl3->in = PIPE;
 	tbl3->out = APPEND;
-	redirections = ft_calloc(sizeof(t_token *), 2);
+	redirections = ft_calloc(sizeof(t_token **), 2);
 	if (!redirections)
 		exit(0);
-	redirections[0].type = APPEND;
-	redirections[0].value = "out.txt";
+	t_token	*redir0 = ft_calloc(sizeof(t_token *), 2);
+	redir0->type = APPEND;
+	redir0->value = "out.txt";
+	redirections[0] = redir0;
 	tbl3->redirections = redirections;
 	tbl3->n_redirections = 1;
 	tbl2->next = tbl3;
@@ -221,7 +181,7 @@ t_cmd_table	*get_example_2(void)
 t_cmd_table	*get_example_3(void)
 {
 	t_cmd_table	*tbl;
-	t_token		*redirections;
+	t_token		**redirections;
 
 	tbl = malloc(sizeof(t_cmd_table));
 	if (!tbl)
@@ -231,13 +191,17 @@ t_cmd_table	*get_example_3(void)
 	tbl->in = HEREDOC;
 	tbl->out = TRUNC;
 	tbl->n_redirections = 2;
-	redirections = ft_calloc(sizeof(t_token), 3);
+	redirections = ft_calloc(sizeof(t_token **), 3);
 	if (!redirections)
 		exit(0);
-	redirections[0].type = HEREDOC;
-	redirections[0].value = "END";
-	redirections[1].type = TRUNC;
-	redirections[1].value = "exec/out.txt";
+	t_token	*redir0 = ft_calloc(sizeof(t_token *), 2);
+	redir0->type = HEREDOC;
+	redir0->value = "END";
+	redirections[0] = redir0;
+	t_token	*redir1 = ft_calloc(sizeof(t_token *), 2);
+	redir1->type = TRUNC;
+	redir1->value = "exec/out.txt";
+	redirections[1] = redir1;
 	tbl->redirections = redirections;
 	return (tbl);
 }
@@ -248,7 +212,7 @@ t_cmd_table	*get_example_3(void)
 t_cmd_table	*get_example_4(void)
 {
 	t_cmd_table	*tbl;
-	t_token		*redirections;
+	t_token		**redirections;
 
 	tbl = malloc(sizeof(t_cmd_table));
 	if (!tbl)
@@ -258,13 +222,13 @@ t_cmd_table	*get_example_4(void)
 	tbl->in = INPUT;
 	tbl->out = TRUNC;
 	tbl->n_redirections = 2;
-	redirections = ft_calloc(sizeof(t_token), 3);
+	redirections = ft_calloc(sizeof(t_token *), 3);
 	if (!redirections)
 		exit(0);
-	redirections[0].type = INPUT;
-	redirections[0].value = "exec/in.txt";
-	redirections[1].type = TRUNC;
-	redirections[1].value = "exec/out.txt";
+	redirections[0]->type = INPUT;
+	redirections[0]->value = "exec/in.txt";
+	redirections[1]->type = TRUNC;
+	redirections[1]->value = "exec/out.txt";
 	tbl->redirections = redirections;
 	return (tbl);
 }
@@ -346,8 +310,8 @@ t_cmd_table	*get_example_6(void)
 	t_cmd_table	*tbl;
 	t_cmd_table	*tbl2;
 	t_cmd_table	*tbl3;
-	t_token		*redirections;
-	t_token		*redirections2;
+	t_token		**redirections;
+	t_token		**redirections2;
 
 	tbl = malloc(sizeof(t_cmd_table));
 	if (!tbl)
@@ -357,11 +321,11 @@ t_cmd_table	*get_example_6(void)
 	tbl->in = HEREDOC;
 	tbl->out = PIPE;
 	tbl->n_redirections = 1;
-	redirections = ft_calloc(sizeof(t_token), 2);
+	redirections = ft_calloc(sizeof(t_token *), 2);
 	if (!redirections)
 		exit(0);
-	redirections[0].type = HEREDOC;
-	redirections[0].value = "END";
+	redirections[0]->type = HEREDOC;
+	redirections[0]->value = "END";
 	tbl->redirections = redirections;
 	tbl2 = malloc(sizeof(t_cmd_table));
 	if (!tbl2)
@@ -388,11 +352,11 @@ t_cmd_table	*get_example_6(void)
 	tbl3->in = HEREDOC;
 	tbl3->out = STDOUT;
 	tbl3->n_redirections = 1;
-	redirections2 = ft_calloc(sizeof(t_token), 2);
+	redirections2 = ft_calloc(sizeof(t_token *), 2);
 	if (!redirections2)
 		exit(0);
-	redirections2[0].type = HEREDOC;
-	redirections2[0].value = "BYE";
+	redirections2[0]->type = HEREDOC;
+	redirections2[0]->value = "BYE";
 	tbl3->redirections = redirections2;
 	tbl3->prev = tbl2;
 	tbl2->next = tbl3;

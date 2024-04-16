@@ -28,6 +28,7 @@
 # include <readline/history.h>
 # include <stdbool.h>
 # include <signal.h>
+# include <termios.h>
 # include "global.h"
 
 typedef struct s_token
@@ -61,6 +62,9 @@ typedef struct	s_minishell
 
 }				t_minishell;
 
+t_minishell	*init(void);
+int 		main(void);
+
 // LEXER 
 void		lexer(char *cmd_line, t_token **token_list);
 void		lexer_qt(t_token **token_list, char *cmd_line, int *start, int i);
@@ -90,9 +94,6 @@ void		check_redir_cmd_table(t_token *token_list, char *redir);
 void		assign_redir_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int *w, char redir);
 void		assign_redir_cmd_table_aux(t_cmd_table **cmd_table, int *w, int type, char *value);
 
-// INIT
-t_minishell	*init(void);
-
 // UTILS
 void		clean_token_list(t_token **token_list);
 void		clean_cmd_table_list(t_cmd_table **cmd_table);
@@ -101,6 +102,10 @@ int			ft_strcmp(const char *str1, const char *str2);
 int			ft_isspace(int c);
 char		*ft_strdup_mod(const char *s, size_t size);
 void		error(t_minishell *data, char *error_message);
+
+// SIGNALS
+void	signals(void);
+void	signal_handler(int signal);
 
 // DELETE
 void	print_tokens(t_token *token_list);

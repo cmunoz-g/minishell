@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int g_flag; // global variable for signal management
+int g_flag = 0; // global variable for signal management
  
 void	print_tokens(t_token *token_list) // borrar
 {
@@ -62,7 +62,7 @@ void	arguments(t_minishell *data) // en el git de referencia, hacen una comproba
 		line = readline("\e[1;34m""minishell: ""\e[m"); // dejarlo bonito
 		if (!line)
 			error(data, "readline() error");
-		else
+		else 
 		{
 			add_history(line);
 			lexer(line, &(data->token_list));
@@ -71,9 +71,8 @@ void	arguments(t_minishell *data) // en el git de referencia, hacen una comproba
 			clean_token_list(&token_tmp);
 			print_cmd_table(data->cmd_table);
 			// executor
-			clean_cmd_table_list(&cmd_tmp);
+			clean_cmd_table_list(&cmd_tmp); // parece que no lo esta limpiando bien
 		}
-		break ; // quitar
 	}
 }
 
@@ -82,7 +81,7 @@ int main(void)
 	t_minishell *data;
 
 	data = init(); // iniciar env variables aqui
-	// signals
+	signals();
 	arguments(data);
 
 	

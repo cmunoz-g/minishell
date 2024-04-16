@@ -6,7 +6,7 @@
 #    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/16 09:28:17 by camunozg         ###   ########.fr        #
+#    Updated: 2024/04/16 09:44:16 by camunozg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ CFLAGS 		= 	-Wall -Werror -Wextra
 # Sources
 SRC_DIR 	= 	src/
 SRC_FILES 	= 	main\
+				init\
+				signal_handler\
 				lexer/lexer_utils\
 				lexer/lexer\
 				lexer/tokens\
@@ -30,7 +32,6 @@ SRC_FILES 	= 	main\
 				utils/clean\
 				utils/extra_libft\
 				utils/error\
-				init
 				
 SRC 		=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	error(t_minishell *data, char *error_message)
+void	error(t_minishell *data, char *error_message) // mirar como estan los errores gestionados en pipex e implementar
 {
 	size_t	msg_len;
 

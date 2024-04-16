@@ -69,7 +69,7 @@ void	arguments(t_minishell *data, char **envp) // en el git de referencia, hacen
 			token_tmp = data->token_list;
 			parser(&(data->cmd_table), &(data->token_list));
 			clean_token_list(&token_tmp);
-			print_cmd_table(data->cmd_table);
+			// print_cmd_table(data->cmd_table);
 			executor(data->cmd_table, envp); // esto es temporal, hasta que hagamos en init() la copia de envp
 			clean_cmd_table_list(&cmd_tmp);
 		}

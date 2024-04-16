@@ -6,7 +6,7 @@
 #    By: juramos <juramos@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/16 11:56:53 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/16 12:30:22 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRC 		=	$(addsuffix .c, $(SRC_FILES))
 OBJ 		=	$(addsuffix .o, $(SRC_FILES))
 
 # libft
-LIBFT_PATH	= 	../libft/
+LIBFT_PATH	= 	../../libft/
 LIBFT_NAME	= 	libft.a
 LIBFT		= 	$(LIBFT_PATH)$(LIBFT_NAME)
 
@@ -34,7 +34,7 @@ LIBFT		= 	$(LIBFT_PATH)$(LIBFT_NAME)
 B_PATH = build/
 
 # Includes
-INC			=	-I ./../libft
+INC			=	-I ../../include
 
 # Colors
 DEF_COLOR 	= 	\033[0;39m

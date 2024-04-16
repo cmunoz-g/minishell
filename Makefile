@@ -6,7 +6,7 @@
 #    By: juramos <juramos@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/16 12:00:36 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/16 12:31:24 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,9 @@ LIBFT_PATH	= 	libft/
 LIBFT_NAME	= 	libft.a
 LIBFT		= 	$(LIBFT_PATH)$(LIBFT_NAME)
 
+# build path
+B_PATH = build/
+
 # Includes
 INC_MS		= -I include/
 
@@ -72,7 +75,7 @@ MAKEFLAGS 	+=	--no-print-directory
 
 ###
 
-all: $(LIBFT) $(NAME)
+all: $(B_PATH) $(LIBFT) $(NAME)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJF)
 	@$(CC) $(CFLAGS) $(INC_MS) $(INC) -c $< -o $@
@@ -85,6 +88,9 @@ $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(INC) -lreadline
 	@echo "$(GREEN)minishell compiled!$(DEF_COLOR)"
 
+$(B_PATH):
+	@mkdir $(B_PATH)
+
 libft:
 	@make -sC $(LIBFT_PATH)
 
@@ -94,6 +100,7 @@ $(LIBFT):
 
 clean:
 	@rm -rf $(OBJ_DIR)
+	@rm -rf $(B_PATH)
 	@make clean -sC $(LIBFT_PATH)
 	@make clean -sC src/exec
 	@echo "$(BLUE)minishell object files cleaned!$(DEF_COLOR)"
@@ -111,6 +118,6 @@ norm:
 	@norminette $(SRC) | grep -v Norme -B1 || true
 
 miniexec:
-	make -sC exec
+	make -sC src/exec
 
 .PHONY: all clean fclean re norm libft

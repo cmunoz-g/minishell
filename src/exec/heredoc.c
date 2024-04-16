@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:11:14 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 11:34:58 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 12:35:47 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*get_heredoc_filename(void)
 	char		*filename;
 
 	n = ft_itoa(i++);
-	filename = ft_strjoin("exec/build/tmp_file_", n);
+	filename = ft_strjoin("build/tmp_file_", n);
 	if (!filename)
 		return (NULL);
 	free(n);

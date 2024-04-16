@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 11:33:21 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 13:02:50 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*expand(char *str, int is_heredoc, char **envp)
 
 	i = 0;
 	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'' && !is_heredoc)
-		return (str);
+		return (remove_quotes(str));
 	if (str[0] == '\'' || str[0] == '\"')
 		str = remove_quotes(str);
 	while (str[i])

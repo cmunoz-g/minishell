@@ -6,7 +6,7 @@
 #    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/15 11:41:11 by camunozg         ###   ########.fr        #
+#    Updated: 2024/04/16 09:28:17 by camunozg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ SRC_FILES 	= 	main\
 				utils/clean\
 				utils/extra_libft\
 				utils/error\
-				init/init
+				init
 				
 SRC 		=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 

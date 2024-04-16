@@ -1,6 +1,8 @@
 #include "minishell.h"
 
-void	print_tokens(t_token *token_list)
+int g_flag; // global variable for signal management
+ 
+void	print_tokens(t_token *token_list) // borrar
 {
 	t_token *reference = token_list;
 
@@ -17,7 +19,7 @@ void	print_tokens(t_token *token_list)
 	}
 }
 
-void	print_cmd_table(t_cmd_table *cmd_table) //brrar
+void	print_cmd_table(t_cmd_table *cmd_table) // borrar
 {
 	int i = 0; 
 
@@ -48,20 +50,19 @@ void	print_cmd_table(t_cmd_table *cmd_table) //brrar
 	}
 }	
 
-void	arguments(t_minishell *data)
+void	arguments(t_minishell *data) // en el git de referencia, hacen una comprobacion de que line no este vacio. Si lo esta, imprimen un salto de linea
 {
 	char 		*line;
 	t_token 	*token_tmp;
 	t_cmd_table *cmd_tmp;
 
-	//cmd_tmp = data->cmd_table;
 	cmd_tmp = data->cmd_table;
 	while (1)
 	{
 		line = readline("\e[1;34m""minishell: ""\e[m"); // dejarlo bonito
-		// if (!line)
-		// 	// error ft
-		if (line)// cambiar por else
+		if (!line)
+			error(data, "readline() error");
+		else
 		{
 			add_history(line);
 			lexer(line, &(data->token_list));
@@ -72,7 +73,7 @@ void	arguments(t_minishell *data)
 			// executor
 			clean_cmd_table_list(&cmd_tmp);
 		}
-		break ;
+		break ; // quitar
 	}
 }
 

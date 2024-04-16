@@ -27,6 +27,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
+# include <signal.h>
+# include "global.h"
 
 typedef struct s_token
 {
@@ -98,6 +100,7 @@ void		clean_cmd_table_redir(t_cmd_table **cmd_table, int *j);
 int			ft_strcmp(const char *str1, const char *str2);
 int			ft_isspace(int c);
 char		*ft_strdup_mod(const char *s, size_t size);
+void		error(t_minishell *data, char *error_message);
 
 // DELETE
 void	print_tokens(t_token *token_list);

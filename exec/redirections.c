@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/10 13:18:07 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 10:26:25 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,6 @@ int	handle_infile(char *str)
 		return (1);
 	if (dup2(fd, STDIN_FILENO) < 0)
 		return (1);
-	// ref. point closes fd after opening them. Why?????
-	/*
-		Maybe they close the fd because only the number is needed,
-		and they´re going to be opened again during the exec_process?
-		or maybe, they only close them if cmds > 1, in which case those
-		fd will be opened again during the do_pipe function.
-	*/
 	close(fd);
 	return (0);
 }

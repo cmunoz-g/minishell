@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 10:27:44 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 10:32:23 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	executor(t_cmd_table *tbl, char **envp)
 	check_all_heredocs(tbl, envp);
 	while (tbl)
 	{
-		print_cmd(tbl);
 		handle_cmd(tbl, envp);
 		tbl = tbl->next;
 	}

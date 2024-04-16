@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 10:27:32 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 10:32:11 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,6 @@ t_cmd_table	*get_example_6(void);
 	| ls   | "-la"    | PIPE  | STDOUT | 1              | NULL                            |
 */
 t_cmd_table	*get_example_7(void);
-
-void	print_cmd(t_cmd_table *tbl)
-{
-	int	i;
-
-	if (!tbl)
-		;
-	i = 0;
-	printf("cmd: %s\n", tbl->cmd);
-	while (tbl->args && tbl->args[i])
-	{
-		printf("arg %d: %s\n", i, tbl->args[i]);
-		i++;
-	}
-	printf("in: %d\n", tbl->in);
-	printf("out: %d\n", tbl->out);
-	printf("--------\n");
-}
 
 int	main(int argc, char **argv, char **envp)
 {

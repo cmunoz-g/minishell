@@ -6,11 +6,11 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:54:27 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/11 10:29:53 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 11:33:21 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "minishell.h"
 
 void	send_to_stderr(char *co, char *ar, char *err)
 {

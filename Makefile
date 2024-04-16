@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
+#    By: juramos <juramos@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/16 09:28:17 by camunozg         ###   ########.fr        #
+#    Updated: 2024/04/16 11:49:49 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,13 @@ SRC_FILES 	= 	main\
 				utils/clean\
 				utils/extra_libft\
 				utils/error\
+				exec/arr_utils\
+				exec/exec\
+				exec/error_handlers\
+				exec/redirections\
+				exec/exec_utils\
+				exec/heredoc\
+				exec/expand\
 				init
 				
 SRC 		=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
@@ -45,8 +52,7 @@ LIBFT_NAME	= 	libft.a
 LIBFT		= 	$(LIBFT_PATH)$(LIBFT_NAME)
 
 # Includes
-INC			=	-I ./libft
-INC_MS		= -I inc/
+INC_MS		= -I include/
 
 # Colors
 DEF_COLOR 	= 	\033[0;39m
@@ -90,14 +96,14 @@ $(LIBFT):
 
 clean:
 	@rm -rf $(OBJ_DIR)
-	@make clean -sC $(LIBFT_PATH)
-	@make clean -sC exec
+	@make clean -sC libft
+	@make clean -sC src/exec
 	@echo "$(BLUE)minishell object files cleaned!$(DEF_COLOR)"
 
 fclean: clean
 	@rm -f $(NAME)
-	@make fclean -sC $(LIBFT_PATH)
-	@make fclean -sC exec
+	@make fclean -sC $(LIBFT)
+	@make fclean -sC src/exec
 	@echo "$(CYAN)minishell executable files cleaned!$(DEF_COLOR)"
 
 re: fclean all

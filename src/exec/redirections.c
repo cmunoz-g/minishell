@@ -6,20 +6,20 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 10:28:37 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 11:35:26 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "minishell.h"
 
-static int	handle_outfile(t_token tkn)
+static int	handle_outfile(t_token *tkn)
 {
 	int	fd;
 
-	if (tkn.type == TRUNC)
-		fd = open(tkn.value, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (tkn.type == APPEND)
-		fd = open(tkn.value, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	if (tkn->type == TRUNC)
+		fd = open(tkn->value, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (tkn->type == APPEND)
+		fd = open(tkn->value, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (fd < 0)
 		return (1);
 	if (dup2(fd, STDOUT_FILENO) < 0)
@@ -48,18 +48,18 @@ int	redirect(t_cmd_table *tbl)
 	i = 0;
 	while (i < tbl->n_redirections)
 	{
-		if (tbl->redirections[i].type == TRUNC
-			|| tbl->redirections[i].type == APPEND)
+		if (tbl->redirections[i]->type == TRUNC
+			|| tbl->redirections[i]->type == APPEND)
 		{
 			if (handle_outfile(tbl->redirections[i]))
 				return (1);
 		}
-		else if (tbl->redirections[i].type == INPUT)
+		else if (tbl->redirections[i]->type == INPUT)
 		{
-			if (handle_infile(tbl->redirections[i].value))
+			if (handle_infile(tbl->redirections[i]->value))
 				return (1);
 		}
-		else if (tbl->redirections[i].type == HEREDOC)
+		else if (tbl->redirections[i]->type == HEREDOC)
 		{
 			if (handle_infile(tbl->hd_file))
 				return (1);

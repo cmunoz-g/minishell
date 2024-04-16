@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/12 11:26:16 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/15 12:33:44 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	do_pipe(t_cmd_table *tbl, char **envp)
 	if (pid == 0)
 	{
 		close(p_fd[0]);
-		dup2(p_fd[1], 1);
+		if (!(tbl->next->in == HEREDOC))
+			dup2(p_fd[1], 1);
 		exec_process(tbl, envp);
 	}
 	else

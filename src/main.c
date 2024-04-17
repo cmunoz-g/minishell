@@ -54,9 +54,7 @@ void	arguments(t_minishell *data) // en el git de referencia, hacen una comproba
 {
 	char 		*line;
 	t_token 	*token_tmp;
-	t_cmd_table *cmd_tmp;
 
-	cmd_tmp = data->cmd_table;
 	while (1)
 	{
 		line = readline("\e[1;34m""minishell> ""\e[m"); // dejarlo bonito
@@ -71,9 +69,9 @@ void	arguments(t_minishell *data) // en el git de referencia, hacen una comproba
 			token_tmp = data->token_list;
 			parser(&(data->cmd_table), &(data->token_list));
 			clean_token_list(&token_tmp);
-			// print_cmd_table(data->cmd_table);
 			executor(data->cmd_table, data->env_vars);
-			clean_cmd_table_list(&cmd_tmp);
+			// print_cmd_table(data->cmd_table);
+			clean_cmd_table_list(&(data->cmd_table));
 			free(line);
 		}
 	}

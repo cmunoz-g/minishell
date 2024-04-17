@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 12:09:00 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/17 12:38:55 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@
 # include <stdbool.h>
 # include <signal.h>
 # include <termios.h>
-# include "global.h"
 
 typedef struct s_token
 {
@@ -69,13 +68,21 @@ typedef struct s_cmd_table
 	struct s_cmd_table	*next;
 }						t_cmd_table;
 
-typedef struct	s_minishell
+typedef struct s_minishell
 {
 	t_token		*token_list;
 	t_cmd_table	*cmd_table;
 	char		**env_vars;
 
 }				t_minishell;
+
+typedef struct s_global
+{
+	int	error_num;
+	int	signal;
+}	t_global;
+
+t_global	g_global;
 
 // LEXER 
 void		lexer(char *cmd_line, t_token **token_list);

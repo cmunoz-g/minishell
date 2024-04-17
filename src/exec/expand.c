@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 12:01:19 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/17 12:37:56 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@ static char	*remove_quotes(char *str)
 	char	*keyword;
 
 	keyword_cleaned = ft_strtrim(str, "\"");
-	free(str);
 	keyword = ft_strtrim(keyword_cleaned, "\'");
-	free(keyword_cleaned);
-	return (keyword);
+	return (free(str), free(keyword_cleaned), keyword);
 }
 
 static char	*expand_word(char *str, int start, int end, char **envp)
@@ -30,12 +28,13 @@ static char	*expand_word(char *str, int start, int end, char **envp)
 	char	*keyword_cleaned;
 	char	*value;
 
-	keyword = ft_substr(str, start + 1, end);
+	if (str[start + 1] == '?')
+		return (ft_itoa(g_global.error_num));
+	else
+		keyword = ft_substr(str, start + 1, end);
 	keyword_cleaned = ft_strtrim(keyword, " ");
-	free(keyword);
-	value = my_getenv(keyword_cleaned, envp);
-	free(keyword_cleaned);
-	return (value);
+	value = ft_strdup(my_getenv(keyword_cleaned, envp));
+	return (free(keyword), free(keyword_cleaned), value);
 }
 
 static char	*expand_str(char *str, int start, int *i, char **envp)
@@ -60,10 +59,7 @@ static char	*expand_str(char *str, int start, int *i, char **envp)
 	}
 	free(begin);
 	begin = ft_strjoin(newstr, end);
-	free(newstr);
-	free(end);
-	free(str);
-	return (begin);
+	return (free(word), free(newstr), free(end), free(str), begin);
 }
 
 char	*expand(char *str, int is_heredoc, char **envp)

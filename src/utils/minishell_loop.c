@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:05:18 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 12:07:02 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/17 12:18:21 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	create_main_fork(char *line, t_minishell *data)
 {
 	t_token		*token_tmp;
 	pid_t		pid;
+	int			status;
 
 	add_history(line);
 	lexer(line, &(data->token_list));
@@ -32,7 +33,11 @@ void	create_main_fork(char *line, t_minishell *data)
 	if (pid == 0)
 		executor(data->cmd_table, data->env_vars);
 	else
-		wait(NULL);	
+	{
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			g_global.error_num = WEXITSTATUS(status);
+	}
 }
 
 void	minishell_loop(t_minishell *data)

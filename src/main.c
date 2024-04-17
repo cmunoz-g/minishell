@@ -6,14 +6,12 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:07:57 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 12:07:57 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/17 12:39:10 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_flag = 0; // global variable for signal management
- 
 void	print_tokens(t_token *token_list) // borrar
 {
 	t_token *reference = token_list;

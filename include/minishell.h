@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 09:37:35 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/17 11:30:34 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,15 @@ char		*ft_strdup_mod(const char *s, size_t size);
 void		error(t_minishell *data, char *error_message);
 
 // SIGNALS
-void	signals(bool child_process);
-void	signal_handler(int signal);
-void	signal_handler_child(int signal);
+void		signals(bool child_process);
+void		signal_handler(int signal);
+void		signal_handler_child(int signal);
+
+// HISTORY
+void		join_history(char *cmd, t_minishell *data, char **envp);
+void		get_past_history(char **envp, t_minishell *data);
+void		load_history(int fd);
+char		*get_home(char **envp);
 
 // EXEC
 /*	exec */

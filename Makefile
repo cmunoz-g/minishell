@@ -6,7 +6,7 @@
 #    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/16 12:59:17 by camunozg         ###   ########.fr        #
+#    Updated: 2024/04/17 11:31:03 by camunozg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ CFLAGS 		= 	-Wall -Werror -Wextra
 SRC_DIR 	= 	src/
 SRC_FILES 	= 	main\
 				init\
+				history\
 				signal_handler\
 				lexer/lexer_utils\
 				lexer/lexer\

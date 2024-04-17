@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 10:18:29 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/17 12:09:00 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,15 @@ int			ft_isspace(int c);
 int			check_spaces(char *line);
 char		*ft_strdup_mod(const char *s, size_t size);
 void		error(t_minishell *data, char *error_message);
+/*	minishell_loop */
+void		minishell_loop(t_minishell *data);
+void		create_main_fork(char *line, t_minishell *data);
+void		reset_loop(char *line, t_minishell *data);
 
 // SIGNALS
-void	signals(bool child_process);
-void	signal_handler(int signal);
-void	signal_handler_child(int signal);
+void		signals(bool child_process);
+void		signal_handler(int signal);
+void		signal_handler_child(int signal);
 
 // EXEC
 /*	exec */

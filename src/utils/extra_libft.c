@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   extra_libft.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 12:06:31 by juramos           #+#    #+#             */
+/*   Updated: 2024/04/17 12:06:32 by juramos          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int		check_spaces(char *line)
+int	check_spaces(char *line)
 {
 	size_t	i;
 	size_t	len;
-	
+
 	i = 0;
 	len = ft_strlen(line);
 	while (i < len && (line[i] == ' ' || line[i] == '	' || line[i] == '\n'))

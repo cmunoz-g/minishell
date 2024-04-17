@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 09:26:16 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/17 09:37:35 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void		clean_cmd_table_list(t_cmd_table **cmd_table);
 void		clean_cmd_table_redir(t_cmd_table **cmd_table, int *j);
 int			ft_strcmp(const char *str1, const char *str2);
 int			ft_isspace(int c);
+int			check_spaces(char *line);
 char		*ft_strdup_mod(const char *s, size_t size);
 void		error(t_minishell *data, char *error_message);
 

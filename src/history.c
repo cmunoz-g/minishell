@@ -42,9 +42,7 @@ void	get_past_history(char **envp, t_minishell *data)
 	if (home)
 	{
 		home += 5;
-		// printf("%s\n",home);
-		// exit(0);
-		home = ft_strjoin(home, "./history");
+		home = ft_strjoin(home, "/.history");
 		if (!home)
 			error(data, "Memory problems when loading history");
 		fd = open(home, O_CREAT | O_RDWR | O_APPEND, 0644);
@@ -66,7 +64,7 @@ void	join_history(char *cmd, t_minishell *data, char **envp)
 	if (home)
 	{
 		home += 5;
-		home = ft_strjoin(home, "./history");
+		home = ft_strjoin(home, "/.history");
 		if (!home)
 			error(data, "Memory problems when adding to history");
 		fd = open(home, O_CREAT | O_RDWR | O_APPEND, 0644);

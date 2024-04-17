@@ -81,12 +81,12 @@ void	arguments(t_minishell *data) // en el git de referencia, hacen una comproba
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_minishell *data;
+	t_minishell	*data;
 
 	if (argc != 1 || argv[1])
 		exit(1);
 	data = init(envp);
-	signals(false);
+	// signals(false); currently compilation fails
 	arguments(data);
 }
 

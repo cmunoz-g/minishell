@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
+#    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/16 12:59:17 by camunozg         ###   ########.fr        #
+#    Updated: 2024/04/17 10:29:33 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,10 +18,10 @@ CC 			= 	gcc
 CFLAGS 		= 	-Wall -Werror -Wextra
 
 # Sources
+# Removed signal_handler\ for now
 SRC_DIR 	= 	src/
 SRC_FILES 	= 	main\
 				init\
-				signal_handler\
 				lexer/lexer_utils\
 				lexer/lexer\
 				lexer/tokens\

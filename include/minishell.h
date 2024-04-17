@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 12:58:44 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/17 09:26:16 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,9 @@ char		*ft_strdup_mod(const char *s, size_t size);
 void		error(t_minishell *data, char *error_message);
 
 // SIGNALS
-void	signals(void);
+void	signals(bool child_process);
 void	signal_handler(int signal);
+void	signal_handler_child(int signal);
 
 // EXEC
 /*	exec */

@@ -64,7 +64,7 @@ void	arguments(t_minishell *data, char **envp) // en el git de referencia, hacen
 			free(line);
 		else 
 		{
-			add_history(line);
+			join_history(line, data, envp);
 			lexer(line, &(data->token_list));
 			token_tmp = data->token_list;
 			parser(&(data->cmd_table), &(data->token_list));
@@ -84,6 +84,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1 || argv[1])
 		exit(1);
 	data = init(); // iniciar env variables aqui
+	get_past_history(envp, data); 
 	signals(false);
 	arguments(data, envp);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
+#    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/17 13:24:02 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/17 13:56:03 by camunozg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC_DIR 	= 	src/
 SRC_FILES 	= 	main\
 				init\
 				history\
+				signal_handler\
 				lexer/lexer_utils\
 				lexer/lexer\
 				lexer/tokens\

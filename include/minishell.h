@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 13:25:06 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/17 13:55:13 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ typedef struct s_global
 {
 	int	error_num;
 	int	signal;
-}	t_global;
+}				t_global;
 
-t_global	g_global;
+extern t_global	g_global;
 
 // LEXER 
 void		lexer(char *cmd_line, t_token **token_list);

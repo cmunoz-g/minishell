@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 11:46:57 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 12:58:44 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ typedef struct	s_minishell
 }				t_minishell;
 
 t_minishell	*init(void);
-int 		main(void);
 
 // LEXER 
 void		lexer(char *cmd_line, t_token **token_list);
@@ -117,11 +116,10 @@ int			ft_isspace(int c);
 char		*ft_strdup_mod(const char *s, size_t size);
 void		error(t_minishell *data, char *error_message);
 
-<<<<<<< HEAD:inc/minishell.h
 // SIGNALS
 void	signals(void);
 void	signal_handler(int signal);
-=======
+
 // EXEC
 /*	exec */
 void		do_pipe(t_cmd_table *tbl, char **envp);
@@ -142,7 +140,6 @@ void		free_split(char **arr);
 int			check_all_heredocs(t_cmd_table *tbl, char **envp);
 /*	expand */
 char		*expand(char *str, int is_heredoc, char **envp);
->>>>>>> 95642c9c080644ff770dc04b9b4c8dde3b85923a:include/minishell.h
 
 // DELETE
 void		print_tokens(t_token *token_list);

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:05:18 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 12:18:21 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/17 13:26:58 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	create_main_fork(char *line, t_minishell *data)
 	pid_t		pid;
 	int			status;
 
-	add_history(line);
+	join_history(line, data, data->env_vars);
 	lexer(line, &(data->token_list));
 	token_tmp = data->token_list;
 	parser(&(data->cmd_table), &(data->token_list));

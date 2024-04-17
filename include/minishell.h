@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 12:38:55 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/17 13:25:06 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,12 @@ void		reset_loop(char *line, t_minishell *data);
 void		signals(bool child_process);
 void		signal_handler(int signal);
 void		signal_handler_child(int signal);
+
+// HISTORY
+void		join_history(char *cmd, t_minishell *data, char **envp);
+void		get_past_history(char **envp, t_minishell *data);
+void		load_history(int fd);
+char		*get_home(char **envp);
 
 // EXEC
 /*	exec */

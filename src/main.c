@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:07:57 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 12:39:10 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/17 13:27:12 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1 || argv[1])
 		exit(1);
 	data = init(envp);
+	get_past_history(envp, data);
 	// signals(false); currently compilation fails
 	minishell_loop(data);
 }

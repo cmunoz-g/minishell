@@ -6,7 +6,7 @@
 #    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/17 12:08:21 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/17 13:24:02 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ CFLAGS 		= 	-Wall -Werror -Wextra
 SRC_DIR 	= 	src/
 SRC_FILES 	= 	main\
 				init\
+				history\
 				lexer/lexer_utils\
 				lexer/lexer\
 				lexer/tokens\

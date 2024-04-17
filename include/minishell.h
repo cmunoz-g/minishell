@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 11:30:34 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:25:06 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@
 # include <stdbool.h>
 # include <signal.h>
 # include <termios.h>
-# include "global.h"
 
 typedef struct s_token
 {
@@ -69,14 +68,21 @@ typedef struct s_cmd_table
 	struct s_cmd_table	*next;
 }						t_cmd_table;
 
-typedef struct	s_minishell
+typedef struct s_minishell
 {
 	t_token		*token_list;
 	t_cmd_table	*cmd_table;
+	char		**env_vars;
 
 }				t_minishell;
 
-t_minishell	*init(void);
+typedef struct s_global
+{
+	int	error_num;
+	int	signal;
+}	t_global;
+
+t_global	g_global;
 
 // LEXER 
 void		lexer(char *cmd_line, t_token **token_list);
@@ -107,6 +113,9 @@ void		check_redir_cmd_table(t_token *token_list, char *redir);
 void		assign_redir_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int *w, char redir);
 void		assign_redir_cmd_table_aux(t_cmd_table **cmd_table, int *w, int type, char *value);
 
+// INIT
+t_minishell	*init(char **envp);
+
 // UTILS
 void		clean_token_list(t_token **token_list);
 void		clean_cmd_table_list(t_cmd_table **cmd_table);
@@ -116,6 +125,10 @@ int			ft_isspace(int c);
 int			check_spaces(char *line);
 char		*ft_strdup_mod(const char *s, size_t size);
 void		error(t_minishell *data, char *error_message);
+/*	minishell_loop */
+void		minishell_loop(t_minishell *data);
+void		create_main_fork(char *line, t_minishell *data);
+void		reset_loop(char *line, t_minishell *data);
 
 // SIGNALS
 void		signals(bool child_process);
@@ -143,7 +156,8 @@ char		*my_getenv(char *key, char **env);
 int			redirect(t_cmd_table *tbl);
 /*	arr_utils */
 char		**ft_str_arr_join_exec(char *s1, char **strarr, char **envp);
-void		free_split(char **arr);
+void		free_arr(char **arr);
+char		**ft_arrdup(char **arr);
 /*	heredoc */
 int			check_all_heredocs(t_cmd_table *tbl, char **envp);
 /*	expand */

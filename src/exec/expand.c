@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 13:02:50 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/17 12:37:56 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-	TODO: Pending to implement $?, we require:
-		1. a global struct where we store all exitcodes of previous calls.
-		2. a loop over the instructions -> that's the main Carlos is implementing.
-			We need that because this returns the latest exit code.
-*/
 
 static char	*remove_quotes(char *str)
 {
@@ -25,21 +18,23 @@ static char	*remove_quotes(char *str)
 	char	*keyword;
 
 	keyword_cleaned = ft_strtrim(str, "\"");
-	free(str);
 	keyword = ft_strtrim(keyword_cleaned, "\'");
-	free(keyword_cleaned);
-	return (keyword);
+	return (free(str), free(keyword_cleaned), keyword);
 }
 
 static char	*expand_word(char *str, int start, int end, char **envp)
 {
 	char	*keyword;
+	char	*keyword_cleaned;
 	char	*value;
 
-	keyword = ft_substr(str, start + 1, end);
-	value = my_getenv(keyword, envp);
-	free(keyword);
-	return (value);
+	if (str[start + 1] == '?')
+		return (ft_itoa(g_global.error_num));
+	else
+		keyword = ft_substr(str, start + 1, end);
+	keyword_cleaned = ft_strtrim(keyword, " ");
+	value = ft_strdup(my_getenv(keyword_cleaned, envp));
+	return (free(keyword), free(keyword_cleaned), value);
 }
 
 static char	*expand_str(char *str, int start, int *i, char **envp)
@@ -64,10 +59,7 @@ static char	*expand_str(char *str, int start, int *i, char **envp)
 	}
 	free(begin);
 	begin = ft_strjoin(newstr, end);
-	free(newstr);
-	free(end);
-	free(str);
-	return (begin);
+	return (free(word), free(newstr), free(end), free(str), begin);
 }
 
 char	*expand(char *str, int is_heredoc, char **envp)

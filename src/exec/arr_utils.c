@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:52 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 11:33:21 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 13:20:58 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	**ft_str_arr_join_exec(char *s1, char **strarr, char **envp)
 	return (str3);
 }
 
-void	free_split(char **arr)
+void	free_arr(char **arr)
 {
 	int	pos;
 
@@ -57,4 +57,29 @@ void	free_split(char **arr)
 	while (arr[++pos])
 		free(arr[pos]);
 	free(arr);
+}
+
+char	**ft_arrdup(char **arr)
+{
+	char	**ret;
+	int		i;
+
+	i = 0;
+	while (arr[i])
+		i++;
+	ret = ft_calloc(sizeof(char *), i + 1);
+	if (!ret)
+		return (NULL);
+	i = 0;
+	while (arr[i])
+	{
+		ret[i] = ft_strdup(arr[i]);
+		if (!ret[i])
+		{
+			free_arr(ret);
+			return (NULL);
+		}
+		i++;
+	}
+	return (ret);
 }

@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   extra_libft.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 12:06:31 by juramos           #+#    #+#             */
+/*   Updated: 2024/04/17 12:06:32 by juramos          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int		check_spaces(char *line)
+int	check_spaces(char *line)
 {
 	size_t	i;
 	size_t	len;
-	
+
 	i = 0;
 	len = ft_strlen(line);
 	while (i < len && (line[i] == ' ' || line[i] == '	' || line[i] == '\n'))
@@ -34,12 +46,4 @@ int	ft_strcmp(const char *str1, const char *str2)
 	while (str1[i] && str2[i] && str1[i] == str2[i])
 		i++;
 	return ((unsigned char)str1[i] - (unsigned char)str2[i]);
-}
-
-int	ft_isspace(int c)
-{
-	c = (unsigned char)c;
-	if (c == '\t' || c == '\n' || c == '\f' || c == '\v' || c == '\r' || c == ' ')
-		return (1);
-	return (0);
 }

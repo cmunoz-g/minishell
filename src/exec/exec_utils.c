@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:17:12 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 11:33:21 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/16 13:18:07 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,11 @@ char	*get_path(char *cmd, char **env)
 		free(path);
 		if (access(exec, F_OK | X_OK) == 0)
 		{
-			free_split(env_vars);
+			free_arr(env_vars);
 			return (exec);
 		}
 		free(exec);
 	}
-	free_split(env_vars);
+	free_arr(env_vars);
 	return (NULL);
 }

@@ -46,7 +46,6 @@ void	clean_cmd_table_list(t_cmd_table **cmd_table)
 	j = 0;
 	while (*cmd_table)
 	{
-		printf("hi");
 		tmp = (*cmd_table)->next;
 		if ((*cmd_table)->args)
 		{

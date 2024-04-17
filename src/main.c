@@ -1,7 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 12:07:57 by juramos           #+#    #+#             */
+/*   Updated: 2024/04/17 13:27:12 by juramos          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int g_flag = 0; // global variable for signal management
- 
 void	print_tokens(t_token *token_list) // borrar
 {
 	t_token *reference = token_list;
@@ -48,105 +58,16 @@ void	print_cmd_table(t_cmd_table *cmd_table) // borrar
 		cmd_table = cmd_table->next;
 		printf("\n");
 	}
-}	
-
-void	arguments(t_minishell *data, char **envp) // en el git de referencia, hacen una comprobacion de que line no este vacio. Si lo esta, imprimen un salto de linea
-{
-	char 		*line;
-	t_token 	*token_tmp;
-
-	while (1)
-	{
-		line = readline("\e[1;34m""minishell: ""\e[m"); // dejarlo bonito
-		if (!line)
-			exit(EXIT_SUCCESS); // se puede sustituir esto por una ft con un mensaje de salida. El if es correcto cuando se registra ctrl+D
-		else if (check_spaces(line))
-			free(line);
-		else 
-		{
-			join_history(line, data, envp);
-			lexer(line, &(data->token_list));
-			token_tmp = data->token_list;
-			parser(&(data->cmd_table), &(data->token_list));
-			clean_token_list(&token_tmp);
-			executor(data->cmd_table, envp); // esto es temporal, hasta que hagamos en init() la copia de envp
-			// print_cmd_table(data->cmd_table);
-			clean_cmd_table_list(&(data->cmd_table));
-			free(line);
-		}
-	}
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_minishell *data;
+	t_minishell	*data;
 
 	if (argc != 1 || argv[1])
 		exit(1);
-	data = init(); // iniciar env variables aqui
-	get_past_history(envp, data); 
-	signals(false);
-	arguments(data, envp);
+	data = init(envp);
+	get_past_history(envp, data);
+	// signals(false); currently compilation fails
+	minishell_loop(data);
 }
-
-// int main()
-// {
-// 	int i = 0;
-// 	char *str = "cat file1.txt file2.txt file3.txt | grep \"search_term\" -c > count.txt ; cat";
-// 	t_token	*token_list;
-// 	//t_token *token_list_head;
-// 	//t_token *reference;
-// 	t_cmd_table *cmd_table;
-// 	//t_cmd_table *cmd_table_head;
-
-// 	// atexit(leaks);
-// 	token_list = NULL;
-// 	lexer(str, &token_list);
-	
-// 	// reference = token_list;
-// 	// while (reference)
-// 	// {
-// 	// 	token_list = reference;
-// 	// 	while (token_list)
-// 	// 	{
-// 	// 		printf("value:%s type:%d\n",token_list->value, token_list->type);
-// 	// 		token_list = token_list->next;
-// 	// 	}
-// 	// 	reference = reference->next_cmd;
-// 	// 	printf("\n");
-// 	// }
-
-// 	cmd_table = NULL;
-// 	//token_list_head = token_list;
-// 	//cmd_table_head = cmd_table;
-// 	parser(&cmd_table, &token_list);
-// 	//clean_token_list(&token_list_head);
-// 	//clean_cmd_table_list(&cmd_table);
-// 	printf("%s\n\n",str);
-// 	while (cmd_table) 
-// 	{
-// 		printf("CMD:%s\n",cmd_table->cmd);
-// 		while (cmd_table->args[i])
-// 		{
-// 			printf("ARG%d:%s\n", i, cmd_table->args[i]);
-// 			i++;
-// 		}
-// 		printf("IN:%d\n", cmd_table->in);
-// 		printf("OUT:%d\n", cmd_table->out);
-// 		printf("ERR:%d\n", cmd_table->err);
-// 		i = 0;
-// 		while (i < cmd_table->n_redirections)
-// 		{
-// 			printf("redir: %d type: %d value: %s\n", i, cmd_table->redirections[i]->type, cmd_table->redirections[i]->value);
-// 			i++;
-// 		}
-// 		printf("nbr redir: %d\n", cmd_table->n_redirections);
-// 		if (cmd_table->new_cmd)
-// 			printf("new cdm TRUE\n");
-// 		else 
-// 			printf("new cdm FALSE\n");
-// 		cmd_table = cmd_table->next;
-// 		printf("\n");
-// 	}
-// 	return 0;
-// }

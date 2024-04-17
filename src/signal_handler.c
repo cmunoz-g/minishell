@@ -4,7 +4,7 @@ void	signal_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
-		g_flag = 130;
+		g_global.signal = 130;
 		write(1, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
@@ -20,13 +20,13 @@ void	signal_handler(int signal)
 void	signal_handler_child(int signal)
 {
 	if (signal == SIGINT)
-		g_flag = 130;
+		g_global.signal = 130;
 	else if (signal == SIGQUIT)
 	{
 		write(1, "Quit: 3\n", 9);
-		g_flag = 131;
+		g_global.signal = 131;
 	}
-}	
+}
 
 
 void	signals(bool child_process)

@@ -86,12 +86,8 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1 || argv[1])
 		exit(1);
 	data = init(envp);
-	// signals
-	arguments(data);
-	return (0);
-	data = init(); // iniciar env variables aqui
 	signals(false);
-	arguments(data, envp);
+	arguments(data);
 }
 
 // int main()

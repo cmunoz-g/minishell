@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 10:17:46 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/17 10:18:29 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ typedef struct	s_minishell
 	char		**env_vars;
 
 }				t_minishell;
-
-t_minishell	*init(void);
 
 // LEXER 
 void		lexer(char *cmd_line, t_token **token_list);

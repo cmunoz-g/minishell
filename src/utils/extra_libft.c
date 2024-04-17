@@ -1,5 +1,20 @@
 #include "minishell.h"
 
+int		check_spaces(char *line)
+{
+	size_t	i;
+	size_t	len;
+	
+	i = 0;
+	len = ft_strlen(line);
+	while (i < len && (line[i] == ' ' || line[i] == '	' || line[i] == '\n'))
+		i++;
+	if (i == len)
+		return (1);
+	else
+		return (0);
+}
+
 char	*ft_strdup_mod(const char *s, size_t size)
 {
 	char	*cpy;

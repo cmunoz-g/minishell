@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 13:24:11 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/17 10:17:46 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 # include <readline/history.h>
 # include <stdbool.h>
 # include <signal.h>
+# include <termios.h>
 # include "global.h"
 
 typedef struct s_token
@@ -75,6 +76,8 @@ typedef struct	s_minishell
 	char		**env_vars;
 
 }				t_minishell;
+
+t_minishell	*init(void);
 
 // LEXER 
 void		lexer(char *cmd_line, t_token **token_list);
@@ -114,8 +117,14 @@ void		clean_cmd_table_list(t_cmd_table **cmd_table);
 void		clean_cmd_table_redir(t_cmd_table **cmd_table, int *j);
 int			ft_strcmp(const char *str1, const char *str2);
 int			ft_isspace(int c);
+int			check_spaces(char *line);
 char		*ft_strdup_mod(const char *s, size_t size);
 void		error(t_minishell *data, char *error_message);
+
+// SIGNALS
+void	signals(bool child_process);
+void	signal_handler(int signal);
+void	signal_handler_child(int signal);
 
 // EXEC
 /*	exec */

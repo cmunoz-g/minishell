@@ -1,6 +1,9 @@
 #include "minishell.h"
 
 int g_flag = 0; // global variable for signal management
+void	minishell_loop(t_minishell *data);
+void	create_main_fork(char *line, t_minishell *data);
+void	reset_loop(char *line, t_minishell *data);
  
 void	print_tokens(t_token *token_list) // borrar
 {
@@ -48,8 +51,52 @@ void	print_cmd_table(t_cmd_table *cmd_table) // borrar
 		cmd_table = cmd_table->next;
 		printf("\n");
 	}
-}	
+}
 
+void	create_main_fork(char *line, t_minishell *data)
+{
+	t_token 	*token_tmp;
+	pid_t		pid;
+
+	add_history(line);
+	lexer(line, &(data->token_list));
+	token_tmp = data->token_list;
+	parser(&(data->cmd_table), &(data->token_list));
+	clean_token_list(&token_tmp);
+	pid = fork();
+	if (pid == -1)
+		exit(1);
+	if (pid == 0)
+		executor(data->cmd_table, data->env_vars);
+	else
+		wait(NULL);	
+}
+
+void	minishell_loop(t_minishell *data)
+{
+	char	*line;
+
+	line = readline("\e[1;34m""minishell> ""\e[m");
+	if (!line)
+		exit(EXIT_SUCCESS);
+	else if (check_spaces(line))
+		reset_loop(line, data);
+	else
+	{
+		create_main_fork(line, data);
+		reset_loop(line, data);
+	}
+}
+
+void	reset_loop(char *line, t_minishell *data)
+{
+
+	clean_cmd_table_list(&(data->cmd_table));
+	free(line);
+	minishell_loop(data);
+}
+
+/*
 void	arguments(t_minishell *data) // en el git de referencia, hacen una comprobacion de que line no este vacio. Si lo esta, imprimen un salto de linea
 {
 	char 		*line;
@@ -70,12 +117,12 @@ void	arguments(t_minishell *data) // en el git de referencia, hacen una comproba
 			parser(&(data->cmd_table), &(data->token_list));
 			clean_token_list(&token_tmp);
 			executor(data->cmd_table, data->env_vars);
-			// print_cmd_table(data->cmd_table);
 			clean_cmd_table_list(&(data->cmd_table));
 			free(line);
 		}
 	}
 }
+*/
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -85,7 +132,7 @@ int	main(int argc, char **argv, char **envp)
 		exit(1);
 	data = init(envp);
 	// signals(false); currently compilation fails
-	arguments(data);
+	minishell_loop(data);
 }
 
 // int main()

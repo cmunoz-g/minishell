@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:07:57 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 13:27:12 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/17 13:56:53 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_global	g_global;
 
 void	print_tokens(t_token *token_list) // borrar
 {
@@ -68,6 +70,6 @@ int	main(int argc, char **argv, char **envp)
 		exit(1);
 	data = init(envp);
 	get_past_history(envp, data);
-	// signals(false); currently compilation fails
+	signals(false); 
 	minishell_loop(data);
 }

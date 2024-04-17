@@ -35,7 +35,6 @@ void	clean_cmd_table_redir(t_cmd_table **cmd_table, int *j)
 	free((*cmd_table)->redirections);
 }
 
-
 void	clean_cmd_table_list(t_cmd_table **cmd_table)
 {
 	t_cmd_table *tmp;

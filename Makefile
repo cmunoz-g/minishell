@@ -6,7 +6,7 @@
 #    By: juramos <juramos@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/18 11:50:56 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/18 13:05:00 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRC_FILES 	= 	main\
 				exec/heredoc\
 				exec/expand\
 				builtins/mini_cd\
+				builtins/utils_builtins\
 				# signal_handler\
 				
 SRC 		=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))

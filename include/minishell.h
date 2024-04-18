@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/18 12:25:20 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/18 13:04:31 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,11 @@ t_minishell	*init(char **envp);
 
 //BUILTINS
 /* mini_cd */
-int			mini_cd(t_minishell	*data, char *str);
+int			mini_cd(t_minishell	*data);
+/* utills_builtins */
+int			(*check_if_builtin(char *str))(t_minishell *data);
+int			execute_builtin(t_minishell *data,
+				int (*builtin_arr)(t_minishell *data));
 
 // UTILS
 void		clean_token_list(t_token **token_list);

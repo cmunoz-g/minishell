@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:05:18 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/18 17:47:47 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/18 17:53:03 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	create_main_fork(t_minishell *data)
 void	minishell_loop(t_minishell *data)
 {
 	char	*line;
+	int		(*builtin_arr)(t_minishell *data);
 
 	line = readline("\e[1;34m""minishell> ""\e[m");
 	if (!line)
@@ -58,7 +59,16 @@ void	minishell_loop(t_minishell *data)
 	else
 	{
 		parse_data(line, data);
-		create_main_fork(data);
+		if (!data->cmd_table->next)
+		{
+			builtin_arr = check_if_builtin(data->cmd_table->cmd);
+			if (builtin_arr)
+				execute_builtin(data, builtin_arr);
+			else
+				create_main_fork(data);
+		}
+		else
+			create_main_fork(data);
 		reset_loop(line, data);
 	}
 }

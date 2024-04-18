@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/18 13:21:59 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/18 17:52:22 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	exec_process(t_minishell *data)
 
 	builtin_arr = check_if_builtin(data->cmd_table->cmd);
 	if (builtin_arr)
-		execute_builtin(data, builtin_arr);
+		exit(execute_builtin(data, builtin_arr));
 	cmd = ft_str_arr_join_exec(data->cmd_table->cmd,
 			data->cmd_table->args, data->env_vars);
 	path = get_path(cmd[0], data->env_vars);

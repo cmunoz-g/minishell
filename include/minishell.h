@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 13:55:13 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/18 13:04:31 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ typedef struct s_minishell
 	t_token		*token_list;
 	t_cmd_table	*cmd_table;
 	char		**env_vars;
-
+	char		*pwd;
+	char		*old_pwd;;
 }				t_minishell;
 
 typedef struct s_global
@@ -116,6 +117,14 @@ void		assign_redir_cmd_table_aux(t_cmd_table **cmd_table, int *w, int type, char
 // INIT
 t_minishell	*init(char **envp);
 
+//BUILTINS
+/* mini_cd */
+int			mini_cd(t_minishell	*data);
+/* utills_builtins */
+int			(*check_if_builtin(char *str))(t_minishell *data);
+int			execute_builtin(t_minishell *data,
+				int (*builtin_arr)(t_minishell *data));
+
 // UTILS
 void		clean_token_list(t_token **token_list);
 void		clean_cmd_table_list(t_cmd_table **cmd_table);
@@ -143,9 +152,9 @@ char		*get_home(char **envp);
 
 // EXEC
 /*	exec */
-void		do_pipe(t_cmd_table *tbl, char **envp);
-void		exec_process(t_cmd_table *tbl, char **env);
-void		executor(t_cmd_table *tbl, char **envp);
+void		do_pipe(t_minishell *data);
+void		exec_process(t_minishell *data);
+void		executor(t_minishell *data);
 /*	error_handlers  */
 void		send_to_stderr(char *co, char *ar, char *err);
 /*	exec_utils  */

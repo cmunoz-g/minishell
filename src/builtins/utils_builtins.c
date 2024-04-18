@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:50:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/18 13:14:05 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/18 13:20:45 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	(*check_if_builtin(char *str))(t_minishell *data)
 	int			i;
 
 	i = 0;
-	while (i < 7)
+	while (i < 1)
 	{
 		if (str)
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 12:24:41 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/18 12:10:57 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ void	exec_process(t_cmd_table *tbl, char **env)
 	{
 		send_to_stderr(cmd[0], NULL, "command not found");
 		free_arr(cmd);
-		exit(1);
+		exit(127);
 	}
 	if (execve(path, cmd, env) == -1)
 	{
 		g_global.error_num = errno;
 		send_to_stderr(cmd[0], NULL, strerror(errno));
 		free_arr(cmd);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -41,10 +41,10 @@ void	do_pipe(t_cmd_table *tbl, char **envp)
 	int		status;
 
 	if (pipe(p_fd) == -1)
-		exit(1);
+		exit(EXIT_FAILURE);
 	pid = fork();
 	if (pid == -1)
-		exit(1);
+		exit(EXIT_FAILURE);
 	if (pid == 0)
 	{
 		close(p_fd[0]);
@@ -68,7 +68,7 @@ static void	handle_cmd(t_cmd_table *tbl, char **envp)
 		exit(0);
 	if (tbl->n_redirections > 0)
 		if (redirect(tbl))
-			exit(0);
+			exit(EXIT_FAILURE);
 	if (!tbl->next || tbl->out == TRUNC || tbl->out == APPEND)
 		exec_process(tbl, envp);
 	else if (tbl->next)

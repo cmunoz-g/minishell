@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:17:12 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 13:18:07 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/18 12:08:29 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	open_file(char *name, int to_write)
 	if (to_write == 2)
 		ret = open(name, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (ret == -1)
-		exit(0);
+		exit(EXIT_FAILURE);
 	return (ret);
 }
 

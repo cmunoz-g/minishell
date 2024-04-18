@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/18 11:28:15 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/18 11:51:35 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,10 @@ void		assign_redir_cmd_table_aux(t_cmd_table **cmd_table, int *w, int type, char
 
 // INIT
 t_minishell	*init(char **envp);
+
+//BUILTINS
+/* mini_cd */
+int			mini_cd(t_minishell	*data, char *str);
 
 // UTILS
 void		clean_token_list(t_token **token_list);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/18 13:04:31 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/18 17:46:13 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_minishell
 	t_cmd_table	*cmd_table;
 	char		**env_vars;
 	char		*pwd;
-	char		*old_pwd;;
+	char		*old_pwd;
 }				t_minishell;
 
 typedef struct s_global
@@ -136,8 +136,6 @@ char		*ft_strdup_mod(const char *s, size_t size);
 void		error(t_minishell *data, char *error_message);
 /*	minishell_loop */
 void		minishell_loop(t_minishell *data);
-void		create_main_fork(char *line, t_minishell *data);
-void		reset_loop(char *line, t_minishell *data);
 
 // SIGNALS
 void		signals(bool child_process);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:05:18 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 13:26:58 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/18 12:41:54 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	create_main_fork(char *line, t_minishell *data)
 	if (pid == -1)
 		exit(1);
 	if (pid == 0)
-		executor(data->cmd_table, data->env_vars);
+		executor(data);
 	else
 	{
 		waitpid(pid, &status, 0);

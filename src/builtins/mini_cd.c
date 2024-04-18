@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:13:47 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/18 11:47:51 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/18 12:01:25 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,14 @@ int	mini_cd(t_minishell	*data, char *str)
 		ret = chdir(my_getenv("HOME", data->env_vars));
 	else
 		ret = chdir(str);
+	if (ret != 0)
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(str, STDERR_FILENO);
+		perror(" ");
+		return (EXIT_FAILURE);
+	}
 	change_path_on_mini(data);
 	update_path_on_env(data);
-	return (ret);
+	return (EXIT_SUCCESS);
 }

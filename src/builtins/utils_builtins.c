@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:50:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/18 13:20:45 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/18 17:55:45 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,11 @@ int	execute_builtin(t_minishell *data, int (*builtin_arr)(t_minishell *data))
 
 	ret = builtin_arr(data);
 	if (ret)
-		exit(EXIT_FAILURE);
-	exit(EXIT_SUCCESS);
+	{
+		g_global.error_num = ret;
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
 
 int	(*check_if_builtin(char *str))(t_minishell *data)

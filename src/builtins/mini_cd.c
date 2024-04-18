@@ -6,16 +6,11 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:13:47 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/18 12:01:25 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/18 12:11:31 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	change_path(t_minishell *data, char *str)
-{
-
-}
 
 static void	change_path_on_mini(t_minishell *data)
 {

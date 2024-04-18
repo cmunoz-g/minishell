@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
+#    By: juramos <juramos@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/17 13:56:03 by camunozg         ###   ########.fr        #
+#    Updated: 2024/04/18 10:51:13 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,6 @@ SRC_DIR 	= 	src/
 SRC_FILES 	= 	main\
 				init\
 				history\
-				signal_handler\
 				lexer/lexer_utils\
 				lexer/lexer\
 				lexer/tokens\
@@ -42,6 +41,7 @@ SRC_FILES 	= 	main\
 				exec/exec_utils\
 				exec/heredoc\
 				exec/expand\
+				# signal_handler\
 				
 SRC 		=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 

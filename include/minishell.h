@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 13:55:13 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/18 11:28:15 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ typedef struct s_minishell
 	t_token		*token_list;
 	t_cmd_table	*cmd_table;
 	char		**env_vars;
-
+	char		*pwd;
+	char		*old_pwd;;
 }				t_minishell;
 
 typedef struct s_global

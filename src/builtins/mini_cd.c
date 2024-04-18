@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:13:47 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/18 12:56:42 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/18 18:10:36 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	change_path_on_mini(t_minishell *data)
 {
 	char	*tmp;
 
-	tmp = data->pwd;
+	tmp = ft_strdup(data->pwd);
 	free(data->old_pwd);
 	data->old_pwd = tmp;
 	free(data->pwd);

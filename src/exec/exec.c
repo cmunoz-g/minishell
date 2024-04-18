@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/18 12:10:57 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/18 12:13:36 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	exec_process(t_cmd_table *tbl, char **env)
 	path = get_path(cmd[0], env);
 	if (!path)
 	{
+		g_global.error_num = 127;
 		send_to_stderr(cmd[0], NULL, "command not found");
 		free_arr(cmd);
 		exit(127);

@@ -6,7 +6,7 @@
 #    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/19 13:56:51 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/19 14:24:29 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRC_FILES 	= 	main\
 				builtins/mini_cd\
 				builtins/mini_exit\
 				builtins/mini_pwd\
+				builtins/mini_echo\
 				builtins/utils_builtins\
 				# signal_handler\
 				

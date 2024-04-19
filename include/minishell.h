@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/19 14:01:06 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/19 14:24:14 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ int			mini_cd(t_minishell	*data);
 void		mini_exit(t_minishell *data);
 /* mini_pwd */
 int			mini_pwd(t_minishell *data);
+/* mini_echo */
+int			mini_echo(t_minishell *data);
 /* utills_builtins */
 int			(*check_if_builtin(char *str))(t_minishell *data);
 int			execute_builtin(t_minishell *data,

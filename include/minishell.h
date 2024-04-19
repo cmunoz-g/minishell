@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/18 17:46:13 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/19 10:42:27 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_cmd_table
 {
 	char				*cmd;
 	char				**args;
+	int					n_args;
 	int					in;
 	int					out;
 	int					err;
@@ -120,6 +121,8 @@ t_minishell	*init(char **envp);
 //BUILTINS
 /* mini_cd */
 int			mini_cd(t_minishell	*data);
+/* mini_exit */
+void		mini_exit(t_minishell *data);
 /* utills_builtins */
 int			(*check_if_builtin(char *str))(t_minishell *data);
 int			execute_builtin(t_minishell *data,
@@ -134,6 +137,8 @@ int			ft_isspace(int c);
 int			check_spaces(char *line);
 char		*ft_strdup_mod(const char *s, size_t size);
 void		error(t_minishell *data, char *error_message);
+void	error_builtins(t_minishell *data, int exit_code);
+
 /*	minishell_loop */
 void		minishell_loop(t_minishell *data);
 
@@ -172,5 +177,6 @@ char		*expand(char *str, int is_heredoc, char **envp);
 
 // DELETE
 void		print_tokens(t_token *token_list);
+void		print_cmd_table(t_cmd_table *cmd_table);
 
 #endif

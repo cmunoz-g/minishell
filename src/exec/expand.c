@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/17 12:37:56 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/19 14:57:57 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,10 @@ static char	*expand_word(char *str, int start, int end, char **envp)
 
 	if (str[start + 1] == '?')
 		return (ft_itoa(g_global.error_num));
-	else
-		keyword = ft_substr(str, start + 1, end);
+	keyword = ft_substr(str, start + 1, end);
 	keyword_cleaned = ft_strtrim(keyword, " ");
 	value = ft_strdup(my_getenv(keyword_cleaned, envp));
-	return (free(keyword), free(keyword_cleaned), value);
+	return (free(keyword_cleaned), value); // we have stopped doing free(keyword) because it causes double-free error when doing `echo $USER`
 }
 
 static char	*expand_str(char *str, int start, int *i, char **envp)

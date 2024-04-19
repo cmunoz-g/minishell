@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: juramos <juramos@student.42.fr>            +#+  +:+       +#+         #
+#    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/18 13:05:00 by juramos          ###   ########.fr        #
+#    Updated: 2024/04/19 09:58:59 by camunozg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRC_FILES 	= 	main\
 				exec/heredoc\
 				exec/expand\
 				builtins/mini_cd\
+				builtins/mini_exit\
 				builtins/utils_builtins\
 				# signal_handler\
 				

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
+#    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/19 09:58:59 by camunozg         ###   ########.fr        #
+#    Updated: 2024/04/19 13:56:51 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRC_FILES 	= 	main\
 				exec/expand\
 				builtins/mini_cd\
 				builtins/mini_exit\
+				builtins/mini_pwd\
 				builtins/utils_builtins\
 				# signal_handler\
 				

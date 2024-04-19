@@ -15,6 +15,7 @@ void	clean_token_list(t_token **token_list)
 		(*token_list) = tmp;
 	}
 }
+
 // typedef struct s_token
 // {
 // 	int				type;
@@ -35,14 +36,22 @@ void	clean_cmd_table_redir(t_cmd_table **cmd_table, int *j)
 	free((*cmd_table)->redirections);
 }
 
+t_cmd_table	**get_first_node(t_cmd_table **cmd)
+{
+	while ((*cmd)->prev)
+		*cmd = (*cmd)->prev;
+	return (cmd);
+}
+
 void	clean_cmd_table_list(t_cmd_table **cmd_table)
 {
-	t_cmd_table *tmp;
+	t_cmd_table	*tmp;
 	int			i;
 	int			j;
 
 	i = 0;
 	j = 0;
+	cmd_table = get_first_node(cmd_table);
 	while (*cmd_table)
 	{
 		tmp = (*cmd_table)->next;

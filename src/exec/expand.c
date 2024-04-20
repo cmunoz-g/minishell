@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/19 14:57:57 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/20 12:35:13 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*remove_quotes(char *str)
 
 	keyword_cleaned = ft_strtrim(str, "\"");
 	keyword = ft_strtrim(keyword_cleaned, "\'");
-	return (free(str), free(keyword_cleaned), keyword);
+	return (free(keyword_cleaned), keyword);
 }
 
 static char	*expand_word(char *str, int start, int end, char **envp)
@@ -30,10 +30,10 @@ static char	*expand_word(char *str, int start, int end, char **envp)
 
 	if (str[start + 1] == '?')
 		return (ft_itoa(g_global.error_num));
-	keyword = ft_substr(str, start + 1, end);
+	keyword = ft_substr(str, start + 1, end - start);
 	keyword_cleaned = ft_strtrim(keyword, " ");
 	value = ft_strdup(my_getenv(keyword_cleaned, envp));
-	return (free(keyword_cleaned), value); // we have stopped doing free(keyword) because it causes double-free error when doing `echo $USER`
+	return (free(keyword_cleaned), value);
 }
 
 static char	*expand_str(char *str, int start, int *i, char **envp)
@@ -55,10 +55,11 @@ static char	*expand_str(char *str, int start, int *i, char **envp)
 	{
 		*i = start + ft_strlen(word) - 1;
 		newstr = ft_strjoin(begin, word);
+		free(word);
 	}
 	free(begin);
 	begin = ft_strjoin(newstr, end);
-	return (free(word), free(newstr), free(end), free(str), begin);
+	return (free(newstr), free(end), begin);
 }
 
 char	*expand(char *str, int is_heredoc, char **envp)

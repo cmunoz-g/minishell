@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 12:03:14 by juramos           #+#    #+#             */
-/*   Updated: 2023/09/19 12:07:26 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/20 12:02:20 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strdup(const char *s1)
 	char	*s2;
 	size_t	s1_len;
 
+	if (!s1)
+		return (NULL);
 	s1_len = ft_strlen(s1);
 	s2 = (char *) malloc(s1_len * sizeof(char) + 1);
 	if (!s2)

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:15:45 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/19 14:35:33 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/20 12:15:31 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	mini_echo(t_minishell *data)
 		i++;
 		if (data->cmd_table->args[i])
 			ft_putstr_fd(" ", STDOUT_FILENO);
-		free(expanded);
 	}
 	if (!endl)
 		ft_putstr_fd("\n", STDOUT_FILENO);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:05:18 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/19 10:40:40 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/20 12:22:12 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	minishell_loop(t_minishell *data)
 	line = readline("\e[1;34m""minishell> ""\e[m");
 	if (!line)
 		exit(EXIT_SUCCESS);
-	else if (check_spaces(line))
+	else if (check_spaces(line) || ft_strlen(line) == 0)
 		reset_loop(line, data);
 	else
 	{
@@ -75,7 +75,9 @@ void	minishell_loop(t_minishell *data)
 
 void	reset_loop(char *line, t_minishell *data)
 {
-	clean_cmd_table_list(&(data->cmd_table));
-	free(line);
+	if (data->cmd_table)
+		clean_cmd_table_list(&(data->cmd_table));
+	if (line || ft_strlen(line))
+		free(line);
 	minishell_loop(data);
 }

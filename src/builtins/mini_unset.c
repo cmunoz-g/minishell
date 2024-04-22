@@ -57,8 +57,8 @@ char	**unset_env(char *variable, char **env, t_minishell *data)
 		if (ft_strncmp(variable, env[i], equal_pos))
 		{
 			new_env[j] = ft_strdup(env[i]);
-			if (!new_env[j]) // add line to free the new_env[j]
-				error(data, "Memory problems in mini_unset");
+			if (!new_env[j])
+				(free_arr(new_env), error(data, "Memory problems in mini_unset"));
 			j++;
 		}
 		i++;

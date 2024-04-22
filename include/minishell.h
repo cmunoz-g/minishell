@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 10:13:20 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/22 11:16:36 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,8 +163,6 @@ char		*get_home(char **envp);
 
 // EXEC
 /*	exec */
-void		do_pipe(t_minishell *data);
-void		exec_process(t_minishell *data);
 void		executor(t_minishell *data);
 /*	error_handlers  */
 void		send_to_stderr(char *co, char *ar, char *err);

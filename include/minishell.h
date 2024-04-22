@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 11:30:00 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:45:48 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_cmd_table
 
 typedef struct s_minishell
 {
+	char		*line;
 	t_token		*token_list;
 	t_cmd_table	*cmd_table;
 	char		**env_vars;
@@ -149,6 +150,7 @@ void		error_builtins(t_minishell *data, int exit_code);
 
 /*	minishell_loop */
 void		minishell_loop(t_minishell *data);
+void		reset_loop(t_minishell *data);
 
 // SIGNALS
 void		signals(bool child_process);

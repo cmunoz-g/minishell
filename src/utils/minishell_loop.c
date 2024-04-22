@@ -6,29 +6,29 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:05:18 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 13:30:17 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:35:30 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	minishell_loop(t_minishell *data);
-void	create_main_fork(t_minishell *data);
-void	reset_loop(char *line, t_minishell *data);
-void	parse_data(char *line, t_minishell *data);
+static void	create_main_fork(t_minishell *data);
+void	reset_loop(t_minishell *data);
+static void	parse_data(t_minishell *data);
 
-void	parse_data(char *line, t_minishell *data)
+static void	parse_data(t_minishell *data)
 {
 	t_token		*token_tmp;
 
-	join_history(line, data, data->env_vars);
-	lexer(line, &(data->token_list));
+	join_history(data->line, data, data->env_vars);
+	lexer(data->line, &(data->token_list));
 	token_tmp = data->token_list;
 	parser(&(data->cmd_table), &(data->token_list));
 	clean_token_list(&token_tmp);
 }
 
-void	create_main_fork(t_minishell *data)
+static void	create_main_fork(t_minishell *data)
 {
 	pid_t		pid;
 	int			status;
@@ -48,21 +48,20 @@ void	create_main_fork(t_minishell *data)
 
 void	minishell_loop(t_minishell *data)
 {
-	char	*line;
 	int		(*builtin_arr)(t_minishell *data);
 
-	line = readline("\e[1;34m""minishell> ""\e[m");
-	if (!line)
+	data->line = readline("\e[1;34m""minishell> ""\e[m");
+	if (!data->line)
 		exit(EXIT_SUCCESS);
-	else if (check_spaces(line) || ft_strlen(line) == 0)
-		reset_loop(line, data);
+	else if (check_spaces(data->line) || ft_strlen(data->line) == 0)
+		reset_loop(data);
 	else
 	{
-		parse_data(line, data);
 		// local_variables(data);
 		// print_local_variables(data->local_vars);
 		// print_cmd_table(data->cmd_table);
 		// exit(0);
+		parse_data(data);
 		if (!data->cmd_table->next)
 		{
 			builtin_arr = check_if_builtin(data->cmd_table->cmd);
@@ -73,15 +72,15 @@ void	minishell_loop(t_minishell *data)
 		}
 		else
 			create_main_fork(data);
-		reset_loop(line, data);
+		reset_loop(data);
 	}
 }
 
-void	reset_loop(char *line, t_minishell *data)
+void	reset_loop(t_minishell *data)
 {
 	if (data->cmd_table)
 		clean_cmd_table_list(&(data->cmd_table));
-	if (line || ft_strlen(line))
-		free(line);
+	if (data->line || ft_strlen(data->line))
+		free(data->line);
 	minishell_loop(data);
 }

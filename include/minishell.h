@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 12:37:26 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:35:10 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_cmd_table
 
 typedef struct s_minishell
 {
+	char		*line;
 	t_token		*token_list;
 	t_cmd_table	*cmd_table;
 	t_variable	*local_vars;
@@ -158,6 +159,7 @@ void		error_builtins(t_minishell *data, int exit_code);
 
 /*	minishell_loop */
 void		minishell_loop(t_minishell *data);
+void		reset_loop(t_minishell *data);
 
 // SIGNALS
 void		signals(bool child_process);

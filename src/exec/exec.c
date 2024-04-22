@@ -6,13 +6,13 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 10:06:18 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/22 11:22:38 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	check_if_executable(char **str, t_minishell *data)
+static void	check_and_exec_if_executable(char **str, t_minishell *data)
 {
 	if (access(str[0], F_OK) == 0)
 	{
@@ -37,7 +37,7 @@ static void	exec_process(t_minishell *data)
 		exit(execute_builtin(data, builtin_arr));
 	cmd = ft_str_arr_join_exec(data->cmd_table->cmd,
 			data->cmd_table->args, data->env_vars);
-	check_if_executable(cmd, data);
+	check_and_exec_if_executable(cmd, data);
 	path = get_path(cmd[0], data->env_vars);
 	if (!path)
 	{

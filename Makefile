@@ -6,7 +6,7 @@
 #    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/22 12:34:48 by camunozg         ###   ########.fr        #
+#    Updated: 2024/04/22 13:35:42 by camunozg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ SRC_FILES 	= 	main\
 				builtins/mini_env\
 				builtins/mini_unset\
 				builtins/utils_builtins\
-				# signal_handler\
+				signal_handler\
 				
 SRC 		=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 
@@ -68,7 +68,11 @@ LIBFT		= 	$(LIBFT_PATH)$(LIBFT_NAME)
 B_PATH = build/
 
 # Includes
-INC_MS		= -I include/
+INC_MS		= -I include/ \
+			-I /usr/local/Cellar/readline/8.2.10/include
+
+# Readline Compile
+RL_CMP		= -L/usr/local/Cellar/readline/8.2.10/lib
 
 # Colors
 DEF_COLOR 	= 	\033[0;39m
@@ -98,7 +102,7 @@ $(OBJF):
 	@mkdir -p  $(OBJ_DIRS)
 
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(INC) -lreadline
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(INC) -lreadline $(RL_CMP)
 	@echo "$(GREEN)minishell compiled!$(DEF_COLOR)"
 
 $(B_PATH):

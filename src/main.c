@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:07:57 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 12:55:13 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:36:12 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,6 @@ int	main(int argc, char **argv, char **envp)
 		exit(1);
 	data = init(envp);
 	get_past_history(envp, data);
-	// signals(false);
+	signals(false);
 	minishell_loop(data);
 }

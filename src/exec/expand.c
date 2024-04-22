@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 11:42:13 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/22 12:07:26 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ static char	*remove_quotes(char *str)
 	return (free(keyword_cleaned), keyword);
 }
 
-static char *check_quotes(char *str, int is_heredoc)
+static char	*check_quotes(char *str, int is_heredoc)
 {
 	char	*ret;
+
 	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'' && !is_heredoc)
 		ret = remove_quotes(str);
 	else if (str[0] == '\'' || str[0] == '\"')

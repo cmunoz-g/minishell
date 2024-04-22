@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:05:18 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 11:12:43 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/22 12:02:37 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	minishell_loop(t_minishell *data);
 static void	create_main_fork(t_minishell *data);
-static void	reset_loop(t_minishell *data);
+void	reset_loop(t_minishell *data);
 static void	parse_data(t_minishell *data);
 
 static void	parse_data(t_minishell *data)
@@ -72,7 +72,7 @@ void	minishell_loop(t_minishell *data)
 	}
 }
 
-static void	reset_loop(t_minishell *data)
+void	reset_loop(t_minishell *data)
 {
 	if (data->cmd_table)
 		clean_cmd_table_list(&(data->cmd_table));

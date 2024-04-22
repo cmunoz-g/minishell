@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:13:47 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 11:38:39 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/22 12:19:29 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	mini_cd(t_minishell	*data)
 	else
 	{
 		expanded = expand(data->cmd_table->args[0],0, data->env_vars);
+		if (!expanded)
+			return (EXIT_FAILURE);
 		ret = chdir(expanded);
 		free(expanded);
 	}

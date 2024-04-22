@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:15:45 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 12:08:46 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/22 12:18:57 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	mini_echo(t_minishell *data)
 	while (data->cmd_table->args[i])
 	{
 		expanded = expand(data->cmd_table->args[i], 0, data->env_vars);
+		if (!expanded)
+			return (EXIT_FAILURE);
 		ft_putstr_fd(expanded, STDOUT_FILENO);
 		free(expanded);
 		i++;

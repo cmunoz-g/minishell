@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:11:14 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 12:35:47 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/22 12:20:12 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static int	create_hd_file(char *filename, char *eof, char **envp)
 	while (line && ft_strncmp(line, eof, ft_strlen(eof)))
 	{
 		expanded = expand(line, 1, envp);
+		if (!expanded)
+			return (EXIT_FAILURE);
 		ft_putendl_fd(expanded, fd);
 		free(expanded);
 		line = readline(HEREDOC_MSG);

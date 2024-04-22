@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 12:07:26 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/22 12:24:46 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static char	*expand_str(char *str, int start, int *i, char **envp)
 	}
 	free(begin);
 	begin = ft_strjoin(newstr, end);
-	return (free(newstr), free(end), begin);
+	return (free(newstr), free(end), free(str), begin);
 }
 
 char	*expand(char *str, int is_heredoc, char **envp)

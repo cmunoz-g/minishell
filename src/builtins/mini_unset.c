@@ -30,7 +30,7 @@ int	is_env(char *variable, char **env)
 	while (env[i])
 	{
 		equal_pos = get_equal_sign(env[i]);
-		if (!ft_strncmp(variable, env[i], equal_pos)) // j o j+1?
+		if (!ft_strncmp(variable, env[i], equal_pos)) 
 			return (0);
 		i++;
 	}
@@ -48,10 +48,10 @@ char	**unset_env(char *variable, char **env, t_minishell *data)
 	i = 0;
 	j = 0;
 	nbr_env = get_nbr_env(env);
-	new_env = (char **)malloc(sizeof(char *) * (nbr_env - 1));
+	new_env = (char **)malloc(sizeof(char *) * (nbr_env));
 	if (!new_env)
 		error(data, "Memory problems in mini_unset");
-	while (env[i])
+	while (i < nbr_env && env[i])
 	{
 		equal_pos = get_equal_sign(env[i]);
 		if (ft_strncmp(variable, env[i], equal_pos))
@@ -62,23 +62,24 @@ char	**unset_env(char *variable, char **env, t_minishell *data)
 			j++;
 		}
 		i++;
-		free(env[i]);
 	}
 	new_env[j] = NULL;
-	free(env);
 	return (new_env);
 }
 
 void	mini_unset(t_minishell *data)
 {
-	int	i;
+	int		i;
+	char	**new_env;
 
 	i = 0;
 	while (data->cmd_table->args[i])
 	{
 		if (!is_env(data->cmd_table->args[i], data->env_vars))
 		{
-			data->env_vars = unset_env(data->cmd_table->args[i], data->env_vars, data);
+			new_env = unset_env(data->cmd_table->args[i], data->env_vars, data);
+			free_arr(data->env_vars);
+			data->env_vars = new_env;
 		}
 		// Gestionar variables locales
 

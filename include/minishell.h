@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/20 13:30:58 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/04/22 10:13:20 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ int			mini_pwd(t_minishell *data);
 int			mini_echo(t_minishell *data);
 /* mini_env */
 void		mini_env(t_minishell *data);
+/* mini_unset*/
+void		mini_unset(t_minishell *data);
 /* utills_builtins */
 int			(*check_if_builtin(char *str))(t_minishell *data);
 int			execute_builtin(t_minishell *data,

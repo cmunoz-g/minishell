@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/20 12:35:13 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/22 11:42:13 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,18 @@ static char	*remove_quotes(char *str)
 	return (free(keyword_cleaned), keyword);
 }
 
+static char *check_quotes(char *str, int is_heredoc)
+{
+	char	*ret;
+	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'' && !is_heredoc)
+		ret = remove_quotes(str);
+	else if (str[0] == '\'' || str[0] == '\"')
+		ret = remove_quotes(str);
+	else
+		ret = ft_strdup(str);
+	return (ret);
+}
+
 static char	*expand_word(char *str, int start, int end, char **envp)
 {
 	char	*keyword;
@@ -32,6 +44,7 @@ static char	*expand_word(char *str, int start, int end, char **envp)
 		return (ft_itoa(g_global.error_num));
 	keyword = ft_substr(str, start + 1, end - start);
 	keyword_cleaned = ft_strtrim(keyword, " ");
+	free(keyword);
 	value = ft_strdup(my_getenv(keyword_cleaned, envp));
 	return (free(keyword_cleaned), value);
 }
@@ -66,23 +79,21 @@ char	*expand(char *str, int is_heredoc, char **envp)
 {
 	int		i;
 	int		start;
+	char	*ret;
 
 	i = 0;
-	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'' && !is_heredoc)
-		return (remove_quotes(str));
-	if (str[0] == '\'' || str[0] == '\"')
-		str = remove_quotes(str);
-	while (str[i])
+	ret = check_quotes(str, is_heredoc);
+	while (ret[i])
 	{
-		if (str[i] == '$' && str[i + 1] && !ft_isspace(str[i + 1]))
+		if (ret[i] == '$' && ret[i + 1] && !ft_isspace(ret[i + 1]))
 		{
 			start = i;
-			while (str[i] && !(ft_isspace(str[i])))
+			while (ret[i] && !(ft_isspace(ret[i])))
 				i++;
-			str = expand_str(str, start, &i, envp);
+			ret = expand_str(ret, start, &i, envp);
 		}
 		else
 			i++;
 	}
-	return (str);
+	return (ret);
 }

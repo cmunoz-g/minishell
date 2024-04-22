@@ -6,7 +6,7 @@
 #    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/22 11:14:27 by camunozg         ###   ########.fr        #
+#    Updated: 2024/04/22 12:34:48 by camunozg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,8 @@ SRC_DIR 	= 	src/
 SRC_FILES 	= 	main\
 				init\
 				history\
+				local_variables/local_variables\
+				local_variables/local_variables_utils\
 				lexer/lexer_utils\
 				lexer/lexer\
 				lexer/tokens\

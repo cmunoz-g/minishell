@@ -6,13 +6,25 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:07:57 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 11:01:18 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:55:13 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 t_global	g_global;
+
+void	print_local_variables(t_variable *local_vars) // borrar
+{
+	t_variable *ref;
+
+	ref = local_vars;
+	while (ref)
+	{
+		printf("name: %s \nvalue: %s\n",ref->name, ref->value);
+		ref = ref->next;
+	}
+}
 
 void	print_tokens(t_token *token_list) // borrar
 {

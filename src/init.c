@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:22:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/19 10:14:52 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:09:55 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ t_minishell	*init(char **envp)
 		exit(1);
 	data->pwd = ft_strdup(my_getenv("PWD", data->env_vars)); // añadir a clean
 	data->old_pwd = ft_strdup(my_getenv("OLDPWD", data->env_vars)); // añadir a clean
+	data->cmd_table = NULL;
 	return (data);
 }

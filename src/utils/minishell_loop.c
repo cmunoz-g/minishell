@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:05:18 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/20 12:22:12 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/22 13:30:17 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ void	minishell_loop(t_minishell *data)
 	else
 	{
 		parse_data(line, data);
+		// local_variables(data);
+		// print_local_variables(data->local_vars);
+		// print_cmd_table(data->cmd_table);
+		// exit(0);
 		if (!data->cmd_table->next)
 		{
 			builtin_arr = check_if_builtin(data->cmd_table->cmd);

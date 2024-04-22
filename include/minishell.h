@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 10:06:07 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/22 11:21:17 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_cmd_table
 
 typedef struct s_minishell
 {
+	char		*line;
 	t_token		*token_list;
 	t_cmd_table	*cmd_table;
 	char		**env_vars;

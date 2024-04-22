@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:50:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 12:04:46 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/22 12:45:58 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,19 @@ int	execute_builtin(t_minishell *data, int (*builtin_arr)(t_minishell *data))
 
 int	(*check_if_builtin(char *str))(t_minishell *data)
 {
-	static void	*builtins[4][2] = {
+	static void	*builtins[6][2] = {
 	{"echo", mini_echo},
 	{"cd", mini_cd},
 	{"pwd", mini_pwd},
 	// {"export", mini_export},
-	// {"unset", mini_unset},
-	// {"env", mini_env},
+	{"unset", mini_unset},
+	{"env", mini_env},
 	{"exit", mini_exit},
 	};
 	int			i;
 
 	i = 0;
-	while (i < 4)
+	while (i < 6)
 	{
 		if (str)
 		{

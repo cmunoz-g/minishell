@@ -13,6 +13,8 @@ void	error_builtins(t_minishell *data, int exit_code)
 	exit(exit_code);
 }
 
+// IMPORTANTE: incluir en error todos los frees de toda la memoria con malloc
+
 void	error(t_minishell *data, char *error_message) // mirar como estan los errores gestionados en pipex e implementar
 {
 	size_t	msg_len;

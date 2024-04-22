@@ -6,13 +6,27 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/18 17:52:22 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/22 10:06:18 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_process(t_minishell *data)
+static void	check_if_executable(char **str, t_minishell *data)
+{
+	if (access(str[0], F_OK) == 0)
+	{
+		if (execve(str[0], str, data->env_vars) == -1)
+		{
+			g_global.error_num = errno;
+			send_to_stderr(str[0], NULL, strerror(errno));
+			free_arr(str);
+			exit(EXIT_FAILURE);
+		}
+	}
+}
+
+static void	exec_process(t_minishell *data)
 {
 	char	**cmd;
 	char	*path;
@@ -23,6 +37,7 @@ void	exec_process(t_minishell *data)
 		exit(execute_builtin(data, builtin_arr));
 	cmd = ft_str_arr_join_exec(data->cmd_table->cmd,
 			data->cmd_table->args, data->env_vars);
+	check_if_executable(cmd, data);
 	path = get_path(cmd[0], data->env_vars);
 	if (!path)
 	{
@@ -40,7 +55,7 @@ void	exec_process(t_minishell *data)
 	}
 }
 
-void	do_pipe(t_minishell *data)
+static void	do_pipe(t_minishell *data)
 {
 	int		p_fd[2];
 	pid_t	pid;

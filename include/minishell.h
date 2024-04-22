@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/19 14:24:14 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/22 10:06:07 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,8 +159,6 @@ char		*get_home(char **envp);
 
 // EXEC
 /*	exec */
-void		do_pipe(t_minishell *data);
-void		exec_process(t_minishell *data);
 void		executor(t_minishell *data);
 /*	error_handlers  */
 void		send_to_stderr(char *co, char *ar, char *err);

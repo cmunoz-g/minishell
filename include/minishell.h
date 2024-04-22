@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 12:45:48 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/22 13:35:10 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,14 @@
 # include <signal.h>
 # include <termios.h>
 
+typedef struct s_variable
+{
+	struct s_variable	*next;
+	struct s_variable	*prev;
+	char				*name;
+	char				*value;
+}				t_variable;
+
 typedef struct s_token
 {
 	int				type;
@@ -74,6 +82,7 @@ typedef struct s_minishell
 	char		*line;
 	t_token		*token_list;
 	t_cmd_table	*cmd_table;
+	t_variable	*local_vars;
 	char		**env_vars;
 	char		*pwd;
 	char		*old_pwd;
@@ -163,6 +172,14 @@ void		get_past_history(char **envp, t_minishell *data);
 void		load_history(int fd);
 char		*get_home(char **envp);
 
+// LOCAL VARIABLES
+void		local_variables(t_minishell *data);
+int			check_variable(t_cmd_table *cmd_table);
+void		create_new_variable(char *cmd, t_variable **local_vars);
+void		fill_variable(t_variable **variables, char *cmd);
+int			get_var_size(char *cmd, bool name);
+t_variable	*get_last_variable(t_variable *local_vars);
+
 // EXEC
 /*	exec */
 void		executor(t_minishell *data);
@@ -186,5 +203,6 @@ char		*expand(char *str, int is_heredoc, char **envp);
 // DELETE
 void		print_tokens(t_token *token_list);
 void		print_cmd_table(t_cmd_table *cmd_table);
+void		print_local_variables(t_variable *local_vars);
 
 #endif

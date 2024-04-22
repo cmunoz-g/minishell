@@ -3,16 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:07:57 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 12:49:51 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/22 13:36:12 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 t_global	g_global;
+
+void	print_local_variables(t_variable *local_vars) // borrar
+{
+	t_variable *ref;
+
+	ref = local_vars;
+	while (ref)
+	{
+		printf("name: %s \nvalue: %s\n",ref->name, ref->value);
+		ref = ref->next;
+	}
+}
 
 void	print_tokens(t_token *token_list) // borrar
 {

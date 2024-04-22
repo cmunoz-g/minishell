@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:05:18 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 12:02:37 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/22 13:35:30 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ void	minishell_loop(t_minishell *data)
 		reset_loop(data);
 	else
 	{
+		// local_variables(data);
+		// print_local_variables(data->local_vars);
+		// print_cmd_table(data->cmd_table);
+		// exit(0);
 		parse_data(data);
 		if (!data->cmd_table->next)
 		{

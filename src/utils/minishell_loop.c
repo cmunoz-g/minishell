@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:05:18 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/23 12:06:20 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/23 12:31:43 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,9 @@ static void	create_main_fork(t_minishell *data)
 		exit(1);
 	if (pid == 0)
 		executor(data);
-	else
-	{
-		if (WIFEXITED(status))
-			g_global.error_num = WEXITSTATUS(status);
-		kill(pid, SIGKILL);
-	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		g_global.error_num = WEXITSTATUS(status);
 }
 
 void	minishell_loop(t_minishell *data)

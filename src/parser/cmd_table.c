@@ -13,9 +13,9 @@ void	gen_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int start, int 
 		token_list = token_list->next;
 		i++;
 	}
-	last->args = (char **)malloc(sizeof(char *) * (get_nbr_args(token_list, (end - start)) + 1));
+	last->args = (char **)malloc(sizeof(char *) * (get_nbr_args(token_list, (end - start)) + 1)); // FALTA PROTEGER
 	last->n_redirections = get_nbr_redir(token_list, (end - start)); 
-	last->redirections = (t_token **)malloc(sizeof(t_token *) * last->n_redirections);
+	last->redirections = (t_token **)malloc(sizeof(t_token *) * last->n_redirections); // FALTA PROTEGER
 	j = 0;
 	while (j < last->n_redirections)
 	{

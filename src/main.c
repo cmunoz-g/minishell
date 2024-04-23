@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:07:57 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 13:36:12 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/23 10:25:39 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,20 @@ void	print_cmd_table(t_cmd_table *cmd_table) // borrar
 	}
 }
 
+void leaks(void)
+{
+	system("leaks minishell");
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	*data;
 
+	atexit(leaks);
 	if (argc != 1 || argv[1])
 		exit(1);
 	data = init(envp);
 	get_past_history(envp, data);
-	signals(false);
+	//signals(false);
 	minishell_loop(data);
 }

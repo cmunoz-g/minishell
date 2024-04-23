@@ -61,7 +61,7 @@ void	clean_cmd_table_list(t_cmd_table **cmd_table)
 				free((*cmd_table)->args[i++]);
 			free((*cmd_table)->args);
 		}
-		if ((*cmd_table)->redirections)
+		if ((*cmd_table)->n_redirections)
 			clean_cmd_table_redir(cmd_table, &j);
 		if ((*cmd_table)->cmd)
 			free((*cmd_table)->cmd);

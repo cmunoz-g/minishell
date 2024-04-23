@@ -6,7 +6,7 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/23 10:21:29 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:56:44 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,9 @@ int			mini_echo(t_minishell *data);
 void		mini_env(t_minishell *data);
 /* mini_unset*/
 void		mini_unset(t_minishell *data);
+int			get_nbr_env(char **env);
+/* mini_export*/
+void		mini_export(t_minishell *data);
 /* utills_builtins */
 int			(*check_if_builtin(char *str))(t_minishell *data);
 int			execute_builtin(t_minishell *data,
@@ -178,6 +181,8 @@ int			check_variable(t_cmd_table *cmd_table);
 void		create_new_variable(char *cmd, t_variable **local_vars);
 void		fill_variable(t_variable **variables, char *cmd);
 int			get_var_size(char *cmd, bool name);
+int			check_new_var(char *cmd, t_variable *local_vars);
+void		change_variable_value(char *cmd, t_variable **local_vars, int laps);
 t_variable	*get_last_variable(t_variable *local_vars);
 
 // EXEC

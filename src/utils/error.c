@@ -28,7 +28,7 @@ void	error(t_minishell *data, char *error_message) // mirar como estan los error
 		free(data);
 	}
 	msg_len = ft_strlen(error_message);
-	write(2, "Error:" , 7);
+	write(2, "Error: " , 8);
 	write(2, error_message, msg_len);
 	write(2, "\n", 1);
 }

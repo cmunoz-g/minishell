@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:05:18 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/23 10:25:55 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:06:20 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ static void	create_main_fork(t_minishell *data)
 		executor(data);
 	else
 	{
-		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 			g_global.error_num = WEXITSTATUS(status);
+		kill(pid, SIGKILL);
 	}
 }
 

@@ -6,15 +6,15 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:05:18 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/23 12:31:43 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/23 12:38:05 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell_loop(t_minishell *data);
+void		minishell_loop(t_minishell *data);
 static void	create_main_fork(t_minishell *data);
-void	reset_loop(t_minishell *data);
+void		reset_loop(t_minishell *data);
 static void	parse_data(t_minishell *data);
 
 static void	parse_data(t_minishell *data)

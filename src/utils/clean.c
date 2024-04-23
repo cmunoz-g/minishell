@@ -65,6 +65,8 @@ void	clean_cmd_table_list(t_cmd_table **cmd_table)
 			clean_cmd_table_redir(cmd_table, &j);
 		if ((*cmd_table)->cmd)
 			free((*cmd_table)->cmd);
+		if ((*cmd_table)->hd_file)
+			free((*cmd_table)->hd_file);
 		free(*cmd_table);
 		i = 0;
 		j = 0;

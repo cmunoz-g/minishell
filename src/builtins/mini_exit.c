@@ -86,6 +86,18 @@ void	mini_exit(t_minishell *data)
 	exit_code %= 256;
 	if (exit_code < 0)
 		exit_code += 256;
+	if (data->line)
+		free(data->line);
+	if (data->token_list)
+		free(data->token_list);
+	if (data->local_vars)
+		free(data->local_vars);
+	if (data->env_vars)
+		free_arr(data->env_vars);
+	if (data->pwd)
+		free(data->pwd);
+	if (data->old_pwd)
+		free(data->old_pwd);
 	clean_cmd_table_list(&(data->cmd_table));
 	(printf("exit\n"), exit(exit_code));
 }

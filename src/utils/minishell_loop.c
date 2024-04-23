@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:05:18 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/23 12:25:22 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/04/23 20:37:27 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell_loop(t_minishell *data);
+void		minishell_loop(t_minishell *data);
 static void	create_main_fork(t_minishell *data);
-void	reset_loop(t_minishell *data);
+void		reset_loop(t_minishell *data);
 static void	parse_data(t_minishell *data);
 
 static void	parse_data(t_minishell *data)
@@ -38,12 +38,9 @@ static void	create_main_fork(t_minishell *data)
 		exit(1);
 	if (pid == 0)
 		executor(data);
-	else
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			g_global.error_num = WEXITSTATUS(status);
-	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		g_global.error_num = WEXITSTATUS(status);
 }
 
 void	minishell_loop(t_minishell *data)

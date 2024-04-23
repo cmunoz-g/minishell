@@ -64,7 +64,7 @@ void	create_new_variable(char *cmd, t_variable **local_vars)
 	t_variable *variables;
 
 	variables = (t_variable *)malloc(sizeof(t_variable));
-	if (!variables)
+	// if (!variables)
 		// gestionar error
 	last = get_last_variable(*local_vars);
 	if (!last)
@@ -95,44 +95,94 @@ int		check_variable(t_cmd_table *cmd_table)
 	return (1);
 }
 
-void	take_cmd_out(t_cmd_table **cmd_table) // ARREGLAR
-{
-	// int	i;
-	// int j;
+// void	take_cmd_out(t_cmd_table **cmd_table) // ARREGLAR
+// {
+// 	// int	i;
+// 	// int j;
 
-	// i = 0;
-	// j = 0;
-	if ((*cmd_table)->prev)
-		(*cmd_table)->prev->next = (*cmd_table)->next;
-	if ((*cmd_table)->next)
-		(*cmd_table)->next->prev = (*cmd_table)->prev;
-	// if ((*cmd_table)->n_args)
-	// {
-	// 	while ((*cmd_table)->args[i])
-	// 		free((*cmd_table)->args[i++]);
-	// 	free((*cmd_table)->args);
-	// }
-	// if ((*cmd_table)->redirections)
-	// 	clean_cmd_table_redir(cmd_table, &j);
-	// if ((*cmd_table)->cmd)
-	// 	free((*cmd_table)->cmd);
-	// free(*cmd_table);
+// 	// i = 0;
+// 	// j = 0;
+// 	if ((*cmd_table)->prev)
+// 		(*cmd_table)->prev->next = (*cmd_table)->next;
+// 	if ((*cmd_table)->next)
+// 		(*cmd_table)->next->prev = (*cmd_table)->prev;
+// 	// if ((*cmd_table)->n_args)
+// 	// {
+// 	// 	while ((*cmd_table)->args[i])
+// 	// 		free((*cmd_table)->args[i++]);
+// 	// 	free((*cmd_table)->args);
+// 	// }
+// 	// if ((*cmd_table)->n_redirections)
+// 	// 	clean_cmd_table_redir(cmd_table, &j);
+// 	// if ((*cmd_table)->cmd)
+// 	// 	free((*cmd_table)->cmd);
+// 	// free(*cmd_table);
+// }
+
+int	check_new_var(t_cmd_table *tmp, t_variable *local_vars)
+{
+	int			equal_pos;
+	t_variable	*it;
+	int			i;
+
+	equal_pos = get_var_size(tmp->cmd, true);
+	it = local_vars;
+	i = 0;
+	while (it)
+	{
+		if (!ft_strncmp(tmp->cmd, it->name, equal_pos))
+			return (i);
+		it = it->next;
+		i++;
+	}
+	return (-1);
 }
+
+void	change_variable_value(char *cmd, t_variable **local_vars, int laps)
+{
+	t_variable	*it;
+	int			i;
+	int			value_size;
+	int			name_size;
+
+	value_size = get_var_size(cmd, false);
+	name_size = get_var_size(cmd, true);
+	it = *local_vars;
+	i = 0;
+	while (i < laps)
+	{
+		it = it->next;
+		i++;
+	}
+	free(it->value);
+	it->value = (char *)malloc(sizeof(char) * (value_size + 1));
+	// if (!(*variables)->value)
+	// 	// gestionar
+	ft_strlcpy(it->value, cmd + name_size + 1, value_size + 1);
+}
+
 
 void	local_variables(t_minishell *data)
 {
 	t_cmd_table	*tmp;
-	//t_cmd_table *next;
+	t_cmd_table *to_free;
+	int			laps;
 
 	tmp = data->cmd_table;
 	while (tmp)
 	{
 		if (!check_variable(tmp))
 		{
-			create_new_variable(tmp->cmd, &(data->local_vars));
-			take_cmd_out(&tmp); // creo que el problema es que esto al eliminar tmp, el tmp = tmp->next revienta. ver como gestionar el sacar un nodo de 
-			// otra forma
+			laps = check_new_var(tmp, data->local_vars);
+			if (laps < 0)
+				create_new_variable(tmp->cmd, &(data->local_vars));
+			else
+				change_variable_value(tmp->cmd, &(data->local_vars), laps);
+			to_free = tmp; 
+			tmp = tmp->next;
+			//take_cmd_out(&to_free); 
 		}
-		tmp = tmp->next;
+		else
+			tmp = tmp->next;
 	}
 }

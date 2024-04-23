@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
+#    By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/04/22 13:35:42 by camunozg         ###   ########.fr        #
+#    Updated: 2024/04/23 10:25:33 by cmunoz-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ SRC_FILES 	= 	main\
 				builtins/mini_env\
 				builtins/mini_unset\
 				builtins/utils_builtins\
-				signal_handler\
+				#signal_handler\
 				
 SRC 		=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 

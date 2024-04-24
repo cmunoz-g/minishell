@@ -1,1 +1,5 @@
 .vscode/
+obj/
+libft/*.o
+libft/*.a
+minishell

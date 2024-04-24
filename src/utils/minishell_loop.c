@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/17 12:05:18 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/23 20:37:27 by camunozg         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/04/24 12:05:05 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -45,8 +46,6 @@ static void	create_main_fork(t_minishell *data)
 
 void	minishell_loop(t_minishell *data)
 {
-	int		(*builtin_arr)(t_minishell *data);
-
 	data->line = readline("\e[1;34m""minishell> ""\e[m");
 	if (!data->line)
 		exit(EXIT_SUCCESS);
@@ -59,16 +58,7 @@ void	minishell_loop(t_minishell *data)
 		//print_local_variables(data->local_vars);
 		//print_cmd_table(data->cmd_table);
 		//exit(0);
-		if (!data->cmd_table->next)
-		{
-			builtin_arr = check_if_builtin(data->cmd_table->cmd);
-			if (builtin_arr)
-				execute_builtin(data, builtin_arr);
-			else
-				create_main_fork(data);
-		}
-		else
-			create_main_fork(data);
+		create_main_fork(data);
 		reset_loop(data);
 	}
 }

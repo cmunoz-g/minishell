@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:50:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/23 12:25:01 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:04:41 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,8 @@ int	execute_builtin(t_minishell *data, int (*builtin_arr)(t_minishell *data))
 	if (ret)
 	{
 		g_global.error_num = ret;
-		reset_loop(data);
 		return (EXIT_FAILURE);
 	}
-	reset_loop(data);
 	return (EXIT_SUCCESS);
 }
 

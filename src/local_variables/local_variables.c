@@ -165,7 +165,7 @@ void	change_variable_value(char *cmd, t_variable **local_vars, int laps)
 void	local_variables(t_minishell *data) // tiene que mirar si esta en env y si es asi, tiene que cambiar el valor
 {
 	t_cmd_table	*tmp;
-	//t_cmd_table *to_free;
+	// t_cmd_table *to_free;
 	int			laps;
 
 	tmp = data->cmd_table;
@@ -178,7 +178,7 @@ void	local_variables(t_minishell *data) // tiene que mirar si esta en env y si e
 				create_new_variable(tmp->cmd, &(data->local_vars));
 			else
 				change_variable_value(tmp->cmd, &(data->local_vars), laps);
-			//to_free = tmp; 
+			// to_free = tmp; 
 			tmp = tmp->next;
 			//take_cmd_out(&to_free); 
 		}

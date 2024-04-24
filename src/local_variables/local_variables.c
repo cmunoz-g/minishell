@@ -128,10 +128,13 @@ int	check_new_var(char *cmd, t_variable *local_vars)
 	equal_pos = get_var_size(cmd, true);
 	it = local_vars;
 	i = 0;
-	while (it)
+	while (it) 
 	{
 		if (!ft_strncmp(cmd, it->name, equal_pos))
+		{
+			printf("%d\n",i);
 			return (i);
+		}
 		it = it->next;
 		i++;
 	}

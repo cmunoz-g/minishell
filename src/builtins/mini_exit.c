@@ -86,51 +86,6 @@ void	mini_exit(t_minishell *data)
 	exit_code %= 256;
 	if (exit_code < 0)
 		exit_code += 256;
-	if (data->line)
-		free(data->line);
-	if (data->token_list)
-		free(data->token_list);
-	if (data->local_vars)
-		free(data->local_vars);
-	if (data->env_vars)
-		free_arr(data->env_vars);
-	if (data->pwd)
-		free(data->pwd);
-	if (data->old_pwd)
-		free(data->old_pwd);
-	clean_cmd_table_list(&(data->cmd_table));
-	free(data);
+	clean_data(&data);
 	(printf("exit\n"), exit(exit_code));
 }
-
-// Codigo original, lo dejo por aqui. 
-
-/*
-void	mini_exit(t_minishell *data, t_cmd_table *cmd) 
-{
-	long long exit_code;
-
-	exit_code = 0;
-	//clean_cmd_table_list(&(data->cmd_table)); // esto esta bien aqui? comprobar que no haya doble frees
-	printf("%s\n",data->cmd_table->cmd);
-	exit(0);
-	if (cmd->args)
-	{
-		if (cmd->n_args > 1)
-			(printf("minishell: exit: too many arguments\n"), error_builtins(data, 1));
-		if (cmd->args[0])
-		{
-			if (check_if_number(cmd->args[0]) || check_if_too_big(cmd->args[0]))
-			{
-				printf("minishell: exit: %s: numeric argument required\n", cmd->args[0]);
-				error_builtins(data, 255);
-			}
-			exit_code = ft_atoll(cmd->args[0]);
-		}
-	}
-	exit_code %= 256;
-	if (exit_code < 0)
-		exit_code += 256;
-	printf("exit\n");
-	exit(exit_code);
-}*/

@@ -238,7 +238,8 @@ void	mini_export(t_minishell *data)
 				create_new_variable(data->cmd_table->args[i], &(data->local_vars));
 			else
 				change_variable_value(data->cmd_table->args[i], &(data->local_vars), laps);
-			if (laps > 0 && !variable_in_env(get_var_to_mod(data->local_vars, laps), data->env_vars))
+			printf("laps:%d\n", laps);
+			if (laps >= 0 && !variable_in_env(get_var_to_mod(data->local_vars, laps), data->env_vars))
 				new_env = modify_variable(data->env_vars, data, get_var_to_mod(data->local_vars, laps));
 			else
 				new_env = add_variable(data->cmd_table->args[i], data->env_vars, data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/23 12:55:02 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/23 17:57:51 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static void	exec_process(t_minishell *data)
 	char	*path;
 	int		(*builtin_arr)(t_minishell *data);
 
-	ft_putendl_fd("EXEC!\n", 1);
 	builtin_arr = check_if_builtin(data->cmd_table->cmd);
 	if (builtin_arr)
 		exit(execute_builtin(data, builtin_arr));
@@ -62,7 +61,6 @@ static void	do_pipe(t_minishell *data)
 	pid_t	pid;
 	int		status;
 
-	printf("WE got IN!\n");
 	if (pipe(p_fd) == -1)
 		exit(EXIT_FAILURE);
 	pid = fork();
@@ -70,7 +68,6 @@ static void	do_pipe(t_minishell *data)
 		exit(EXIT_FAILURE);
 	if (pid == 0)
 	{
-		printf("WE got EE!\n");
 		close(p_fd[0]);
 		if (!(data->cmd_table->next->in == HEREDOC))
 			dup2(p_fd[1], 1);

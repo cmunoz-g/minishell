@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 11:22:38 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/23 17:57:51 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,11 @@ static void	do_pipe(t_minishell *data)
 			dup2(p_fd[1], 1);
 		exec_process(data);
 	}
-	else
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			g_global.error_num = WEXITSTATUS(status);
-		close(p_fd[1]);
-		dup2(p_fd[0], 0);
-	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		g_global.error_num = WEXITSTATUS(status);
+	close(p_fd[1]);
+	dup2(p_fd[0], 0);
 }
 
 static void	handle_cmd(t_minishell *data)

@@ -3,3 +3,4 @@ obj/
 libft/*.o
 libft/*.a
 minishell
+build/

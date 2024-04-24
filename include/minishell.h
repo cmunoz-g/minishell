@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/24 10:13:08 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:48:03 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ int			get_nbr_env(char **env);
 void		mini_export(t_minishell *data);
 /* utills_builtins */
 int			(*check_if_builtin(char *str))(t_minishell *data);
+void		simple_builtin_executor(t_minishell *data);
 int			execute_builtin(t_minishell *data,
 				int (*builtin_arr)(t_minishell *data));
 
@@ -195,7 +196,7 @@ int			open_file(char *name, int to_write);
 char		*get_path(char *cmd, char **env);
 char		*my_getenv(char *key, char **env);
 /*	redirections */
-int			redirect(t_cmd_table *tbl);
+int			redirect(t_cmd_table *tbl, int is_builtin);
 /*	arr_utils */
 char		**ft_str_arr_join_exec(char *s1, char **strarr, char **envp);
 void		free_arr(char **arr);

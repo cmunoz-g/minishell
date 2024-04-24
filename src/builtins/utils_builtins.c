@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:50:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/24 12:04:41 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:48:14 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	(*check_if_builtin(char *str))(t_minishell *data);
+
+void	simple_builtin_executor(t_minishell *data)
+{
+	int		ret;
+	int		(*builtin_arr)(t_minishell *data);
+
+	check_all_heredocs(data->cmd_table, data->env_vars);
+	if (!data->cmd_table)
+		exit(EXIT_SUCCESS);
+	if (data->cmd_table->n_redirections > 0)
+		if (redirect(data->cmd_table, 1))
+			exit(EXIT_FAILURE);
+	builtin_arr = check_if_builtin(data->cmd_table->cmd);
+	ret = builtin_arr(data);
+	if (ret)
+		g_global.error_num = ret;
+}
 
 int	execute_builtin(t_minishell *data, int (*builtin_arr)(t_minishell *data))
 {

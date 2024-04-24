@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/23 17:57:51 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/24 12:43:53 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static void	handle_cmd(t_minishell *data)
 	if (!data->cmd_table)
 		exit(EXIT_SUCCESS);
 	if (data->cmd_table->n_redirections > 0)
-		if (redirect(data->cmd_table))
+		if (redirect(data->cmd_table, 0))
 			exit(EXIT_FAILURE);
 	if (!data->cmd_table->next || data->cmd_table->out == TRUNC
 		|| data->cmd_table->out == APPEND)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 11:35:26 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/24 12:43:58 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	handle_infile(char *str)
 	return (0);
 }
 
-int	redirect(t_cmd_table *tbl)
+int	redirect(t_cmd_table *tbl, int is_builtin)
 {
 	int	i;
 
@@ -59,7 +59,7 @@ int	redirect(t_cmd_table *tbl)
 			if (handle_infile(tbl->redirections[i]->value))
 				return (1);
 		}
-		else if (tbl->redirections[i]->type == HEREDOC)
+		else if (tbl->redirections[i]->type == HEREDOC && !is_builtin)
 		{
 			if (handle_infile(tbl->hd_file))
 				return (1);

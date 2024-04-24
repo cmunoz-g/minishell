@@ -6,7 +6,7 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:07:57 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/23 10:25:39 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/04/23 11:50:16 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	*data;
 
-	atexit(leaks);
+	//atexit(leaks);
 	if (argc != 1 || argv[1])
 		exit(1);
 	data = init(envp);

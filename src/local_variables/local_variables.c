@@ -119,18 +119,18 @@ int		check_variable(t_cmd_table *cmd_table)
 // 	// free(*cmd_table);
 // }
 
-int	check_new_var(t_cmd_table *tmp, t_variable *local_vars)
+int	check_new_var(char *cmd, t_variable *local_vars)
 {
 	int			equal_pos;
 	t_variable	*it;
 	int			i;
 
-	equal_pos = get_var_size(tmp->cmd, true);
+	equal_pos = get_var_size(cmd, true);
 	it = local_vars;
 	i = 0;
 	while (it)
 	{
-		if (!ft_strncmp(tmp->cmd, it->name, equal_pos))
+		if (!ft_strncmp(cmd, it->name, equal_pos))
 			return (i);
 		it = it->next;
 		i++;
@@ -162,7 +162,7 @@ void	change_variable_value(char *cmd, t_variable **local_vars, int laps)
 }
 
 
-void	local_variables(t_minishell *data)
+void	local_variables(t_minishell *data) // tiene que mirar si esta en env y si es asi, tiene que cambiar el valor
 {
 	t_cmd_table	*tmp;
 	// t_cmd_table *to_free;
@@ -173,7 +173,7 @@ void	local_variables(t_minishell *data)
 	{
 		if (!check_variable(tmp))
 		{
-			laps = check_new_var(tmp, data->local_vars);
+			laps = check_new_var(tmp->cmd, data->local_vars);
 			if (laps < 0)
 				create_new_variable(tmp->cmd, &(data->local_vars));
 			else

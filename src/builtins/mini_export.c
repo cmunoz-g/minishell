@@ -85,24 +85,35 @@ char	**add_variable(char *variable, char **env, t_minishell *data)
 {
 	int		nbr_env;
 	int		i;
+	int		j;
 	char	**new_env;
+	bool	flag;
 
 	i = 0;
+	j = 0;
+	flag = false;
 	nbr_env = get_nbr_env(env);
 	new_env = (char **)malloc(sizeof(char *) * (nbr_env + 2));
 	if (!new_env)
 		error(data, "Memory problems in mini_export");
 	while (i < nbr_env && env[i])
 	{
-		new_env[i] = ft_strdup(env[i]);
+		if (!ft_strncmp(env[i], "HOME=", 4))
+			flag = true;
+		new_env[j] = ft_strdup(env[i]);
 		if (!new_env[i])
 			(free_arr(new_env), error(data, "Memory problems in mini_export"));
+		if (flag)
+		{
+			j++;
+			new_env[j] = ft_strdup(variable);
+			if (!new_env[i])
+				(free_arr(new_env), error(data, "Memory problems in mini_export"));
+			flag = false;
+		}
+		j++;
 		i++;
 	}
-	new_env[i] = ft_strdup(variable);
-	if (!new_env[i])
-			(free_arr(new_env), error(data, "Memory problems in mini_export"));
-	i++;
 	new_env[i] = NULL;
 	return (new_env);
 }
@@ -134,66 +145,79 @@ char	*get_new_var(char *variable, t_variable *local_vars)
 	return (new_var);
 }
 
-// void swap(char **x, char **y) 
-// {
-//     char *temp;
+void swap(char **x, char **y) 
+{
+    char *temp;
 	
-// 	temp = *x;
-//     *x = *y;
-//     *y = temp;
-// }
+	temp = *x;
+    *x = *y;
+    *y = temp;
+}
 
-// int partition(char *arr[], int low, int high) 
-// {
-//     char	*pivot;
-// 	int		i;
-// 	int		j;
+int partition(char *arr[], int low, int high) 
+{
+    char	*pivot;
+	int		i;
+	int		j;
 	
-// 	pivor = arr[high]; 
-//     i = (low - 1); 
-// 	j = low;
-// 	while (j <= (high - 1))
-// 	{
-// 		if (ft_strcmp(arr[j], pivor) < 0)
-// 		{
-// 			i++;
-// 			swap(&arr[i], &arr[j]);
-// 		}
-// 		j++;
-// 	}
-//     swap(&arr[i + 1], &arr[high]);
-//     return (i + 1);
-// }
+	pivot = arr[high]; 
+    i = (low - 1); 
+	j = low;
+	while (j <= (high - 1))
+	{
+		if (ft_strcmp(arr[j], pivot) < 0)
+		{
+			i++;
+			swap(&arr[i], &arr[j]);
+		}
+		j++;
+	}
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
 
-// void quicksort(char **arr, int low, int high) 
-// {
-// 	int pi;
+void quicksort(char **arr, int low, int high) 
+{
+	int pi;
 
-//     if (low < high) 
-// 	{
-//         pi = partition(arr, low, high);
-//         quicksort(arr, low, pi - 1);
-//         quicksort(arr, pi + 1, high);
-//     }
-// }
+    if (low < high) 
+	{
+        pi = partition(arr, low, high);
+        quicksort(arr, low, pi - 1);
+        quicksort(arr, pi + 1, high);
+    }
+}
 
-// void	env_order(t_minishell *data)
-// {
-// 	char 	**sorted_env;
-// 	int		n;
-// 	int		i;
+void	env_order(t_minishell *data)
+{
+	char 	**sorted_env;
+	int		n;
+	int		i;
+	int		j;
 
-// 	sorted_env = ft_arrdup(data->env_vars);
-// 	quicksort(sorted_env, 0, n - 1);
-// 	while (sorted_env[i])
-// 	{
-// 		printf("declare -x %s")
-// 	}
+	sorted_env = ft_arrdup(data->env_vars);
+	n = get_nbr_env(sorted_env);
+	quicksort(sorted_env, 0, n - 1);
+	i = 0;
+	j = 0;
+	// exit(0);
+	while (sorted_env[i])
+	{
+		printf("declare -x ");
+		while (sorted_env[i][j] != '=')
+			printf("%c", sorted_env[i][j++]);
+		printf("=\"");
+		j++;
+		while (sorted_env[i][j])
+			printf("%c", sorted_env[i][j++]);
+		printf("\"\n");
+		j = 0;
+		i++;
+	}
+	free_arr(sorted_env);
+}
 
-
-// }
-
-void	mini_export(t_minishell *data)  // revisar orden en el que mete las variables en env en bash
+void	mini_export(t_minishell *data) 
 {
 	int		i;
 	int		local_var;
@@ -202,8 +226,8 @@ void	mini_export(t_minishell *data)  // revisar orden en el que mete las variabl
 	char	*new_var;
 
 	i = 0;
-	// if (data->n_args == 0)
-	// 	env_order(data);
+	if (data->cmd_table->n_args == 0)
+		env_order(data);
 	while (i < data->cmd_table->n_args)
 	{
 		local_var = check_if_declaration(data->cmd_table->args[i]);
@@ -232,3 +256,4 @@ void	mini_export(t_minishell *data)  // revisar orden en el que mete las variabl
 		i++;
 	}
 }
+

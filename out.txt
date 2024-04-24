@@ -1,6 +1,0 @@
-EXEC!
-
-hola
-[1;34mminishell> [m
-[1;34mminishell> [m
-[1;34mminishell> [m

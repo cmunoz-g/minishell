@@ -15,11 +15,14 @@ void	gen_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int start, int 
 	}
 	last->args = (char **)malloc(sizeof(char *) * (get_nbr_args(token_list, (end - start)) + 1)); // FALTA PROTEGER
 	last->n_redirections = get_nbr_redir(token_list, (end - start)); 
-	last->redirections = (t_token **)malloc(sizeof(t_token *) * last->n_redirections); // FALTA PROTEGER
+	if (last->n_redirections)
+		last->redirections = (t_token **)malloc(sizeof(t_token *) * last->n_redirections); // FALTA PROTEGER
+	else
+		last->redirections = NULL;
 	j = 0;
 	while (j < last->n_redirections)
 	{
-		last->redirections[j] = (t_token *)malloc(sizeof(t_token));
+		last->redirections[j] = (t_token *)malloc(sizeof(t_token)); // FALTA PROTEGER
 		j++;
 	}
 	populate_cmd_table(token_list, &last, (end - start));
@@ -44,7 +47,16 @@ void	alloc_cmd_table(t_cmd_table **cmd_list, bool new_cmd)
 		last->next = cmd_table;
 		cmd_table->prev = last;
 	}
+	cmd_table->cmd = NULL;
+	cmd_table->args = NULL;
+	cmd_table->n_args = 0;
+	cmd_table->in = 0;
+	cmd_table->out = 0;
+	cmd_table->err = 0;
+	cmd_table->hd_file = NULL;
 	cmd_table->next = NULL;
+	cmd_table->n_redirections = 0;
+	cmd_table->redirections = NULL;
 	cmd_table->new_cmd = new_cmd;
 }
 

@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:06:31 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/24 10:13:03 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/24 13:36:48 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_strdup_mod(const char *s, size_t size)
 {
 	char	*cpy;
 
-	cpy = (char *)malloc(size);
+	cpy = (char *)malloc(size + 1);
 	if (!cpy)
 		return (NULL);
 	ft_strlcpy(cpy, s, size + 1);

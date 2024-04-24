@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/24 12:48:23 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/24 13:41:01 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -34,6 +33,7 @@ static void	create_main_fork(t_minishell *data)
 	pid_t		pid;
 	int			status;
 
+	status = 0;
 	pid = fork();
 	if (pid == -1)
 		exit(1);
@@ -64,7 +64,7 @@ void	reset_loop(t_minishell *data)
 {
 	if (data->cmd_table)
 		clean_cmd_table_list(&(data->cmd_table));
-	if (data->line || ft_strlen(data->line))
+	if (data->line || ft_strlen(data->line)) // porque el ft_strlen? puede que acceda a NULL?
 		free(data->line);
 	minishell_loop(data);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/24 12:48:03 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/24 14:57:28 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,9 @@ int			execute_builtin(t_minishell *data,
 void		clean_token_list(t_token **token_list);
 void		clean_cmd_table_list(t_cmd_table **cmd_table);
 void		clean_cmd_table_redir(t_cmd_table **cmd_table, int *j);
+void		clean_data(t_minishell **data);
+void		clean_local_vars(t_variable **local_vars);
+void		get_first_variable(t_variable **var);
 int			ft_strcmp(const char *str1, const char *str2);
 int			ft_isspace(int c);
 int			check_spaces(char *line);

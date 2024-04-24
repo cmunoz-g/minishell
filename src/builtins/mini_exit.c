@@ -99,6 +99,7 @@ void	mini_exit(t_minishell *data)
 	if (data->old_pwd)
 		free(data->old_pwd);
 	clean_cmd_table_list(&(data->cmd_table));
+	free(data);
 	(printf("exit\n"), exit(exit_code));
 }
 

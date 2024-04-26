@@ -90,8 +90,10 @@ void	clean_data(t_minishell **data)
 		free((*data)->pwd);
 	if ((*data)->old_pwd)
 		free((*data)->old_pwd);
-	clean_local_vars(&(*data)->local_vars);
-	clean_cmd_table_list(&((*data)->cmd_table));
+	if ((*data)->local_vars)
+		clean_local_vars(&(*data)->local_vars);
+	if ((*data)->cmd_table)
+		clean_cmd_table_list(&((*data)->cmd_table));
 	rl_clear_history();
 	free((*data));
 }

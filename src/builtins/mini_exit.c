@@ -64,21 +64,27 @@ int	count_args(char **args)
 	return (i);
 }
 
-void	mini_exit(t_minishell *data) 
+int	mini_exit(t_minishell *data) 
 {
-	long long exit_code;
+	long long	exit_code;
 
 	exit_code = 0;
 	if (data->cmd_table->args)
 	{
 		if (data->cmd_table->n_args > 1)
-			(printf("minishell: exit: too many arguments\n"), error_builtins(data, 1));
+		{
+			ft_putendl_fd("minishell: exit: too many arguments", 2);
+			return (1);
+		}
 		if (data->cmd_table->args[0])
 		{
-			if (check_if_number(data->cmd_table->args[0]) || check_if_too_big(data->cmd_table->args[0]))
+			if (check_if_number(data->cmd_table->args[0])
+				|| check_if_too_big(data->cmd_table->args[0]))
 			{
-				printf("minishell: exit: %s: numeric argument required\n", data->cmd_table->args[0]);
-				error_builtins(data, 255);
+				ft_putstr_fd("minishell: exit: ", 2);
+				ft_putstr_fd(data->cmd_table->args[0], 2);
+				ft_putendl_fd(": numeric argument required", 2);
+				return (255);
 			}
 			exit_code = ft_atoll(data->cmd_table->args[0]);
 		}
@@ -87,5 +93,5 @@ void	mini_exit(t_minishell *data)
 	if (exit_code < 0)
 		exit_code += 256;
 	clean_data(&data);
-	(printf("exit\n"), exit(exit_code));
+	(ft_putendl_fd("exit", 1), exit(exit_code));
 }

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/26 11:26:51 by juramos           #+#    #+#             */
+/*   Updated: 2024/04/26 11:27:10 by juramos          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void	error_builtins(t_minishell *data, int exit_code)
+int	error_builtins(t_minishell *data, int exit_code)
 {
 	if (data)
 	{
@@ -10,7 +22,7 @@ void	error_builtins(t_minishell *data, int exit_code)
 			clean_token_list(&data->token_list);
 		free(data);
 	}
-	exit(exit_code);
+	return (exit_code);
 }
 
 void	error(t_minishell *data, char *error_message) // mirar como estan los errores gestionados en pipex e implementar

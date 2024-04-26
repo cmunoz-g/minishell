@@ -217,7 +217,7 @@ void	env_order(t_minishell *data)
 	free_arr(sorted_env);
 }
 
-void	mini_export(t_minishell *data) 
+int	mini_export(t_minishell *data) 
 {
 	int		i;
 	int		local_var;
@@ -238,7 +238,6 @@ void	mini_export(t_minishell *data)
 				create_new_variable(data->cmd_table->args[i], &(data->local_vars));
 			else
 				change_variable_value(data->cmd_table->args[i], &(data->local_vars), laps);
-			printf("laps:%d\n", laps);
 			if (laps >= 0 && !variable_in_env(get_var_to_mod(data->local_vars, laps), data->env_vars))
 				new_env = modify_variable(data->env_vars, data, get_var_to_mod(data->local_vars, laps));
 			else
@@ -256,5 +255,6 @@ void	mini_export(t_minishell *data)
 		}
 		i++;
 	}
+	return (0);
 }
 

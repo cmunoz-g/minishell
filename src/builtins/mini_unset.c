@@ -67,7 +67,7 @@ char	**unset_env(char *variable, char **env, t_minishell *data)
 	return (new_env);
 }
 
-void	mini_unset(t_minishell *data)
+int	mini_unset(t_minishell *data)
 {
 	int		i;
 	char	**new_env;
@@ -89,4 +89,5 @@ void	mini_unset(t_minishell *data)
 		// }
 		i++;
 	}
+	return (0);
 }

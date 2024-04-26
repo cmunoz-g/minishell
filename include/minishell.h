@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/26 11:29:28 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/26 12:33:45 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,12 @@ int			mini_pwd(t_minishell *data);
 /* mini_echo */
 int			mini_echo(t_minishell *data);
 /* mini_env */
-void		mini_env(t_minishell *data);
+int			mini_env(t_minishell *data);
 /* mini_unset*/
-void		mini_unset(t_minishell *data);
+int			mini_unset(t_minishell *data);
 int			get_nbr_env(char **env);
 /* mini_export*/
-void		mini_export(t_minishell *data);
+int			mini_export(t_minishell *data);
 /* utills_builtins */
 int			(*check_if_builtin(char *str))(t_minishell *data);
 void		simple_builtin_executor(t_minishell *data);

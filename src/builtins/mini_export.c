@@ -217,7 +217,7 @@ void	env_order(t_minishell *data)
 	free_arr(sorted_env);
 }
 
-void	mini_export(t_minishell *data) 
+int	mini_export(t_minishell *data) 
 {
 	int		i;
 	int		local_var;
@@ -255,5 +255,6 @@ void	mini_export(t_minishell *data)
 		}
 		i++;
 	}
+	return (0);
 }
 

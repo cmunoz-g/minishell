@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 12:24:46 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/26 10:26:27 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,6 @@ static char	*remove_quotes(char *str)
 	keyword_cleaned = ft_strtrim(str, "\"");
 	keyword = ft_strtrim(keyword_cleaned, "\'");
 	return (free(keyword_cleaned), keyword);
-}
-
-static char	*check_quotes(char *str, int is_heredoc)
-{
-	char	*ret;
-
-	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'' && !is_heredoc)
-		ret = remove_quotes(str);
-	else if (str[0] == '\'' || str[0] == '\"')
-		ret = remove_quotes(str);
-	else
-		ret = ft_strdup(str);
-	return (ret);
 }
 
 static char	*expand_word(char *str, int start, int end, char **envp)
@@ -83,7 +70,12 @@ char	*expand(char *str, int is_heredoc, char **envp)
 	char	*ret;
 
 	i = 0;
-	ret = check_quotes(str, is_heredoc);
+	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'' && !is_heredoc)
+		return (remove_quotes(str));
+	else if (str[0] == '\'' || str[0] == '\"')
+		ret = remove_quotes(str);
+	else
+		ret = ft_strdup(str);
 	while (ret[i])
 	{
 		if (ret[i] == '$' && ret[i + 1] && !ft_isspace(ret[i + 1]))

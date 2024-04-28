@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/24 14:57:28 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:33:45 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
 # define EMPTY 0
 # define CMD 1
@@ -132,18 +132,18 @@ t_minishell	*init(char **envp);
 /* mini_cd */
 int			mini_cd(t_minishell	*data);
 /* mini_exit */
-void		mini_exit(t_minishell *data);
+int			mini_exit(t_minishell *data);
 /* mini_pwd */
 int			mini_pwd(t_minishell *data);
 /* mini_echo */
 int			mini_echo(t_minishell *data);
 /* mini_env */
-void		mini_env(t_minishell *data);
+int			mini_env(t_minishell *data);
 /* mini_unset*/
-void		mini_unset(t_minishell *data);
+int			mini_unset(t_minishell *data);
 int			get_nbr_env(char **env);
 /* mini_export*/
-void		mini_export(t_minishell *data);
+int			mini_export(t_minishell *data);
 /* utills_builtins */
 int			(*check_if_builtin(char *str))(t_minishell *data);
 void		simple_builtin_executor(t_minishell *data);
@@ -162,7 +162,7 @@ int			ft_isspace(int c);
 int			check_spaces(char *line);
 char		*ft_strdup_mod(const char *s, size_t size);
 void		error(t_minishell *data, char *error_message);
-void		error_builtins(t_minishell *data, int exit_code);
+int			error_builtins(t_minishell *data, int exit_code);
 
 /*	minishell_loop */
 void		minishell_loop(t_minishell *data);

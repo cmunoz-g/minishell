@@ -95,30 +95,6 @@ int		check_variable(t_cmd_table *cmd_table)
 	return (1);
 }
 
-// void	take_cmd_out(t_cmd_table **cmd_table) // ARREGLAR
-// {
-// 	// int	i;
-// 	// int j;
-
-// 	// i = 0;
-// 	// j = 0;
-// 	if ((*cmd_table)->prev)
-// 		(*cmd_table)->prev->next = (*cmd_table)->next;
-// 	if ((*cmd_table)->next)
-// 		(*cmd_table)->next->prev = (*cmd_table)->prev;
-// 	// if ((*cmd_table)->n_args)
-// 	// {
-// 	// 	while ((*cmd_table)->args[i])
-// 	// 		free((*cmd_table)->args[i++]);
-// 	// 	free((*cmd_table)->args);
-// 	// }
-// 	// if ((*cmd_table)->n_redirections)
-// 	// 	clean_cmd_table_redir(cmd_table, &j);
-// 	// if ((*cmd_table)->cmd)
-// 	// 	free((*cmd_table)->cmd);
-// 	// free(*cmd_table);
-// }
-
 int	check_new_var(char *cmd, t_variable *local_vars)
 {
 	int			equal_pos;
@@ -131,17 +107,14 @@ int	check_new_var(char *cmd, t_variable *local_vars)
 	while (it) 
 	{
 		if (!ft_strncmp(cmd, it->name, equal_pos))
-		{
-			printf("%d\n",i);
 			return (i);
-		}
 		it = it->next;
 		i++;
 	}
 	return (-1);
 }
 
-void	change_variable_value(char *cmd, t_variable **local_vars, int laps)
+void	change_var_value(char *cmd, t_variable **local_vars, int laps)
 {
 	t_variable	*it;
 	int			i;
@@ -152,7 +125,7 @@ void	change_variable_value(char *cmd, t_variable **local_vars, int laps)
 	name_size = get_var_size(cmd, true);
 	it = *local_vars;
 	i = 0;
-	while (i < laps)
+	while (i < laps && it) // he anadido la parte de && it para darle mas seguridad. si algo empieza a reventarse revisr esto lo primero
 	{
 		it = it->next;
 		i++;
@@ -164,11 +137,48 @@ void	change_variable_value(char *cmd, t_variable **local_vars, int laps)
 	ft_strlcpy(it->value, cmd + name_size + 1, value_size + 1);
 }
 
+char	**change_var_value_env(t_variable *variable, char **env)
+{
+	char	**new_env;
+	int		nbr_env;
+	int		name_size;
+	int		value_size;
+	int		i;
+
+	nbr_env = get_nbr_env(env);
+	new_env = (char **)malloc(sizeof(char *) * (nbr_env + 1));
+	if (!new_env)
+		error(data, "Memory problems while modifying env");
+	name_size = ft_strlen(variable->name);
+	value_size = ft_strlen(variable->value);
+	while (i < nbr_env && env[i])
+	{
+		if (!ft_strcmp(variable->name, env[i], name_size))
+		{
+			new_env[i] = ft_strdup(variable->name);
+			// proteger
+			new_env[i] = (char *)malloc(name_size + value_size + 2);
+			if (!new_env[i])
+				(free_arr(new_env), error(data, "Memory problems while modifying env"));
+			ft_strlcpy(new_env[i], variable->name, name_size + 1);
+			new_env[i][name_size] = '=';
+			ft_strlcpy(new_env[i] + name_size + 1, variable->value, value_size + 1);
+		}
+		else
+		{
+			new_env[i] = ft_strdup(env[i])
+			// proteger
+		}
+		i++;
+	}
+	new_env[i] = NULL;
+	return (new_env[i]);
+}
 
 void	local_variables(t_minishell *data) // tiene que mirar si esta en env y si es asi, tiene que cambiar el valor
 {
 	t_cmd_table	*tmp;
-	// t_cmd_table *to_free;
+	char		**new_env;
 	int			laps;
 
 	tmp = data->cmd_table;
@@ -180,12 +190,20 @@ void	local_variables(t_minishell *data) // tiene que mirar si esta en env y si e
 			if (laps < 0)
 				create_new_variable(tmp->cmd, &(data->local_vars));
 			else
-				change_variable_value(tmp->cmd, &(data->local_vars), laps);
-			// to_free = tmp; 
-			tmp = tmp->next;
-			//take_cmd_out(&to_free); 
+			{
+				change_var_value(tmp->cmd, &(data->local_vars), laps); 
+				if (!variable_in_env(get_var_to_mod(&(data->local_vars), laps)), data->env_vars) 
+				{
+					new_env = change_var_value_env(get_var_to_mod(&(data->local_vars), laps), data->env_vars);
+					free_arr(data->env_vars);
+					data->env_vars = new_env;
+				}
+			}
+			tmp = tmp->next; 
 		}
 		else
 			tmp = tmp->next;
 	}
 }
+
+//int		variable_in_env(t_variable *variable, char **env)

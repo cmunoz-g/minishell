@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/26 12:33:45 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/28 18:48:22 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ void		create_new_variable(char *cmd, t_variable **local_vars);
 void		fill_variable(t_variable **variables, char *cmd);
 int			get_var_size(char *cmd, bool name);
 int			check_new_var(char *cmd, t_variable *local_vars);
-void		change_variable_value(char *cmd, t_variable **local_vars, int laps);
+void		change_var_value(char *cmd, t_variable **local_vars, int laps);
 t_variable	*get_last_variable(t_variable *local_vars);
 
 // EXEC

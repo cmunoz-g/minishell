@@ -21,7 +21,7 @@ t_variable	*get_var_to_mod(t_variable *local_vars, int laps)
 
 	it = local_vars;
 	i = 0;
-	while (i < laps)
+	while (i < laps && it) // anadi el && it, revisar el comment de local_variables.c
 	{
 		it = it->next;
 		i++;
@@ -237,7 +237,7 @@ int	mini_export(t_minishell *data)
 			if (laps < 0)
 				create_new_variable(data->cmd_table->args[i], &(data->local_vars));
 			else
-				change_variable_value(data->cmd_table->args[i], &(data->local_vars), laps);
+				change_var_value(data->cmd_table->args[i], &(data->local_vars), laps);
 			if (laps >= 0 && !variable_in_env(get_var_to_mod(data->local_vars, laps), data->env_vars))
 				new_env = modify_variable(data->env_vars, data, get_var_to_mod(data->local_vars, laps));
 			else

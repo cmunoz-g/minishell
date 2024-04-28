@@ -94,6 +94,8 @@ void	unset_local(char *char_variable, t_variable **local_vars)
 		variable->next->prev = variable->prev;
 	if (variable->prev)
 		variable->prev->next = variable->next;
+	else
+		*local_vars = variable->next;
 	if (variable->name)
 		free(variable->name);
 	variable->name = NULL;
@@ -103,8 +105,6 @@ void	unset_local(char *char_variable, t_variable **local_vars)
 	free(variable);
 	variable = NULL;
 }
- // da segfault despues de usar unset y luego export. revisar unset_local. 
-// revisar tmb que pasa despues de unset env, si puedo usar export o no
 int	mini_unset(t_minishell *data)
 {
 	int		i;
@@ -119,8 +119,7 @@ int	mini_unset(t_minishell *data)
 			free_arr(data->env_vars);
 			data->env_vars = new_env;
 		}
-		//unset_local(data->cmd_table->args[i], &(data->local_vars));
-		//print_local_variables(data->local_vars); // borrar
+		unset_local(data->cmd_table->args[i], &(data->local_vars));
 		i++;
 	}
 	return (0);

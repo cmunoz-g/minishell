@@ -137,7 +137,7 @@ void	change_var_value(char *cmd, t_variable **local_vars, int laps)
 	ft_strlcpy(it->value, cmd + name_size + 1, value_size + 1);
 }
 
-char	**change_var_value_env(t_variable *variable, char **env)
+char	**change_var_value_env(t_variable *variable, char **env, t_minishell *data)
 {
 	char	**new_env;
 	int		nbr_env;
@@ -151,9 +151,10 @@ char	**change_var_value_env(t_variable *variable, char **env)
 		error(data, "Memory problems while modifying env");
 	name_size = ft_strlen(variable->name);
 	value_size = ft_strlen(variable->value);
+	i = 0;
 	while (i < nbr_env && env[i])
 	{
-		if (!ft_strcmp(variable->name, env[i], name_size))
+		if (!ft_strncmp(variable->name, env[i], name_size))
 		{
 			new_env[i] = ft_strdup(variable->name);
 			// proteger
@@ -166,13 +167,13 @@ char	**change_var_value_env(t_variable *variable, char **env)
 		}
 		else
 		{
-			new_env[i] = ft_strdup(env[i])
+			new_env[i] = ft_strdup(env[i]);
 			// proteger
 		}
 		i++;
 	}
 	new_env[i] = NULL;
-	return (new_env[i]);
+	return (new_env);
 }
 
 void	local_variables(t_minishell *data) // tiene que mirar si esta en env y si es asi, tiene que cambiar el valor
@@ -192,14 +193,15 @@ void	local_variables(t_minishell *data) // tiene que mirar si esta en env y si e
 			else
 			{
 				change_var_value(tmp->cmd, &(data->local_vars), laps); 
-				if (!variable_in_env(get_var_to_mod(&(data->local_vars), laps)), data->env_vars) 
+				if (!variable_in_env(get_var_to_mod(data->local_vars, laps), data->env_vars))
 				{
-					new_env = change_var_value_env(get_var_to_mod(&(data->local_vars), laps), data->env_vars);
+					new_env = change_var_value_env(get_var_to_mod(data->local_vars, laps), data->env_vars, data);
 					free_arr(data->env_vars);
 					data->env_vars = new_env;
 				}
 			}
 			tmp = tmp->next; 
+			print_local_variables(data->local_vars);
 		}
 		else
 			tmp = tmp->next;

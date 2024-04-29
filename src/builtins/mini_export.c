@@ -84,37 +84,36 @@ char	**modify_variable(char **env, t_minishell *data, t_variable *variable)
 char	**add_variable(char *variable, char **env, t_minishell *data)
 {
 	int		nbr_env;
-	int		i;
-	int		j;
+	int		i_j[2];
 	char	**new_env;
 	bool	flag;
 
-	i = 0;
-	j = 0;
+	i_j[0]= 0;
+	i_j[1] = 0;
 	flag = false;
 	nbr_env = get_nbr_env(env);
 	new_env = (char **)malloc(sizeof(char *) * (nbr_env + 2));
 	if (!new_env)
 		error(data, "Memory problems in mini_export");
-	while (i < nbr_env && env[i])
+	while (i_j[0] < nbr_env && env[i_j[0]])
 	{
-		if (!ft_strncmp(env[i], "HOME=", 4))
+		if (!ft_strncmp(env[i_j[0]], "HOME=", 4))
 			flag = true;
-		new_env[j] = ft_strdup(env[i]);
-		if (!new_env[i])
+		new_env[i_j[1]] = ft_strdup(env[i_j[0]]);
+		if (!new_env[i_j[0]])
 			(free_arr(new_env), error(data, "Memory problems in mini_export"));
 		if (flag)
 		{
-			j++;
-			new_env[j] = ft_strdup(variable);
-			if (!new_env[i])
+			i_j[1]++;
+			new_env[i_j[1]] = ft_strdup(variable);
+			if (!new_env[i_j[0]])
 				(free_arr(new_env), error(data, "Memory problems in mini_export"));
 			flag = false;
 		}
-		j++;
-		i++;
+		i_j[0]++;
+		i_j[1]++;
 	}
-	new_env[i] = NULL;
+	new_env[i_j[0]] = NULL;
 	return (new_env);
 }
 

@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/28 18:48:22 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/29 11:41:08 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ int			mini_unset(t_minishell *data);
 int			get_nbr_env(char **env);
 /* mini_export*/
 int			mini_export(t_minishell *data);
+int			variable_in_env(t_variable *variable, char **env);
+t_variable	*get_var_to_mod(t_variable *local_vars, int laps);
 /* utills_builtins */
 int			(*check_if_builtin(char *str))(t_minishell *data);
 void		simple_builtin_executor(t_minishell *data);

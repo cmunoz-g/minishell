@@ -201,7 +201,6 @@ void	local_variables(t_minishell *data) // tiene que mirar si esta en env y si e
 				}
 			}
 			tmp = tmp->next; 
-			print_local_variables(data->local_vars);
 		}
 		else
 			tmp = tmp->next;

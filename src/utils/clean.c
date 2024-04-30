@@ -121,4 +121,5 @@ void	clean_local_vars(t_variable **local_vars)
 		free(*local_vars);
 		(*local_vars) = it;
 	}
+	(*local_vars) = NULL;
 }

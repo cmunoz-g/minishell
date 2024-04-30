@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/29 11:41:08 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/04/30 14:28:09 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,11 +184,11 @@ char		*get_home(char **envp);
 // LOCAL VARIABLES
 void		local_variables(t_minishell *data);
 int			check_variable(t_cmd_table *cmd_table);
-void		create_new_variable(char *cmd, t_variable **local_vars);
-void		fill_variable(t_variable **variables, char *cmd);
+void		create_new_variable(char *cmd, t_variable **local_vars, t_minishell *data);
+void		fill_variable(t_variable **variables, char *cmd, t_minishell *data);
 int			get_var_size(char *cmd, bool name);
 int			check_new_var(char *cmd, t_variable *local_vars);
-void		change_var_value(char *cmd, t_variable **local_vars, int laps);
+void		change_var_value(char *cmd, t_variable **local_vars, int laps, t_minishell *data);
 t_variable	*get_last_variable(t_variable *local_vars);
 
 // EXEC

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 11:26:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/26 11:27:10 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/30 14:35:18 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	error_builtins(t_minishell *data, int exit_code)
 	return (exit_code);
 }
 
-void	error(t_minishell *data, char *error_message) // mirar como estan los errores gestionados en pipex e implementar
+void	error(t_minishell *data, char *error_message)
 {
 	size_t	msg_len;
 

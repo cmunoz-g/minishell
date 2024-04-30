@@ -21,7 +21,7 @@ t_variable	*get_var_to_mod(t_variable *local_vars, int laps)
 
 	it = local_vars;
 	i = 0;
-	while (i < laps && it) // anadi el && it, revisar el comment de local_variables.c
+	while (i < laps && it)
 	{
 		it = it->next;
 		i++;
@@ -117,7 +117,7 @@ char	**add_variable(char *variable, char **env, t_minishell *data)
 	return (new_env);
 }
 
-char	*get_new_var(char *variable, t_variable *local_vars)
+char	*get_new_var(char *variable, t_variable *local_vars, t_minishell *data)
 {
 	t_variable	*it;
 	int			name_size;
@@ -130,8 +130,8 @@ char	*get_new_var(char *variable, t_variable *local_vars)
 	while (ft_strncmp(it->name, variable, name_size))
 		it = it->next;
 	new_var = (char *)malloc(ft_strlen(it->name) + ft_strlen(it->value) + 2);
-	//if (!new_var)
-		//prot
+	if (!new_var)
+		error(data, "Memory problems while creating a new variable");
 	i = 0;
 	j = 0;
 	while (it->name[i])
@@ -199,7 +199,6 @@ void	env_order(t_minishell *data)
 	quicksort(sorted_env, 0, n - 1);
 	i = 0;
 	j = 0;
-	// exit(0);
 	while (sorted_env[i])
 	{
 		printf("declare -x ");
@@ -234,9 +233,9 @@ int	mini_export(t_minishell *data)
 		if (!local_var)
 		{
 			if (laps < 0)
-				create_new_variable(data->cmd_table->args[i], &(data->local_vars));
+				create_new_variable(data->cmd_table->args[i], &(data->local_vars), data);
 			else
-				change_var_value(data->cmd_table->args[i], &(data->local_vars), laps);
+				change_var_value(data->cmd_table->args[i], &(data->local_vars), laps, data);
 			if (laps >= 0 && !variable_in_env(get_var_to_mod(data->local_vars, laps), data->env_vars))
 				new_env = modify_variable(data->env_vars, data, get_var_to_mod(data->local_vars, laps));
 			else
@@ -246,7 +245,7 @@ int	mini_export(t_minishell *data)
 		}
 		else if (local_var && check_new_var(data->cmd_table->args[i], data->local_vars) >= 0 && variable_in_env(get_var_to_mod(data->local_vars, laps), data->env_vars))
 		{
-			new_var = get_new_var(data->cmd_table->args[i], data->local_vars);
+			new_var = get_new_var(data->cmd_table->args[i], data->local_vars, data);
 			new_env = add_variable(new_var, data->env_vars, data);
 			free_arr(data->env_vars);
 			free(new_var);

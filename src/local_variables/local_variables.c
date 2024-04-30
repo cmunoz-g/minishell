@@ -1,8 +1,5 @@
 #include "minishell.h" 
 
-// la idea es comprobar todos los cmd, si cumplen los requisitos se convierten en variables y se guardan en en local_vars dentro de t_minishell *data
-// y se elimina el cmd de la lista
-
 int		get_var_size(char *cmd, bool name)
 {
 	int	i;
@@ -31,7 +28,7 @@ int		get_var_size(char *cmd, bool name)
 		
 }
 
-void	fill_variable(t_variable **variables, char *cmd)
+void	fill_variable(t_variable **variables, char *cmd, t_minishell *data)
 {
 	int	name_size;
 	int	value_size;
@@ -40,12 +37,12 @@ void	fill_variable(t_variable **variables, char *cmd)
 	value_size = get_var_size(cmd, false);
 
 	(*variables)->name = (char *)malloc(sizeof(char) * (name_size + 1));
-	// if (!(*variables)->name)
-	// 	//gestionar
+	if (!(*variables)->name)
+		error(data, "Memory errors while filling variable");
 	ft_strlcpy((*variables)->name, cmd, name_size + 1);
 	(*variables)->value = (char *)malloc(sizeof(char) * (value_size + 1));
-	// if (!(*variables)->value)
-	// 	// gestionar
+	if (!(*variables)->value)
+		error(data, "Memory errors while filling variable");
 	ft_strlcpy((*variables)->value, cmd + name_size + 1, value_size + 1);
 }
 
@@ -58,14 +55,14 @@ t_variable	*get_last_variable(t_variable *local_vars)
 	return (local_vars);
 }
 
-void	create_new_variable(char *cmd, t_variable **local_vars)
+void	create_new_variable(char *cmd, t_variable **local_vars, t_minishell *data)
 {
 	t_variable *last;
 	t_variable *variables;
 
 	variables = (t_variable *)malloc(sizeof(t_variable));
-	// if (!variables)
-		// gestionar error
+	if (!variables)
+		error(data, "Memory problems while creating a new variable");
 	last = get_last_variable(*local_vars);
 	if (!last)
 	{
@@ -78,7 +75,7 @@ void	create_new_variable(char *cmd, t_variable **local_vars)
 		variables->prev = last;
 	}
 	variables->next = NULL;
-	fill_variable(&variables, cmd);
+	fill_variable(&variables, cmd, data);
 }
 
 int		check_variable(t_cmd_table *cmd_table)
@@ -114,7 +111,7 @@ int	check_new_var(char *cmd, t_variable *local_vars)
 	return (-1);
 }
 
-void	change_var_value(char *cmd, t_variable **local_vars, int laps)
+void	change_var_value(char *cmd, t_variable **local_vars, int laps, t_minishell *data)
 {
 	t_variable	*it;
 	int			i;
@@ -125,15 +122,15 @@ void	change_var_value(char *cmd, t_variable **local_vars, int laps)
 	name_size = get_var_size(cmd, true);
 	it = *local_vars;
 	i = 0;
-	while (i < laps && it) // he anadido la parte de && it para darle mas seguridad. si algo empieza a reventarse revisr esto lo primero
+	while (i < laps && it) 
 	{
 		it = it->next;
 		i++;
 	}
 	free(it->value);
 	it->value = (char *)malloc(sizeof(char) * (value_size + 1));
-	// if (!(*variables)->value)
-	// 	// gestionar
+	if (!it->value)
+		error(data, "Memory problems while creating a new variable");
 	ft_strlcpy(it->value, cmd + name_size + 1, value_size + 1);
 }
 
@@ -157,7 +154,8 @@ char	**change_var_value_env(t_variable *variable, char **env, t_minishell *data)
 		if (!ft_strncmp(variable->name, env[i], name_size))
 		{
 			new_env[i] = ft_strdup(variable->name);
-			// proteger
+			if (!new_env[i])
+				error(data, "Memory problems while modifying env");
 			new_env[i] = (char *)malloc(name_size + value_size + 2);
 			if (!new_env[i])
 				(free_arr(new_env), error(data, "Memory problems while modifying env"));
@@ -168,7 +166,8 @@ char	**change_var_value_env(t_variable *variable, char **env, t_minishell *data)
 		else
 		{
 			new_env[i] = ft_strdup(env[i]);
-			// proteger
+			if (!new_env[i])
+				error(data, "Memory problems while modifying env");
 		}
 		i++;
 	}
@@ -176,7 +175,7 @@ char	**change_var_value_env(t_variable *variable, char **env, t_minishell *data)
 	return (new_env);
 }
 
-void	local_variables(t_minishell *data) // tiene que mirar si esta en env y si es asi, tiene que cambiar el valor
+void	local_variables(t_minishell *data)
 {
 	t_cmd_table	*tmp;
 	char		**new_env;
@@ -189,10 +188,10 @@ void	local_variables(t_minishell *data) // tiene que mirar si esta en env y si e
 		{
 			laps = check_new_var(tmp->cmd, data->local_vars);
 			if (laps < 0)
-				create_new_variable(tmp->cmd, &(data->local_vars));
+				create_new_variable(tmp->cmd, &(data->local_vars), data);
 			else
 			{
-				change_var_value(tmp->cmd, &(data->local_vars), laps); 
+				change_var_value(tmp->cmd, &(data->local_vars), laps, data); 
 				if (!variable_in_env(get_var_to_mod(data->local_vars, laps), data->env_vars))
 				{
 					new_env = change_var_value_env(get_var_to_mod(data->local_vars, laps), data->env_vars, data);
@@ -206,5 +205,3 @@ void	local_variables(t_minishell *data) // tiene que mirar si esta en env y si e
 			tmp = tmp->next;
 	}
 }
-
-//int		variable_in_env(t_variable *variable, char **env)

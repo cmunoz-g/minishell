@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juan <juan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:15:45 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 12:18:57 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/01 13:20:22 by juan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	mini_echo(t_minishell *data)
 		i++;
 	while (data->cmd_table->args[i])
 	{
-		expanded = expand(data->cmd_table->args[i], 0, data->env_vars);
+		expanded = expand(data->cmd_table->args[i], 0, data);
 		if (!expanded)
 			return (EXIT_FAILURE);
 		ft_putstr_fd(expanded, STDOUT_FILENO);

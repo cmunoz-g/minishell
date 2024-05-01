@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/01 10:10:36 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/01 11:17:15 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,19 @@
 void		minishell_loop(t_minishell *data);
 static void	create_main_fork(t_minishell *data);
 void		reset_loop(t_minishell *data);
-static void	parse_data(t_minishell *data);
+static void	parse_data(t_minishell *data, bool *err_syntax);
 
-static void	parse_data(t_minishell *data, bool *err_redir)
+static void	parse_data(t_minishell *data, bool *err_syntax)
 {
 	t_token		*token_tmp;
 
 	join_history(data->line, data, data->env_vars);
 	lexer(data->line, &(data->token_list));
 	token_tmp = data->token_list;
-	//if (!check_only_redirs(data->token_list)) // hacer
+	if (!check_syntax(data->token_list)) // hacer
 		parser(&(data->cmd_table), &(data->token_list));
-//	else
-//	{
-	//	*err_redir = true;
-		//error_redirs(); // hacer
-	//}
-	print_cmd_table(data->cmd_table);
-	exit(0);
+	else
+		*err_syntax = true;
 	clean_token_list(&token_tmp);
 }
 
@@ -54,16 +49,16 @@ static void	create_main_fork(t_minishell *data)
 
 void	minishell_loop(t_minishell *data)
 {
-	//bool	err_redir;
+	bool	err_syntax;
 	
 	data->line = readline("\e[1;34m""minishell> ""\e[m");
 	if (!data->line)
 		exit(EXIT_SUCCESS);
 	else if (check_spaces(data->line) || ft_strlen(data->line) == 0)
 		reset_loop(data);
-	parse_data(data, &err_redir);
+	parse_data(data, &err_syntax);
 	local_variables(data);
-	//if (!err_redir)
+	if (!err_syntax)
 	{
 		if (!data->cmd_table->next && check_if_builtin(data->cmd_table->cmd))
 			simple_builtin_executor(data);

@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/30 14:28:09 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/01 11:32:38 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define STDERR 10
 # define FILENAME 11
 # define HEREDOC 12
+# define DOUBLEPIPE 13
 
 # define HEREDOC_MSG "\033[1;34m> \033[0m"
 
@@ -107,6 +108,9 @@ void		init_lexer(bool *qt, int *i, int *start);
 void		add_token(t_token **token_list, char *cmd_line, int start, int end);
 void		get_token_type(t_token *token);
 t_token 	*get_last_token(t_token *token_list);
+
+// SYNTAX
+int			check_syntax(t_token *token_list);
 
 // PARSER
 void		parser(t_cmd_table **cmd_table, t_token **token_list);

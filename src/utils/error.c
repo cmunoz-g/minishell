@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 11:26:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/01 10:02:54 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/01 10:42:13 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int	error_builtins(t_minishell *data, int exit_code)
 	}
 	return (exit_code);
 }
-
-void	error_redirs();
 
 void	error(t_minishell *data, char *error_message)
 {

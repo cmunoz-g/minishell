@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arr_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:52 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 13:20:58 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/01 13:34:10 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	get_str_arr_len(char **strarr)
 	return (n);
 }
 
-char	**ft_str_arr_join_exec(char *s1, char **strarr, char **envp)
+char	**ft_str_arr_join_exec(char *s1, char **strarr, t_minishell *data)
 {
 	int		i;
 	char	**str3;
@@ -39,7 +39,7 @@ char	**ft_str_arr_join_exec(char *s1, char **strarr, char **envp)
 		return (str3);
 	while (i < len + 1)
 	{
-		expanded = expand(strarr[i - 1], 0, envp);
+		expanded = expand(strarr[i - 1], 0, data);
 		if (!expanded || !ft_strlen(expanded))
 			str3[i] = NULL;
 		else

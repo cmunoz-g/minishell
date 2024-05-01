@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/24 13:41:01 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/01 13:34:37 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ void	minishell_loop(t_minishell *data)
 		reset_loop(data);
 	parse_data(data);
 	local_variables(data);
-	if (!data->cmd_table->next && check_if_builtin(data->cmd_table->cmd))
+	if (!check_variable(data->cmd_table))
+		reset_loop(data);
+	else if (!data->cmd_table->next && check_if_builtin(data->cmd_table->cmd))
 		simple_builtin_executor(data);
 	else
 		create_main_fork(data);

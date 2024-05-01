@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/30 14:28:09 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/01 13:33:48 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,13 +203,13 @@ char		*my_getenv(char *key, char **env);
 /*	redirections */
 int			redirect(t_cmd_table *tbl, int is_builtin);
 /*	arr_utils */
-char		**ft_str_arr_join_exec(char *s1, char **strarr, char **envp);
+char		**ft_str_arr_join_exec(char *s1, char **strarr, t_minishell *data);
 void		free_arr(char **arr);
 char		**ft_arrdup(char **arr);
 /*	heredoc */
-int			check_all_heredocs(t_cmd_table *tbl, char **envp);
+int			check_all_heredocs(t_minishell *data);
 /*	expand */
-char		*expand(char *str, int is_heredoc, char **envp);
+char		*expand(char *str, int is_heredoc, t_minishell *data);
 
 // DELETE
 void		print_tokens(t_token *token_list);

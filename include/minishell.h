@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/01 11:32:38 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/01 11:51:39 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ extern t_global	g_global;
 void		lexer(char *cmd_line, t_token **token_list);
 void		lexer_qt(t_token **token_list, char *cmd_line, int *start, int i);
 void		lexer_new_token(t_token **token_list, char *cmd_line, int *start, int *i);
+void		lexer_new_token_aux(t_token **token_list, char *cmd_line, int *start, int *i);
 void		lexer_new_cmd(t_token **token_list, char *cmd_line, int *i);
 void		check_redirections(t_token **token_list);
 void		set_qt(bool *quotes, char *quote_type, char *cmd_line, int i);

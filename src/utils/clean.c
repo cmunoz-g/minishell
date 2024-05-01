@@ -1,11 +1,23 @@
 #include "minishell.h"
 
+// t_token **get_first_token(t_token **token_list)
+// {
+// 	t_token **tmp;
+
+// 	tmp = token_list;
+// 	while ((*tmp)->prev)
+// 		tmp = &(*tmp)->prev;
+// 	return (tmp);
+// }
+
 void	clean_token_list(t_token **token_list)
 {
 	t_token *tmp;
 
-	if ((*token_list)->next_cmd)
-		clean_token_list(&(*token_list)->next_cmd);
+	//token_list = get_first_token(token_list);
+
+	// if ((*token_list)->next_cmd)
+	// 	clean_token_list(&(*token_list)->next_cmd);
 	while (*token_list)
 	{
 		tmp = (*token_list)->next;
@@ -31,7 +43,7 @@ void	clean_cmd_table_redir(t_cmd_table **cmd_table, int *j)
 	(*cmd_table)->redirections = NULL; 
 }
 
-t_cmd_table	**get_first_node(t_cmd_table ***cmd)
+t_cmd_table	**get_first_node(t_cmd_table ***cmd) // hace falta el triple puntero?
 {
 	while ((**cmd)->prev)
 		*cmd = &(**cmd)->prev;

@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/01 11:17:15 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/01 12:17:07 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	parse_data(t_minishell *data, bool *err_syntax)
 	join_history(data->line, data, data->env_vars);
 	lexer(data->line, &(data->token_list));
 	token_tmp = data->token_list;
-	if (!check_syntax(data->token_list)) // hacer
+	if (!check_syntax(data->token_list))
 		parser(&(data->cmd_table), &(data->token_list));
 	else
 		*err_syntax = true;
@@ -51,6 +51,7 @@ void	minishell_loop(t_minishell *data)
 {
 	bool	err_syntax;
 	
+	err_syntax = false;
 	data->line = readline("\e[1;34m""minishell> ""\e[m");
 	if (!data->line)
 		exit(EXIT_SUCCESS);

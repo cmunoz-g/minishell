@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juan <juan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:13:47 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 12:19:29 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/01 13:15:05 by juan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	mini_cd(t_minishell	*data)
 		ret = chdir(my_getenv("HOME", data->env_vars));
 	else
 	{
-		expanded = expand(data->cmd_table->args[0],0, data->env_vars);
+		expanded = expand(data->cmd_table->args[0],0, data);
 		if (!expanded)
 			return (EXIT_FAILURE);
 		ret = chdir(expanded);

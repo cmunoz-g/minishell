@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juan <juan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/24 12:43:53 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/01 13:13:17 by juan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	exec_process(t_minishell *data)
 	if (builtin_arr)
 		exit(execute_builtin(data, builtin_arr));
 	cmd = ft_str_arr_join_exec(data->cmd_table->cmd,
-			data->cmd_table->args, data->env_vars);
+			data->cmd_table->args, data);
 	check_and_exec_if_executable(cmd, data);
 	path = get_path(cmd[0], data->env_vars);
 	if (!path)
@@ -96,7 +96,7 @@ static void	handle_cmd(t_minishell *data)
 
 void	executor(t_minishell *data)
 {
-	check_all_heredocs(data->cmd_table, data->env_vars);
+	check_all_heredocs(data);
 	while (data->cmd_table)
 	{
 		handle_cmd(data);

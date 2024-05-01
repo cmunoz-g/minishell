@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juan <juan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:50:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/24 12:48:14 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/01 13:02:54 by juan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	simple_builtin_executor(t_minishell *data)
 	int		ret;
 	int		(*builtin_arr)(t_minishell *data);
 
-	check_all_heredocs(data->cmd_table, data->env_vars);
+	check_all_heredocs(data);
 	if (!data->cmd_table)
 		exit(EXIT_SUCCESS);
 	if (data->cmd_table->n_redirections > 0)

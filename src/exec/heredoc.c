@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juan <juan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:11:14 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 12:20:12 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/01 13:14:49 by juan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,20 @@ static char	*get_heredoc_filename(void)
 	return (filename);
 }
 
-static int	create_hd_file(char *filename, char *eof, char **envp)
+static int	create_hd_file(t_minishell *data, int redir)
 {
 	char	*line;
 	char	*expanded;
 	int		fd;
 
 	line = readline(HEREDOC_MSG);
-	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(data->cmd_table->hd_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		return (1);
-	while (line && ft_strncmp(line, eof, ft_strlen(eof)))
+	while (line && ft_strncmp(line, data->cmd_table->redirections[redir]->value,
+		ft_strlen(data->cmd_table->redirections[redir]->value)))
 	{
-		expanded = expand(line, 1, envp);
+		expanded = expand(line, 1, data);
 		if (!expanded)
 			return (EXIT_FAILURE);
 		ft_putendl_fd(expanded, fd);
@@ -50,21 +51,21 @@ static int	create_hd_file(char *filename, char *eof, char **envp)
 	return (0);
 }
 
-static int	check_heredocs(t_cmd_table *tbl, char **envp)
+static int	check_heredocs(t_minishell *data)
 {
 	int	i;
 
 	i = 0;
-	while (i < tbl->n_redirections)
+	while (i < data->cmd_table->n_redirections)
 	{
-		if (tbl->redirections[i]->type == HEREDOC)
+		if (data->cmd_table->redirections[i]->type == HEREDOC)
 		{
-			if (tbl->hd_file)
-				free(tbl->hd_file);
-			tbl->hd_file = get_heredoc_filename();
-			if (!tbl->hd_file)
+			if (data->cmd_table->hd_file)
+				free(data->cmd_table->hd_file);
+			data->cmd_table->hd_file = get_heredoc_filename();
+			if (!(data->cmd_table)->hd_file)
 				return (1);
-			if (create_hd_file(tbl->hd_file, tbl->redirections[i]->value, envp))
+			if (create_hd_file(data, i))
 				return (1);
 		}
 		i++;
@@ -72,17 +73,17 @@ static int	check_heredocs(t_cmd_table *tbl, char **envp)
 	return (0);
 }
 
-int	check_all_heredocs(t_cmd_table *tbl, char **envp)
+int	check_all_heredocs(t_minishell *data)
 {
 	t_cmd_table	*start;
 
-	start = tbl;
-	while (tbl)
+	start = data->cmd_table;
+	while (data->cmd_table)
 	{
-		if (check_heredocs(tbl, envp))
+		if (check_heredocs(data))
 			return (1);
-		tbl = tbl->next;
+		data->cmd_table = data->cmd_table->next;
 	}
-	tbl = start;
+	data->cmd_table = start;
 	return (0);
 }

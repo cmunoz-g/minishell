@@ -84,6 +84,7 @@ void	populate_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int nbr_to
 		i++;
 		token_list = token_list->next;
 	}
-	(*cmd_table)->args[j] = NULL;
+	if ((*cmd_table)->args)
+		(*cmd_table)->args[j] = NULL;
 	(*cmd_table)->n_args = j;
 }

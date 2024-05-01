@@ -31,7 +31,9 @@ void	lexer(char *cmd_line, t_token **token_list)
 			}
         }
     }
-	(add_token(token_list, cmd_line, start, i), check_redirections(token_list));
+	if (i > (start)) 
+		add_token(token_list, cmd_line, start, i);
+	check_redirections(token_list);
 }
 
 void	lexer_qt(t_token **token_list, char *cmd_line, int *start, int i)

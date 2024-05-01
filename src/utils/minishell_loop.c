@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/24 13:41:01 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/01 10:10:36 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,22 @@ static void	create_main_fork(t_minishell *data);
 void		reset_loop(t_minishell *data);
 static void	parse_data(t_minishell *data);
 
-static void	parse_data(t_minishell *data)
+static void	parse_data(t_minishell *data, bool *err_redir)
 {
 	t_token		*token_tmp;
 
 	join_history(data->line, data, data->env_vars);
 	lexer(data->line, &(data->token_list));
 	token_tmp = data->token_list;
-	parser(&(data->cmd_table), &(data->token_list));
+	//if (!check_only_redirs(data->token_list)) // hacer
+		parser(&(data->cmd_table), &(data->token_list));
+//	else
+//	{
+	//	*err_redir = true;
+		//error_redirs(); // hacer
+	//}
+	print_cmd_table(data->cmd_table);
+	exit(0);
 	clean_token_list(&token_tmp);
 }
 
@@ -46,17 +54,22 @@ static void	create_main_fork(t_minishell *data)
 
 void	minishell_loop(t_minishell *data)
 {
+	//bool	err_redir;
+	
 	data->line = readline("\e[1;34m""minishell> ""\e[m");
 	if (!data->line)
 		exit(EXIT_SUCCESS);
 	else if (check_spaces(data->line) || ft_strlen(data->line) == 0)
 		reset_loop(data);
-	parse_data(data);
+	parse_data(data, &err_redir);
 	local_variables(data);
-	if (!data->cmd_table->next && check_if_builtin(data->cmd_table->cmd))
-		simple_builtin_executor(data);
-	else
-		create_main_fork(data);
+	//if (!err_redir)
+	{
+		if (!data->cmd_table->next && check_if_builtin(data->cmd_table->cmd))
+			simple_builtin_executor(data);
+		else
+			create_main_fork(data);
+	}
 	reset_loop(data);
 }
 

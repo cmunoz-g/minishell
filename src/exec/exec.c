@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/01 13:34:16 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/02 13:55:23 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	exec_process(t_minishell *data)
 	path = get_path(cmd[0], data->env_vars);
 	if (!path)
 	{
-		g_global.error_num = 127;
+		g_global.error_num = errno;
 		send_to_stderr(cmd[0], NULL, "command not found");
 		free_arr(cmd);
 		exit(127);

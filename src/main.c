@@ -63,10 +63,10 @@ void	print_cmd_table(t_cmd_table *cmd_table) // borrar
 			i++;
 		}
 		printf("nbr redir: %d\n", cmd_table->n_redirections);
-		if (cmd_table->new_cmd)
-			printf("new cdm TRUE\n");
-		else 
-			printf("new cdm FALSE\n");
+		// if (cmd_table->new_cmd)
+		// 	printf("new cdm TRUE\n");
+		// else 
+		// 	printf("new cdm FALSE\n");
 		cmd_table = cmd_table->next;
 		printf("\n");
 	}

@@ -4,6 +4,48 @@ void	parser(t_cmd_table **cmd_table, t_token **token_list)
 {
 	t_token		*tmp;
 	int			s_e[2];
+
+	init_parser(s_e, &tmp, token_list);	
+	
+	while (*token_list)
+	{
+		if ((*token_list)->type == PIPE)
+		{
+			(alloc_cmd_table(cmd_table), gen_cmd_table(tmp, cmd_table, s_e[0], s_e[1] + 1));
+			s_e[0] = s_e[1];
+		}
+		parser_aux(token_list, s_e);
+	}
+	if (*cmd_table)
+		(alloc_cmd_table(cmd_table), gen_cmd_table(tmp, cmd_table, s_e[0] + 1, s_e[1]));
+	else
+		(alloc_cmd_table(cmd_table), gen_cmd_table(tmp, cmd_table, s_e[0], s_e[1]));
+}
+
+void	init_parser(int start_end[2], t_token **tmp, t_token **token_list)
+{
+	start_end[0] = 0;
+	start_end[1] = 0;
+	(*tmp) = (*token_list);
+}
+
+void	parser_aux(t_token **token_list, int *s_e)
+{
+	s_e[1]++;
+	(*token_list) = (*token_list)->next;
+}
+
+/*
+Respecto a la incorporacion de ; (por si necesitamos reincorporarlo)
+
+en tokens.c hay que inicializar new_token->next_cmd = NULL.
+
+parser esta tal que asi:
+
+void	parser(t_cmd_table **cmd_table, t_token **token_list)
+{
+	t_token		*tmp;
+	int			s_e[2];
 	bool		new_cmd;
 
 	init_parser(s_e, &tmp, token_list, &new_cmd);	
@@ -29,13 +71,7 @@ void	parser(t_cmd_table **cmd_table, t_token **token_list)
 	} 
 }
 
-void	init_parser(int start_end[2], t_token **tmp, t_token **token_list, bool *new_cmd)
-{
-	start_end[0] = 0;
-	start_end[1] = 0;
-	(*tmp) = (*token_list);
-	*new_cmd = true;
-}
+Y reset parser hace esto:
 
 void	reset_parser(t_token **tmp, int start_end[2], bool *new_cmd)
 {
@@ -45,8 +81,15 @@ void	reset_parser(t_token **tmp, int start_end[2], bool *new_cmd)
 	*new_cmd = true;
 }
 
-void	parser_aux(t_token **token_list, int *s_e)
+Init parser:
+
+void	init_parser(int start_end[2], t_token **tmp, t_token **token_list, bool *new_cmd)
 {
-	s_e[1]++;
-	(*token_list) = (*token_list)->next;
+	start_end[0] = 0;
+	start_end[1] = 0;
+	(*tmp) = (*token_list);
+	*new_cmd = true;
 }
+
+
+*/

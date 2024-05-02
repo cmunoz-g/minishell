@@ -30,7 +30,6 @@ void	add_token(t_token **token_list, char *cmd_line, int start, int end)
 	}
 	new_token->value = ft_strdup_mod(cmd_line + start, end - start);
 	new_token->next = NULL;
-	new_token->next_cmd = NULL;
 	get_token_type(new_token);
 }
 

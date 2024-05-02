@@ -3,24 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   mini_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:13:47 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/01 13:33:44 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/02 13:06:22 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <limits.h>
 
 static void	change_path_on_mini(t_minishell *data)
 {
 	char	*tmp;
+    char 	*buff;
 
+	buff = ft_calloc(PATH_MAX, sizeof(char));
 	tmp = ft_strdup(data->pwd);
 	free(data->old_pwd);
 	data->old_pwd = tmp;
 	free(data->pwd);
-	data->pwd = getcwd(NULL, sizeof(NULL));
+	data->pwd = getcwd(buff, PATH_MAX);
 }
 
 static void	update_path_on_env(t_minishell *data)
@@ -61,7 +64,7 @@ int	mini_cd(t_minishell	*data)
 		ret = chdir(my_getenv("HOME", data->env_vars));
 	else
 	{
-		expanded = expand(data->cmd_table->args[0],0, data);
+		expanded = expand(data->cmd_table->args[0], 0, data);
 		if (!expanded)
 			return (EXIT_FAILURE);
 		ret = chdir(expanded);

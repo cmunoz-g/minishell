@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/24 12:43:58 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/02 13:27:59 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ static int	handle_infile(char *str)
 	return (0);
 }
 
+static int	stderr_and_ret(char *str)
+{
+	send_to_stderr(NULL, str, strerror(errno));
+	return (1);
+}
+
 int	redirect(t_cmd_table *tbl, int is_builtin)
 {
 	int	i;
@@ -52,12 +58,12 @@ int	redirect(t_cmd_table *tbl, int is_builtin)
 			|| tbl->redirections[i]->type == APPEND)
 		{
 			if (handle_outfile(tbl->redirections[i]))
-				return (1);
+				return (stderr_and_ret(tbl->redirections[i]->value));
 		}
 		else if (tbl->redirections[i]->type == INPUT)
 		{
 			if (handle_infile(tbl->redirections[i]->value))
-				return (1);
+				return (stderr_and_ret(tbl->redirections[i]->value));
 		}
 		else if (tbl->redirections[i]->type == HEREDOC && !is_builtin)
 		{

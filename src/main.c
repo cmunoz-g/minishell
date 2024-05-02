@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:07:57 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/24 14:41:32 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/02 12:21:43 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,6 @@ int	main(int argc, char **argv, char **envp)
 		exit(1);
 	data = init(envp);
 	get_past_history(envp, data);
-	//signals(false);
+	signals(false);
 	minishell_loop(data);
 }

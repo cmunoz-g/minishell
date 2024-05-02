@@ -6,6 +6,7 @@ void	print_syntax_error(t_token *token)
 		printf("minishell: syntax error near unexpected token 'newline'\n");
 	else
 		printf("minishell: syntax error near unexpected token '%s'\n", token->value);
+	g_global.error_num = 2;
 }
 
 int	check_syntax(t_token *token_list) 

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/02 12:54:29 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/02 15:02:03 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ void	reset_loop(t_minishell *data)
 		free(data->line);
 	if (data->token_list)
 		data->token_list = NULL;
+	init_signal_vars();
 	minishell_loop(data);
 }

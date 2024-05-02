@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/02 13:01:37 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/02 15:01:26 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ typedef struct s_minishell
 typedef struct s_global
 {
 	int	error_num;
-	int	signal;
+	int	stop_heredoc;
+	int	in_cmd;
 }				t_global;
 
 extern t_global	g_global;
@@ -182,6 +183,7 @@ void		reset_loop(t_minishell *data);
 void		signals(bool child_process);
 void		signal_handler(int signal);
 void		signal_handler_child(int signal);
+void		init_signal_vars(void);
 
 // HISTORY
 void		join_history(char *cmd, t_minishell *data, char **envp);

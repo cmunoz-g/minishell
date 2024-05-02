@@ -112,6 +112,8 @@ t_token 	*get_last_token(t_token *token_list);
 
 // SYNTAX
 int			check_syntax(t_token *token_list);
+void		check_comments(t_token **token_list);
+void    	take_out_tokens(t_token **tmp);
 
 // PARSER
 void		parser(t_cmd_table **cmd_table, t_token **token_list);

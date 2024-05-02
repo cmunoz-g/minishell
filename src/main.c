@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:07:57 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/24 14:41:32 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/01 09:55:10 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,10 @@ void	print_local_variables(t_variable *local_vars) // borrar
 
 void	print_tokens(t_token *token_list) // borrar
 {
-	t_token *reference = token_list;
-
-	while (reference)
+	while (token_list)
 	{
-		token_list = reference;
-	 	while (token_list)
-		{
-	 		printf("value:%s type:%d\n",token_list->value, token_list->type);
-	 		token_list = token_list->next;
-	 	}
-		reference = reference->next_cmd;
-		printf("\n");
+	 	printf("value:%s type:%d\n",token_list->value, token_list->type);
+	 	token_list = token_list->next;
 	}
 }
 
@@ -61,7 +53,7 @@ void	print_cmd_table(t_cmd_table *cmd_table) // borrar
 		i = 0;
 		while (i < cmd_table->n_redirections)
 		{
-			printf("redir: %d type: %d value: %s\n", i, cmd_table->redirections[i]->type, cmd_table->redirections[i]->value);
+			printf("redir number: %d type: %d value: %s\n", i, cmd_table->redirections[i]->type, cmd_table->redirections[i]->value);
 			i++;
 		}
 		printf("nbr redir: %d\n", cmd_table->n_redirections);

@@ -28,18 +28,10 @@ void	print_local_variables(t_variable *local_vars) // borrar
 
 void	print_tokens(t_token *token_list) // borrar
 {
-	t_token *reference = token_list;
-
-	while (reference)
+	while (token_list)
 	{
-		token_list = reference;
-	 	while (token_list)
-		{
-	 		printf("value:%s type:%d\n",token_list->value, token_list->type);
-	 		token_list = token_list->next;
-	 	}
-		reference = reference->next_cmd;
-		printf("\n");
+	 	printf("value:%s type:%d\n",token_list->value, token_list->type);
+	 	token_list = token_list->next;
 	}
 }
 

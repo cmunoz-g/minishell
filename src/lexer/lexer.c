@@ -45,7 +45,7 @@ void	lexer_qt(t_token **token_list, char *cmd_line, int *start, int i)
 void	lexer_new_token_aux(t_token **token_list, char *cmd_line, int *start, int *i)
 {
 	if ((*i) > (*start))
-			add_token(token_list, cmd_line, (*start), (*i));
+		add_token(token_list, cmd_line, (*start), (*i));
 	if (cmd_line[*i] == '|')
 	{
 		if (cmd_line[*i + 1] == '|')
@@ -62,6 +62,7 @@ void	lexer_new_token_aux(t_token **token_list, char *cmd_line, int *start, int *
 		add_token(token_list, cmd_line, (*i), (*i) + 1);
 		(*start) = (*i) + 1;
 	}
+	//print_tokens(*token_list);
 }
 
 void	lexer_new_token(t_token **token_list, char *cmd_line, int *start, int *i)

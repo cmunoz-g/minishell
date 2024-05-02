@@ -1,32 +1,32 @@
 #include "minishell.h"
 
-// t_token **get_first_token(t_token **token_list)
-// {
-// 	t_token **tmp;
-
-// 	tmp = token_list;
-// 	while ((*tmp)->prev)
-// 		tmp = &(*tmp)->prev;
-// 	return (tmp);
-// }
-
 void	clean_token_list(t_token **token_list)
 {
 	t_token *tmp;
 
-	//token_list = get_first_token(token_list);
-
-	// if ((*token_list)->next_cmd)
-	// 	clean_token_list(&(*token_list)->next_cmd);
 	while (*token_list)
 	{
 		tmp = (*token_list)->next;
 		if ((*token_list)->value)
 			free((*token_list)->value);
+		(*token_list)->value = NULL;
 		free(*token_list);
 		(*token_list) = tmp;
 	}
+	(*token_list) = NULL;
 }
+
+/*
+typedef struct s_token
+{
+	int				type;
+	char			*value;
+	struct s_token	*next;
+	struct s_token	*prev;
+	struct s_token	*next_cmd;
+}					t_token;
+*/
+
 void	clean_cmd_table_redir(t_cmd_table **cmd_table, int *j)
 {
 	if (!cmd_table || !(*cmd_table))

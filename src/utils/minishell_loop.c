@@ -75,5 +75,7 @@ void	reset_loop(t_minishell *data)
 		clean_cmd_table_list(&(data->cmd_table));
 	if (data->line || ft_strlen(data->line)) // porque el ft_strlen? puede que acceda a NULL?
 		free(data->line);
+	if (data->token_list)
+		data->token_list = NULL;
 	minishell_loop(data);
 }

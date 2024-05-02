@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/01 13:34:37 by juramos          ###   ########.fr       */
-/*   Updated: 2024/05/01 12:17:07 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/02 12:54:29 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -51,7 +51,7 @@ static void	create_main_fork(t_minishell *data)
 void	minishell_loop(t_minishell *data)
 {
 	bool	err_syntax;
-	
+
 	err_syntax = false;
 	data->line = readline("\e[1;34m""minishell> ""\e[m");
 	if (!data->line)
@@ -64,7 +64,8 @@ void	minishell_loop(t_minishell *data)
 	{
 		if (!check_variable(data->cmd_table))
 			reset_loop(data);
-		else if (!data->cmd_table->next && check_if_builtin(data->cmd_table->cmd))
+		else if (!data->cmd_table->next
+			&& check_if_builtin(data->cmd_table->cmd))
 			simple_builtin_executor(data);
 		else
 			create_main_fork(data);

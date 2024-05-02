@@ -42,12 +42,18 @@ void	print_cmd_table(t_cmd_table *cmd_table) // borrar
 	while (cmd_table) 
 	{
 		printf("CMD:%s\n",cmd_table->cmd);
-		while (cmd_table->args[i])
+		
+		if (cmd_table->args)
 		{
-			printf("ARG%d:%s\n", i, cmd_table->args[i]);
-			i++;
+			while (cmd_table->args[i])
+			{
+				printf("ARG%d:%s\n", i, cmd_table->args[i]);
+				i++;
+			}
+
 		}
-		printf("IN:%d\n", cmd_table->in);
+		if (cmd_table->in)
+			printf("IN:%d\n", cmd_table->in);
 		printf("OUT:%d\n", cmd_table->out);
 		printf("ERR:%d\n", cmd_table->err);
 		i = 0;

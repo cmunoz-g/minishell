@@ -83,6 +83,8 @@ int		check_variable(t_cmd_table *cmd_table)
 	int	i;
 	
 	i = 0;
+	if (!cmd_table->cmd)
+		return (1);
 	while (cmd_table->cmd[i])
 	{
 		if (cmd_table->cmd[i] == '=')

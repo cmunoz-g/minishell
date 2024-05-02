@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/01 13:33:48 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/02 13:01:37 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define FILENAME 11
 # define HEREDOC 12
 # define DOUBLEPIPE 13
+# define PATH_MAX	4096
 
 # define HEREDOC_MSG "\033[1;34m> \033[0m"
 
@@ -112,6 +113,8 @@ t_token 	*get_last_token(t_token *token_list);
 
 // SYNTAX
 int			check_syntax(t_token *token_list);
+void		check_comments(t_token **token_list);
+void    	take_out_tokens(t_token **tmp);
 
 // PARSER
 void		parser(t_cmd_table **cmd_table, t_token **token_list);

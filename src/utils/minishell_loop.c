@@ -25,6 +25,7 @@ static void	parse_data(t_minishell *data, bool *err_syntax)
 	join_history(data->line, data, data->env_vars);
 	lexer(data->line, &(data->token_list));
 	token_tmp = data->token_list;
+	check_comments(&(data->token_list));
 	if (!check_syntax(data->token_list))
 		parser(&(data->cmd_table), &(data->token_list));
 	else

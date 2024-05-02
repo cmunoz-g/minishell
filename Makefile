@@ -29,6 +29,7 @@ SRC_FILES 	= 	main\
 				lexer/lexer\
 				lexer/tokens\
 				syntax/syntax\
+				syntax/comments\
 				parser/cmd_table_utils\
 				parser/cmd_table\
 				parser/parser_utils\

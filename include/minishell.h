@@ -26,6 +26,7 @@
 # define STDERR 10
 # define FILENAME 11
 # define HEREDOC 12
+# define DOUBLEPIPE 13
 
 # define HEREDOC_MSG "\033[1;34m> \033[0m"
 
@@ -100,6 +101,7 @@ extern t_global	g_global;
 void		lexer(char *cmd_line, t_token **token_list);
 void		lexer_qt(t_token **token_list, char *cmd_line, int *start, int i);
 void		lexer_new_token(t_token **token_list, char *cmd_line, int *start, int *i);
+void		lexer_new_token_aux(t_token **token_list, char *cmd_line, int *start, int *i);
 void		lexer_new_cmd(t_token **token_list, char *cmd_line, int *i);
 void		check_redirections(t_token **token_list);
 void		set_qt(bool *quotes, char *quote_type, char *cmd_line, int i);
@@ -107,6 +109,9 @@ void		init_lexer(bool *qt, int *i, int *start);
 void		add_token(t_token **token_list, char *cmd_line, int start, int end);
 void		get_token_type(t_token *token);
 t_token 	*get_last_token(t_token *token_list);
+
+// SYNTAX
+int			check_syntax(t_token *token_list);
 
 // PARSER
 void		parser(t_cmd_table **cmd_table, t_token **token_list);

@@ -6,7 +6,7 @@
 #    By: juramos <juramos@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/05/02 12:22:11 by juramos          ###   ########.fr        #
+#    Updated: 2024/05/02 12:33:36 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRC_FILES 	= 	main\
 				lexer/lexer_utils\
 				lexer/lexer\
 				lexer/tokens\
+				syntax/syntax\
 				parser/cmd_table_utils\
 				parser/cmd_table\
 				parser/parser_utils\

@@ -48,6 +48,8 @@ void	get_token_type(t_token *token)
 		token->type = TRUNC;
 	else if (!ft_strcmp(token->value, "|"))
 		token->type = PIPE;
+	else if (!ft_strcmp(token->value, "||"))
+		token->type = DOUBLEPIPE;
 	else if (!ft_strcmp(token->value, ";"))
 		token->type = END;
 	else if (token->prev && (token->prev->type == TRUNC || token->prev->type == APPEND || token->prev->type == INPUT || token->prev->type == HEREDOC))

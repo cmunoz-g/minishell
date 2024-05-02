@@ -24,14 +24,13 @@ void	lexer(char *cmd_line, t_token **token_list)
 				(set_qt(&qt, &qt_type, cmd_line, i), lexer_qt(token_list, cmd_line, &start, i));
 			else if (ft_isspace(cmd_line[i]) || cmd_line[i] == '<' || cmd_line[i] == '>')
 				lexer_new_token(token_list, cmd_line, &start, &i);
-			else if (cmd_line[i] == ';')
-			{
-				lexer_new_cmd(token_list, cmd_line, &i);
-				break ;
-			}
+			else if (cmd_line[i] == ';' || cmd_line[i] == '|')
+				lexer_new_token_aux(token_list, cmd_line, &start, &i);
         }
     }
-	(add_token(token_list, cmd_line, start, i), check_redirections(token_list));
+	if (i > (start)) 
+		add_token(token_list, cmd_line, start, i);
+	check_redirections(token_list);
 }
 
 void	lexer_qt(t_token **token_list, char *cmd_line, int *start, int i)
@@ -41,6 +40,29 @@ void	lexer_qt(t_token **token_list, char *cmd_line, int *start, int i)
     	add_token(token_list, cmd_line, (*start), i);
         (*start) = i;
     }
+}
+
+void	lexer_new_token_aux(t_token **token_list, char *cmd_line, int *start, int *i)
+{
+	if ((*i) > (*start))
+		add_token(token_list, cmd_line, (*start), (*i));
+	if (cmd_line[*i] == '|')
+	{
+		if (cmd_line[*i + 1] == '|')
+		{
+			add_token(token_list, cmd_line, (*i), (*i) + 2);
+			(*i)++;
+		}
+		else 
+			add_token(token_list, cmd_line, (*i), (*i) + 1);
+		(*start) = (*i) + 1;
+	}
+	else if (cmd_line[*i] == ';')
+	{
+		add_token(token_list, cmd_line, (*i), (*i) + 1);
+		(*start) = (*i) + 1;
+	}
+	//print_tokens(*token_list);
 }
 
 void	lexer_new_token(t_token **token_list, char *cmd_line, int *start, int *i)
@@ -71,14 +93,14 @@ void	lexer_new_token(t_token **token_list, char *cmd_line, int *start, int *i)
 	}
 }
 
-void	lexer_new_cmd(t_token **token_list, char *cmd_line, int *i)
-{
-	t_token	*new_cmd;
+// void	lexer_new_cmd(t_token **token_list, char *cmd_line, int *i)
+// {
+// 	t_token	*new_cmd;
 
-	new_cmd = NULL;
-	lexer((cmd_line + (*i) + 1), &new_cmd);
-	(*token_list)->next_cmd = new_cmd;
-}
+// 	new_cmd = NULL;
+// 	lexer((cmd_line + (*i) + 1), &new_cmd);
+// 	(*token_list)->next_cmd = new_cmd;
+// }
 
 void	check_redirections(t_token **token_list) 
 {

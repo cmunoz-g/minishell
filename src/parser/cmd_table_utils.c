@@ -17,23 +17,58 @@ void	init_pop_cmd_table(int *i, int *j, int *w, char *redir, t_cmd_table **cmd_t
 void	check_std_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int w)
 {
 	if (token_list->type == STDERR)
-		(*cmd_table)->err = token_list->next->type;
+	{
+		if (token_list->next) // hacer pruebas en las que esto no se cumple, a ver que pasa con la tabla
+			(*cmd_table)->err = token_list->next->type;
+	}
 	else if (token_list->type == STDOUT)
-		(*cmd_table)->out = token_list->next->type;
-	(*cmd_table)->redirections[w]->type = token_list->next->type;
-	(*cmd_table)->redirections[w]->value = ft_strdup(token_list->next->next->value);
+	{
+		if (token_list->next)
+			(*cmd_table)->out = token_list->next->type;
+	}
+	if (token_list->next)
+	{
+		(*cmd_table)->redirections[w]->type = token_list->next->type;
+		if (token_list->next->next)
+			(*cmd_table)->redirections[w]->value = ft_strdup(token_list->next->next->value);
+		else
+			(*cmd_table)->redirections[w]->value = NULL;
+	}
+	else
+		(*cmd_table)->redirections[w]->type = 0;
+	
 }
 
 void	check_redir_cmd_table(t_token *token_list, char *redir)
 {
-	if (token_list->type == TRUNC && token_list->prev->type != STDERR && token_list->prev->type != STDOUT)
-		*redir = 't';
-	else if (token_list->type == APPEND && token_list->prev->type != STDERR && token_list->prev->type != STDOUT)
-		*redir = 'a';
-	if (token_list->type == INPUT && token_list->prev->type != STDERR && token_list->prev->type != STDOUT)
-		*redir = 'i';
-	if (token_list->type == HEREDOC && token_list->prev->type != STDERR && token_list->prev->type != STDOUT) 
+	if (token_list->type == TRUNC)
+	{
+		if (!token_list->prev)
+			*redir = 't';
+		else if (token_list->prev && (token_list->prev->type != STDERR && token_list->prev->type != STDOUT))
+			*redir = 't';
+	}
+	else if (token_list->type == APPEND)
+	{
+		if (!token_list->prev)
+			*redir = 'a';
+		else if (token_list->prev && (token_list->prev->type != STDERR && token_list->prev->type != STDOUT))
+			*redir = 'a';
+	}
+	if (token_list->type == INPUT)
+	{
+		if (!token_list->prev)
+			*redir = 'i';
+		else if (token_list->prev && (token_list->prev->type != STDERR && token_list->prev->type != STDOUT))
+			*redir = 'i';
+	}
+	if (token_list->type == HEREDOC)
+	{
+		if (!token_list->prev)
+			*redir = 'h';
+		else if (token_list->prev && (token_list->prev->type != STDERR && token_list->prev->type != STDOUT)) 
 		*redir = 'h';
+	}
 }
 
 void	assign_redir_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int *w, char redir)

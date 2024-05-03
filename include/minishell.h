@@ -5,10 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/03 15:57:34 by camunozg         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/05/03 16:03:50 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -91,7 +93,9 @@ typedef struct s_minishell
 typedef struct s_global
 {
 	int	error_num;
-	int	signal;
+	int	stop_heredoc;
+	int	in_cmd;
+	int	in_heredoc;
 }				t_global;
 
 extern t_global	g_global;
@@ -176,10 +180,9 @@ int			error_builtins(t_minishell *data, int exit_code);
 void		minishell_loop(t_minishell *data);
 void		reset_loop(t_minishell *data);
 
-// SIGNALS
-void		signals(bool child_process);
-void		signal_handler(int signal);
-void		signal_handler_child(int signal);
+/* signals */
+void		init_signals(void);
+void		init_signal_vars(void);
 
 // HISTORY
 void		join_history(char *cmd, t_minishell *data, char **envp);
@@ -199,7 +202,7 @@ t_variable	*get_last_variable(t_variable *local_vars);
 
 // EXEC
 /*	exec */
-void		executor(t_minishell *data);
+int			executor(t_minishell *data);
 /*	error_handlers  */
 void		send_to_stderr(char *co, char *ar, char *err);
 /*	exec_utils  */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:22:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/24 15:07:23 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/03 14:48:43 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ t_minishell	*init(char **envp)
 	data->old_pwd = ft_strdup(my_getenv("OLDPWD", data->env_vars)); // añadir a clean
 	if (!data->old_pwd)
 		error(data, "Could not alloc memory for old pwd");
+	g_global.error_num = 0;
+	init_signal_vars();
 	return (data);
 }
 /*typedef struct s_minishell

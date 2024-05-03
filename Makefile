@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: juramos <juramos@student.42.fr>            +#+  +:+       +#+         #
+#    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/05/02 12:33:36 by juramos          ###   ########.fr        #
+#    Updated: 2024/05/03 11:47:51 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@ SRC_FILES 	= 	main\
 				builtins/mini_unset\
 				builtins/mini_export\
 				builtins/utils_builtins\
-				signal_handler\
+				signals\
 				
 SRC 		=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 
@@ -122,13 +122,11 @@ clean:
 	@rm -rf $(OBJ_DIR)
 	@rm -rf $(B_PATH)
 	@make clean -sC $(LIBFT_PATH)
-	@make clean -sC src/exec
 	@echo "$(BLUE)minishell object files cleaned!$(DEF_COLOR)"
 
 fclean: clean
 	@rm -f $(NAME)
 	@make fclean -sC $(LIBFT_PATH)
-	@make fclean -sC src/exec
 	@echo "$(CYAN)minishell executable files cleaned!$(DEF_COLOR)"
 
 re: fclean all

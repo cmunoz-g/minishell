@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:52 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/01 13:34:10 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 11:23:35 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	get_str_arr_len(char **strarr)
 	int	n;
 
 	if (!strarr)
-		return (0);
+		return (EXIT_SUCCESS);
 	n = 0;
 	while (strarr[n])
 		n++;

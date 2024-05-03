@@ -3,31 +3,41 @@
 void    take_out_tokens(t_token **tmp)
 {
     t_token *hold;
+    t_token *current;
 
-    if ((*tmp)->prev)
-        (*tmp)->prev->next = NULL;
-    while ((*tmp))
+    if (!tmp || !(*tmp))
+        return ;
+    current = (*tmp);
+    if (current->prev)
+        current->prev->next = NULL;
+    while (current)
     {
-        hold = (*tmp)->next;
-        free((*tmp)->value);
-        free((*tmp));
-        (*tmp) = hold;
+        hold = current->next;
+        free(current->value);
+        current->value = NULL;
+        free(current);
+        current = hold;
     }
     (*tmp) = NULL;
 }
 
-void    check_comments(t_token **token_list)
+int check_comments(t_token **token_list)
 {
     t_token *tmp;
+    int     first;
 
     tmp = (*token_list);
+    first = 1;
     while (tmp)
     {
         if (tmp->value[0] == '#')
         {
+            if (tmp == (*token_list))
+                first = 0;
             take_out_tokens(&tmp);
-            return ;
-        }
+            return (first); 
+        } 
         tmp = tmp->next;
     }
+    return (first);
 }

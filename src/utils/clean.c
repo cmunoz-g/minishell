@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	clean_token_list(t_token **token_list)
+void	clean_token_list(t_token **token_list) // problema de #primero esta aqui
 {
 	t_token *tmp;
 

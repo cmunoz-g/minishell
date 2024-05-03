@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/02 13:01:37 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 15:57:34 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_token 	*get_last_token(t_token *token_list);
 
 // SYNTAX
 int			check_syntax(t_token *token_list);
-void		check_comments(t_token **token_list);
+int 		check_comments(t_token **token_list);
 void    	take_out_tokens(t_token **tmp);
 
 // PARSER

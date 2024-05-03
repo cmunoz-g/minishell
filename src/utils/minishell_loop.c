@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/03 14:04:17 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 14:47:37 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	create_main_fork(t_minishell *data)
 	{
 		if (executor(data))
 		{
-			g_global.error_num = errno;
+			g_global.error_num = 130;
 			exit(EXIT_FAILURE);
 		}
 	}

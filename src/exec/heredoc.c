@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:11:14 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/03 11:23:35 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 11:39:55 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ static int	create_hd_file(t_minishell *data, int redir)
 	if (fd < 0)
 		return (EXIT_FAILURE);
 	while (line && ft_strncmp(line, data->cmd_table->redirections[redir]->value,
-		ft_strlen(data->cmd_table->redirections[redir]->value)) && !g_global.stop_heredoc)
+			ft_strlen(data->cmd_table->redirections[redir]->value))
+		&& !g_global.stop_heredoc)
 	{
 		expanded = expand(line, 1, data);
 		if (!expanded)
@@ -67,11 +68,11 @@ static int	check_heredocs(t_minishell *data)
 			data->cmd_table->hd_file = get_heredoc_filename();
 			if (!(data->cmd_table)->hd_file)
 				return (EXIT_FAILURE);
-		g_global.stop_heredoc = 0;
-		g_global.in_heredoc = 1;
+			g_global.stop_heredoc = 0;
+			g_global.in_heredoc = 1;
 			if (create_hd_file(data, i))
 				return (EXIT_FAILURE);
-		g_global.in_heredoc = 0;
+			g_global.in_heredoc = 0;
 		}
 		i++;
 	}

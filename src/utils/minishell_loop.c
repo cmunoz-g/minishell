@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/03 11:09:18 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 11:37:54 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	reset_loop(t_minishell *data)
 {
 	if (data->cmd_table)
 		clean_cmd_table_list(&(data->cmd_table));
-	if (data->line || ft_strlen(data->line)) // porque el ft_strlen? puede que acceda a NULL?
+	if (data->line || ft_strlen(data->line))
 		free(data->line);
 	if (data->token_list)
 		data->token_list = NULL;

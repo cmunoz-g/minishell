@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:50:07 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/03 11:35:18 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 11:37:30 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	event(void)
 	return (EXIT_SUCCESS);
 }
 
-void		init_signal_vars(void)
+void	init_signal_vars(void)
 {
 	g_global.stop_heredoc = 0;
 	g_global.in_cmd = 0;
@@ -29,7 +29,7 @@ static void	sigint_handler(int sig)
 	if (!g_global.in_heredoc)
 		ft_putstr_fd("\n", STDERR_FILENO);
 	if (g_global.in_cmd)
-	{	
+	{
 		g_global.stop_heredoc = 1;
 		rl_redisplay();
 		rl_done = 1;

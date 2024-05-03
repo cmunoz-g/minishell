@@ -6,23 +6,23 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/01 13:34:23 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 11:40:57 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *remove_quotes(char *str)
+static char	*remove_quotes(char *str)
 {
-	char *keyword_cleaned;
-	char *keyword;
+	char	*keyword_cleaned;
+	char	*keyword;
 
 	keyword_cleaned = ft_strtrim(str, "\"");
 	keyword = ft_strtrim(keyword_cleaned, "\'");
 	return (free(keyword_cleaned), keyword);
 }
 
-static char *expand_local(char *str, t_variable *vars)
+static char	*expand_local(char *str, t_variable *vars)
 {
 	if (!vars)
 		return (NULL);
@@ -36,11 +36,11 @@ static char *expand_local(char *str, t_variable *vars)
 	return (NULL);
 }
 
-static char *expand_word(char *str, int start, int end, t_minishell *data)
+static char	*expand_word(char *str, int start, int end, t_minishell *data)
 {
-	char *keyword;
-	char *keyword_cleaned;
-	char *value;
+	char	*keyword;
+	char	*keyword_cleaned;
+	char	*value;
 
 	if (str[start + 1] == '?')
 		return (ft_itoa(g_global.error_num));
@@ -53,12 +53,12 @@ static char *expand_word(char *str, int start, int end, t_minishell *data)
 	return (free(keyword_cleaned), value);
 }
 
-static char *expand_str(char *str, int start, int *i, t_minishell *data)
+static char	*expand_str(char *str, int start, int *i, t_minishell *data)
 {
-	char *begin;
-	char *word;
-	char *end;
-	char *newstr;
+	char	*begin;
+	char	*word;
+	char	*end;
+	char	*newstr;
 
 	begin = ft_substr(str, 0, start);
 	word = expand_word(str, start, *i, data);
@@ -79,11 +79,11 @@ static char *expand_str(char *str, int start, int *i, t_minishell *data)
 	return (free(newstr), free(end), free(str), begin);
 }
 
-char *expand(char *str, int is_heredoc, t_minishell *data)
+char	*expand(char *str, int is_heredoc, t_minishell *data)
 {
-	int i;
-	int start;
-	char *ret;
+	int		i;
+	int		start;
+	char	*ret;
 
 	i = 0;
 	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'' && !is_heredoc)

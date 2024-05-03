@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/03 09:55:43 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 11:05:49 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_global
 	int	error_num;
 	int	stop_heredoc;
 	int	in_cmd;
+	int	in_heredoc;
 }				t_global;
 
 extern t_global	g_global;
@@ -180,9 +181,7 @@ void		minishell_loop(t_minishell *data);
 void		reset_loop(t_minishell *data);
 
 /* signals */
-void		signals(bool child_process);
-void		signal_handler(int signal);
-void		signal_handler_child(int signal);
+void		init_signals(void);
 void		init_signal_vars(void);
 
 // HISTORY

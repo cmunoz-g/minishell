@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/02 15:02:03 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 11:09:18 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,13 @@ void	minishell_loop(t_minishell *data)
 	{
 		if (!check_variable(data->cmd_table))
 			reset_loop(data);
-		else if (!data->cmd_table->next
+		g_global.in_cmd = 1;
+		if (!data->cmd_table->next
 			&& check_if_builtin(data->cmd_table->cmd))
 			simple_builtin_executor(data);
 		else
 			create_main_fork(data);
+		g_global.in_cmd = 0;
 	}
 	reset_loop(data);
 }

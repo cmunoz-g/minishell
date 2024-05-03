@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/02 13:27:59 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 11:23:35 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ static int	handle_outfile(t_token *tkn)
 	if (tkn->type == APPEND)
 		fd = open(tkn->value, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (fd < 0)
-		return (1);
+		return (EXIT_FAILURE);
 	if (dup2(fd, STDOUT_FILENO) < 0)
-		return (1);
+		return (EXIT_FAILURE);
 	close(fd);
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 static int	handle_infile(char *str)
@@ -34,17 +34,17 @@ static int	handle_infile(char *str)
 
 	fd = open(str, O_RDONLY, 0777);
 	if (fd < 0)
-		return (1);
+		return (EXIT_FAILURE);
 	if (dup2(fd, STDIN_FILENO) < 0)
-		return (1);
+		return (EXIT_FAILURE);
 	close(fd);
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 static int	stderr_and_ret(char *str)
 {
 	send_to_stderr(NULL, str, strerror(errno));
-	return (1);
+	return (EXIT_FAILURE);
 }
 
 int	redirect(t_cmd_table *tbl, int is_builtin)
@@ -68,9 +68,9 @@ int	redirect(t_cmd_table *tbl, int is_builtin)
 		else if (tbl->redirections[i]->type == HEREDOC && !is_builtin)
 		{
 			if (handle_infile(tbl->hd_file))
-				return (1);
+				return (EXIT_FAILURE);
 		}
 		i++;
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

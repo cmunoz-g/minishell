@@ -1,57 +1,57 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.c                                   :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:50:07 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/22 12:50:08 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 11:21:47 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	signal_handler(int signal)
+int	event(void)
 {
-	if (signal == SIGINT)
-	{
-		g_global.signal = 130;
-		write(1, "\n", 1);
+	return (EXIT_SUCCESS);
+}
+
+void		init_signal_vars(void)
+{
+	g_global.stop_heredoc = 0;
+	g_global.in_cmd = 0;
+	g_global.in_heredoc = 0;
+}
+
+static void	sigint_handler(int sig)
+{
+	if (!g_global.in_heredoc)
+		ft_putstr_fd("\n", STDERR_FILENO);
+	if (g_global.in_cmd)
+	{	
+		g_global.stop_heredoc = 1;
 		rl_replace_line("", 0);
-		rl_on_new_line();
 		rl_redisplay();
+		rl_done = 1;
+		return ;
 	}
-	else if (signal == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_redisplay();
-	}
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	(void) sig;
 }
 
-void	signal_handler_child(int signal)
+// static void	sigquit_handler(int sig)
+// {
+// 	ft_putstr_fd("Quit: ", STDERR_FILENO);
+// 	ft_putnbr_fd(sig, STDERR_FILENO);
+// 	ft_putchar_fd('\n', STDERR_FILENO);
+// }
+
+void	init_signals(void)
 {
-	if (signal == SIGINT)
-		g_global.signal = 130;
-	else if (signal == SIGQUIT)
-	{
-		write(1, "Quit: 3\n", 9);
-		g_global.signal = 131;
-	}
-}
-
-
-void	signals(bool child_process)
-{
-	struct sigaction sa;
-
-	if (child_process)
-		sa.sa_handler = &signal_handler_child;
-	else
-		sa.sa_handler = &signal_handler;
-
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
-	sigaction(SIGTERM, &sa, NULL);
+	rl_event_hook = event;
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, sigint_handler);
 }

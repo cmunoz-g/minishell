@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   examples.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:49 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/16 12:26:43 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 11:23:35 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(int argc, char **argv, char **envp)
 		exit(1);
 	tbl = get_example_3();
 	executor(tbl, envp);
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 /*

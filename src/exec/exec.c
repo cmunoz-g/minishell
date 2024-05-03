@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/02 13:55:23 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 14:01:33 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,14 @@ static void	handle_cmd(t_minishell *data)
 		do_pipe(data);
 }
 
-void	executor(t_minishell *data)
+int	executor(t_minishell *data)
 {
-	check_all_heredocs(data);
+	if (check_all_heredocs(data))
+		return (EXIT_FAILURE);
 	while (data->cmd_table)
 	{
 		handle_cmd(data);
 		data->cmd_table = data->cmd_table->next;
 	}
+	return (EXIT_SUCCESS);
 }

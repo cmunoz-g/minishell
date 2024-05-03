@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/03 11:37:54 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 14:04:17 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,13 @@ static void	create_main_fork(t_minishell *data)
 	if (pid == -1)
 		exit(1);
 	if (pid == 0)
-		executor(data);
+	{
+		if (executor(data))
+		{
+			g_global.error_num = errno;
+			exit(EXIT_FAILURE);
+		}
+	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		g_global.error_num = WEXITSTATUS(status);

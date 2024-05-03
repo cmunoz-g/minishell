@@ -6,10 +6,10 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/01 13:34:37 by juramos          ###   ########.fr       */
-/*   Updated: 2024/05/01 12:17:07 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/03 14:47:37 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -43,7 +43,13 @@ static void	create_main_fork(t_minishell *data)
 	if (pid == -1)
 		exit(1);
 	if (pid == 0)
-		executor(data);
+	{
+		if (executor(data))
+		{
+			g_global.error_num = 130;
+			exit(EXIT_FAILURE);
+		}
+	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		g_global.error_num = WEXITSTATUS(status);
@@ -52,7 +58,7 @@ static void	create_main_fork(t_minishell *data)
 void	minishell_loop(t_minishell *data)
 {
 	bool	err_syntax;
-	
+
 	err_syntax = false;
 	data->line = readline("\e[1;34m""minishell> ""\e[m");
 	if (!data->line)
@@ -65,10 +71,13 @@ void	minishell_loop(t_minishell *data)
 	{
 		if (!check_variable(data->cmd_table))
 			reset_loop(data);
-		else if (!data->cmd_table->next && check_if_builtin(data->cmd_table->cmd))
+		g_global.in_cmd = 1;
+		if (!data->cmd_table->next
+			&& check_if_builtin(data->cmd_table->cmd))
 			simple_builtin_executor(data);
 		else
 			create_main_fork(data);
+		g_global.in_cmd = 0;
 	}
 	reset_loop(data);
 }
@@ -77,9 +86,10 @@ void	reset_loop(t_minishell *data)
 {
 	if (data->cmd_table)
 		clean_cmd_table_list(&(data->cmd_table));
-	if (data->line || ft_strlen(data->line)) // porque el ft_strlen? puede que acceda a NULL?
+	if (data->line || ft_strlen(data->line))
 		free(data->line);
 	if (data->token_list)
 		data->token_list = NULL;
+	init_signal_vars();
 	minishell_loop(data);
 }

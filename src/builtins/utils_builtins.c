@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:50:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/01 13:34:03 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 14:48:06 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	simple_builtin_executor(t_minishell *data)
 	int		ret;
 	int		(*builtin_arr)(t_minishell *data);
 
-	check_all_heredocs(data);
+	if (check_all_heredocs(data))
+		g_global.error_num = 130;
 	if (!data->cmd_table)
 		exit(EXIT_SUCCESS);
 	if (data->cmd_table->n_redirections > 0)

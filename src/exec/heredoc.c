@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:11:14 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/03 11:39:55 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 13:35:01 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,14 @@ static int	create_hd_file(t_minishell *data, int redir)
 			return (EXIT_FAILURE);
 		ft_putendl_fd(expanded, fd);
 		free(expanded);
+		free(line);
 		line = readline(HEREDOC_MSG);
 	}
-	free(line);
+	if (line)
+		free(line);
+	close(fd);
 	if (g_global.stop_heredoc || !line)
 		return (EXIT_FAILURE);
-	close(fd);
 	return (EXIT_SUCCESS);
 }
 

@@ -3,26 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:50:07 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/02 15:02:54 by juramos          ###   ########.fr       */
+/*   Updated: 2024/04/22 12:50:08 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_signal_vars(void)
-{
-	g_global.stop_heredoc = 0;
-	g_global.in_cmd = 0;
-}
-
 void	signal_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
-		g_global.error_num = 130;
+		g_global.signal = 130;
 		write(1, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
@@ -38,17 +32,15 @@ void	signal_handler(int signal)
 void	signal_handler_child(int signal)
 {
 	if (signal == SIGINT)
-		g_global.error_num = 130;
+		g_global.signal = 130;
 	else if (signal == SIGQUIT)
 	{
 		write(1, "Quit: 3\n", 9);
-		g_global.error_num = 131;
+		g_global.signal = 131;
 	}
 }
 
-/*
-	All of this will be changed
-*/
+
 void	signals(bool child_process)
 {
 	struct sigaction sa;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/02 15:01:26 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 09:55:43 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ int			error_builtins(t_minishell *data, int exit_code);
 void		minishell_loop(t_minishell *data);
 void		reset_loop(t_minishell *data);
 
-// SIGNALS
+/* signals */
 void		signals(bool child_process);
 void		signal_handler(int signal);
 void		signal_handler_child(int signal);

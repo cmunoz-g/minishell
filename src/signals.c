@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:50:07 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/03 11:21:47 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/03 11:35:18 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static void	sigint_handler(int sig)
 	if (g_global.in_cmd)
 	{	
 		g_global.stop_heredoc = 1;
-		rl_replace_line("", 0);
 		rl_redisplay();
 		rl_done = 1;
 		return ;

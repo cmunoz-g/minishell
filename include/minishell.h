@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/03 14:00:26 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/05 17:53:52 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ t_variable	*get_last_variable(t_variable *local_vars);
 /*	exec */
 int			executor(t_minishell *data);
 /*	error_handlers  */
-void		send_to_stderr(char *co, char *ar, char *err);
+void		send_to_stderr(char *co, char *ar, char *err, int is_out);
 /*	exec_utils  */
 int			open_file(char *name, int to_write);
 char		*get_path(char *cmd, char **env);

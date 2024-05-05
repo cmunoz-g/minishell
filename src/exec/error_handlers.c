@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   error_handlers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:54:27 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/02 13:33:23 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/05 17:53:37 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	send_to_stderr(char *co, char *ar, char *err)
+void	send_to_stderr(char *co, char *ar, char *err, int is_out)
 {
-	if (!co)
+	if (!co && is_out)
 		return ;
 	ft_putstr_fd("minishell: ", 2);
 	if (ft_strncmp(err, "command not found", 18) == 0)

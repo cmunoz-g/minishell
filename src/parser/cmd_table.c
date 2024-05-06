@@ -28,7 +28,7 @@ void	gen_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int start, int 
 	populate_cmd_table(token_list, &last, (end - start));
 }
 
-void	alloc_cmd_table(t_cmd_table **cmd_list, bool new_cmd)
+void	alloc_cmd_table(t_cmd_table **cmd_list)
 {
 	t_cmd_table	*cmd_table;
 	t_cmd_table *last;
@@ -57,7 +57,6 @@ void	alloc_cmd_table(t_cmd_table **cmd_list, bool new_cmd)
 	cmd_table->next = NULL;
 	cmd_table->n_redirections = 0;
 	cmd_table->redirections = NULL;
-	cmd_table->new_cmd = new_cmd;
 }
 
 void	populate_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int nbr_tokens)

@@ -6,7 +6,7 @@ void	init_pop_cmd_table(int *i, int *j, int *w, char *redir, t_cmd_table **cmd_t
 	*j = 0;
 	*w = 0;
 	*redir = '\0';
-	if ((*cmd_table)->prev && !(*cmd_table)->new_cmd)
+	if ((*cmd_table)->prev)
 		(*cmd_table)->in = PIPE;
 	else
 		(*cmd_table)->in = STDIN;

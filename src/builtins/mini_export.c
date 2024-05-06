@@ -2,15 +2,26 @@
 
 int	check_if_declaration(char *arg)
 {
-	int	i;
+	int		i;
+	bool	flag;
 
 	i = 0;
+	flag = false;
 	while (arg[i])
 	{
-		if (arg[i] == '=')
+		if (arg[i] == '-')
+			flag = true;
+		if (!flag && arg[i] == '=' && i != 0)
 			return (0);
+		else if (arg[i] == '=' && i == 0)
+		{
+			printf("minishell: export: '%s': not a valid identifier\n", arg);
+			g_global.error_num = 1;
+		}
 		i++;
 	}
+	if (flag)
+		printf("minishell: export: '%s': not a valid identifier\n", arg);
 	return (1);
 }
 
@@ -45,7 +56,7 @@ int		variable_in_env(t_variable *variable, char **env)
 	return (1);
 }
 
-char	**modify_variable(char **env, t_minishell *data, t_variable *variable)
+char	**modify_variable(char **env, t_minishell *data, char *variable)
 {
 	int		nbr_env;
 	int		i;
@@ -54,22 +65,24 @@ char	**modify_variable(char **env, t_minishell *data, t_variable *variable)
 	char	**new_env;
 
 	i = 0;
-	name_size = ft_strlen(variable->name);
-	value_size = ft_strlen(variable->value);
+	name_size = get_var_size(variable, true);
+	value_size = get_var_size(variable, false);
+	if (value_size == 0)
+		value_size = 1;
 	nbr_env = get_nbr_env(env);
 	new_env = (char **)malloc(sizeof(char *) * (nbr_env + 2));
 	if (!new_env)
 		error(data, "Memory problems in mini_export");
 	while (i < nbr_env)
 	{
-		if (!ft_strncmp(env[i], variable->name, name_size) && ft_strncmp(env[i], variable->value, value_size))
+		if (!ft_strncmp(env[i], variable, name_size) && ft_strncmp(env[i], variable + name_size, value_size))
 		{
 			new_env[i] = (char *)malloc(name_size + value_size + 2);
 			if (!new_env[i])
 				(free_arr(new_env), error(data, "Memory problems in mini_export"));
-			ft_strlcpy(new_env[i], variable->name, name_size + 1);
+			ft_strlcpy(new_env[i], variable, name_size + 1);
 			new_env[i][name_size] = '=';
-			ft_strlcpy(new_env[i] + name_size + 1, variable->value, value_size + 1);
+			ft_strlcpy(new_env[i] + name_size + 1, variable + name_size + 1, value_size + 1);
 		}
 		else
 			new_env[i] = ft_strdup(env[i]);
@@ -86,34 +99,26 @@ char	**add_variable(char *variable, char **env, t_minishell *data)
 	int		nbr_env;
 	int		i_j[2];
 	char	**new_env;
-	bool	flag;
 
 	i_j[0]= 0;
 	i_j[1] = 0;
-	flag = false;
 	nbr_env = get_nbr_env(env);
 	new_env = (char **)malloc(sizeof(char *) * (nbr_env + 2));
 	if (!new_env)
 		error(data, "Memory problems in mini_export");
 	while (i_j[0] < nbr_env && env[i_j[0]])
 	{
-		if (!ft_strncmp(env[i_j[0]], "HOME=", 4))
-			flag = true;
 		new_env[i_j[1]] = ft_strdup(env[i_j[0]]);
-		if (!new_env[i_j[0]])
+		if (!new_env[i_j[1]])
 			(free_arr(new_env), error(data, "Memory problems in mini_export"));
-		if (flag)
-		{
-			i_j[1]++;
-			new_env[i_j[1]] = ft_strdup(variable);
-			if (!new_env[i_j[0]])
-				(free_arr(new_env), error(data, "Memory problems in mini_export"));
-			flag = false;
-		}
 		i_j[0]++;
 		i_j[1]++;
 	}
-	new_env[i_j[0]] = NULL;
+	new_env[i_j[1]] = ft_strdup(variable);
+	if (!new_env[i_j[0]])
+		(free_arr(new_env), error(data, "Memory problems in mini_export"));
+	i_j[1]++;
+	new_env[i_j[1]] = NULL;
 	return (new_env);
 }
 
@@ -215,10 +220,27 @@ void	env_order(t_minishell *data)
 	free_arr(sorted_env);
 }
 
+int	variable_in_env_char(char *variable, char **env)
+{
+	int	name_size;
+	int	i;
+
+	name_size = get_var_size(variable, true);
+	i = 0;
+	while (env[i])
+	{
+		if (!ft_strncmp(variable, env[i], name_size))
+			return (0);
+		i++;
+	}
+	return (1);
+
+}
+
 int	mini_export(t_minishell *data) 
 {
 	int		i;
-	int		local_var;
+	int		declaration;
 	int		laps;
 	char	**new_env;
 	char	*new_var;
@@ -228,22 +250,27 @@ int	mini_export(t_minishell *data)
 		env_order(data);
 	while (i < data->cmd_table->n_args)
 	{
-		local_var = check_if_declaration(data->cmd_table->args[i]);
+		declaration = check_if_declaration(data->cmd_table->args[i]);
 		laps = check_new_var(data->cmd_table->args[i], data->local_vars);
-		if (!local_var)
+		if (!declaration)
 		{
-			if (laps < 0)
-				create_new_variable(data->cmd_table->args[i], &(data->local_vars), data);
+			if (!variable_in_env_char(data->cmd_table->args[i], data->env_vars))
+				new_env = modify_variable(data->env_vars, data, data->cmd_table->args[i]);
 			else
-				change_var_value(data->cmd_table->args[i], &(data->local_vars), laps, data);
-			if (laps >= 0 && !variable_in_env(get_var_to_mod(data->local_vars, laps), data->env_vars))
-				new_env = modify_variable(data->env_vars, data, get_var_to_mod(data->local_vars, laps));
-			else
-				new_env = add_variable(data->cmd_table->args[i], data->env_vars, data);
+			{
+				if (laps < 0)
+					create_new_variable(data->cmd_table->args[i], &(data->local_vars), data);
+				else
+					change_var_value(data->cmd_table->args[i], &(data->local_vars), laps, data);
+				if (laps >= 0 && !variable_in_env(get_var_to_mod(data->local_vars, laps), data->env_vars))
+					new_env = modify_variable(data->env_vars, data, data->cmd_table->args[i]);
+				else
+					new_env = add_variable(data->cmd_table->args[i], data->env_vars, data);
+			}
 			free_arr(data->env_vars);
 			data->env_vars = new_env;
 		}
-		else if (local_var && check_new_var(data->cmd_table->args[i], data->local_vars) >= 0 && variable_in_env(get_var_to_mod(data->local_vars, laps), data->env_vars))
+		else if (declaration && check_new_var(data->cmd_table->args[i], data->local_vars) >= 0 && variable_in_env(get_var_to_mod(data->local_vars, laps), data->env_vars))
 		{
 			new_var = get_new_var(data->cmd_table->args[i], data->local_vars, data);
 			new_env = add_variable(new_var, data->env_vars, data);

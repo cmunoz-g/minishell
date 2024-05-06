@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 10:25:56 by juramos          ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/05/06 11:29:12 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -60,7 +62,6 @@ typedef struct s_token
 	char			*value;
 	struct s_token	*next;
 	struct s_token	*prev;
-	struct s_token	*next_cmd;
 }					t_token;
 
 typedef struct s_cmd_table
@@ -73,8 +74,7 @@ typedef struct s_cmd_table
 	int					err;
 	char				*hd_file;
 	t_token				**redirections;
-	int					n_redirections;		
-	bool				new_cmd;		
+	int					n_redirections;				
 	struct s_cmd_table	*prev;
 	struct s_cmd_table	*next;
 }						t_cmd_table;
@@ -117,21 +117,18 @@ t_token		*get_last_token(t_token *token_list);
 
 // SYNTAX
 int			check_syntax(t_token *token_list);
-void		check_comments(t_token **token_list);
-void		take_out_tokens(t_token **tmp);
+int 		check_comments(t_token **token_list);
+void    	take_out_tokens(t_token **tmp);
 
 // PARSER
 void		parser(t_cmd_table **cmd_table, t_token **token_list);
-void		init_parser(int start_end[2], t_token **tmp,
-				t_token **token_list, bool *new_cmd);
+void		init_parser(int start_end[2], t_token **tmp, t_token **token_list);
 void		reset_parser(t_token **tmp, int start_end[2], bool *new_cmd);
 void		parser_aux(t_token **token_list, int *s_e);
-void		gen_cmd_table(t_token *token_list, t_cmd_table **cmd_table,
-				int start, int end);
-void		alloc_cmd_table(t_cmd_table **cmd_list, bool new_cmd);
-void		populate_cmd_table(t_token *token_list,
-				t_cmd_table **cmd_table, int nbr_tokens);
-t_cmd_table	*get_last_cmd_table(t_cmd_table *cmd_list);
+void		gen_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int start, int end);
+void		alloc_cmd_table(t_cmd_table **cmd_list);
+void		populate_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int nbr_tokens);
+t_cmd_table *get_last_cmd_table(t_cmd_table *cmd_list);
 int			get_nbr_args(t_token *token_list, int nbr_tokens);
 int			get_nbr_redir(t_token *token_list, int nbr_tokens);
 void		init_pop_cmd_table(int *i, int *j, int *w, char *redir,

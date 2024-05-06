@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:07:57 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 10:27:33 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/06 10:39:56 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ void	print_cmd_table(t_cmd_table *cmd_table) // borrar
 			i++;
 		}
 		printf("nbr redir: %d\n", cmd_table->n_redirections);
-		if (cmd_table->new_cmd)
-			printf("new cdm TRUE\n");
-		else
-			printf("new cdm FALSE\n");
+		// if (cmd_table->new_cmd)
+		// 	printf("new cdm TRUE\n");
+		// else
+		// 	printf("new cdm FALSE\n");
 		cmd_table = cmd_table->next;
 		printf("\n");
 	}

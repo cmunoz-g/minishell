@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:50:07 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/03 11:37:30 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/06 12:07:33 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,14 @@ void	init_signal_vars(void)
 static void	sigint_handler(int sig)
 {
 	if (!g_global.in_heredoc)
+	{
 		ft_putstr_fd("\n", STDERR_FILENO);
+		g_global.error_num = 130;
+	}
 	if (g_global.in_cmd)
 	{
 		g_global.stop_heredoc = 1;
+		g_global.error_num = 130;
 		rl_redisplay();
 		rl_done = 1;
 		return ;

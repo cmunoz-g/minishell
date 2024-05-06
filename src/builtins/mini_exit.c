@@ -81,10 +81,12 @@ int	mini_exit(t_minishell *data)
 			if (check_if_number(data->cmd_table->args[0])
 				|| check_if_too_big(data->cmd_table->args[0]))
 			{
+				ft_putendl_fd("exit", 1);
 				ft_putstr_fd("minishell: exit: ", 2);
 				ft_putstr_fd(data->cmd_table->args[0], 2);
 				ft_putendl_fd(": numeric argument required", 2);
-				return (255);
+				clean_data(&data);
+				exit(2);
 			}
 			exit_code = ft_atoll(data->cmd_table->args[0]);
 		}

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:22:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/03 14:48:43 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/06 10:27:03 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ t_minishell	*init(char **envp)
 	t_minishell	*data;
 
 	data = (t_minishell *)malloc(sizeof(t_minishell));
-	// if (!data)
-	// 		error ft
 	data->token_list = NULL;
 	data->cmd_table = NULL;
 	data->cmd_table = NULL;
@@ -27,10 +25,10 @@ t_minishell	*init(char **envp)
 	data->local_vars = NULL;
 	if (!data->env_vars)
 		error(data, "Could not alloc memory for env. vars.");
-	data->pwd = ft_strdup(my_getenv("PWD", data->env_vars)); // añadir a clean
+	data->pwd = ft_strdup(my_getenv("PWD", data->env_vars));
 	if (!data->pwd)
 		error(data, "Could not alloc memory for pwd");
-	data->old_pwd = ft_strdup(my_getenv("OLDPWD", data->env_vars)); // añadir a clean
+	data->old_pwd = ft_strdup(my_getenv("OLDPWD", data->env_vars));
 	if (!data->old_pwd)
 		error(data, "Could not alloc memory for old pwd");
 	g_global.error_num = 0;

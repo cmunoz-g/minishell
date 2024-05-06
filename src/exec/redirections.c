@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/03 11:23:35 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/05 17:54:27 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static int	handle_infile(char *str)
 	return (EXIT_SUCCESS);
 }
 
-static int	stderr_and_ret(char *str)
+static int	stderr_and_ret(char *str, int is_out)
 {
-	send_to_stderr(NULL, str, strerror(errno));
+	send_to_stderr(NULL, str, strerror(errno), is_out);
 	return (EXIT_FAILURE);
 }
 
@@ -58,12 +58,12 @@ int	redirect(t_cmd_table *tbl, int is_builtin)
 			|| tbl->redirections[i]->type == APPEND)
 		{
 			if (handle_outfile(tbl->redirections[i]))
-				return (stderr_and_ret(tbl->redirections[i]->value));
+				return (stderr_and_ret(tbl->redirections[i]->value, 1));
 		}
 		else if (tbl->redirections[i]->type == INPUT)
 		{
 			if (handle_infile(tbl->redirections[i]->value))
-				return (stderr_and_ret(tbl->redirections[i]->value));
+				return (stderr_and_ret(tbl->redirections[i]->value, 0));
 		}
 		else if (tbl->redirections[i]->type == HEREDOC && !is_builtin)
 		{

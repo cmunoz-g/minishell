@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:17:12 by juramos           #+#    #+#             */
-/*   Updated: 2024/04/24 10:56:14 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/06 09:16:36 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ char	*get_path(char *cmd, char **env)
 	int		i;
 
 	env_vars = ft_split(my_getenv("PATH", env), ':');
+	if (!env_vars)
+		return (NULL);
 	i = -1;
 	while (env_vars[++i])
 	{

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:11:14 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/03 13:35:01 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/06 10:20:45 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*get_heredoc_filename(void)
 	return (filename);
 }
 
-static int	create_hd_file(t_minishell *data, int redir)
+static int	create_hd_file(t_minishell *data, int redir, char *delim)
 {
 	char	*line;
 	char	*expanded;
@@ -36,8 +36,7 @@ static int	create_hd_file(t_minishell *data, int redir)
 	fd = open(data->cmd_table->hd_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		return (EXIT_FAILURE);
-	while (line && ft_strncmp(line, data->cmd_table->redirections[redir]->value,
-			ft_strlen(data->cmd_table->redirections[redir]->value))
+	while (line && ft_strncmp(line, delim, ft_strlen(delim))
 		&& !g_global.stop_heredoc)
 	{
 		expanded = expand(line, 1, data);
@@ -72,7 +71,8 @@ static int	check_heredocs(t_minishell *data)
 				return (EXIT_FAILURE);
 			g_global.stop_heredoc = 0;
 			g_global.in_heredoc = 1;
-			if (create_hd_file(data, i))
+			if (create_hd_file(data, i,
+					data->cmd_table->redirections[i]->value))
 				return (EXIT_FAILURE);
 			g_global.in_heredoc = 0;
 		}

@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/03 16:03:50 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/06 10:39:40 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,15 +103,17 @@ extern t_global	g_global;
 // LEXER 
 void		lexer(char *cmd_line, t_token **token_list);
 void		lexer_qt(t_token **token_list, char *cmd_line, int *start, int i);
-void		lexer_new_token(t_token **token_list, char *cmd_line, int *start, int *i);
-void		lexer_new_token_aux(t_token **token_list, char *cmd_line, int *start, int *i);
+void		lexer_new_token(t_token **token_list,
+				char *cmd_line, int *start, int *i);
+void		lexer_new_token_aux(t_token **token_list,
+				char *cmd_line, int *start, int *i);
 void		lexer_new_cmd(t_token **token_list, char *cmd_line, int *i);
 void		check_redirections(t_token **token_list);
 void		set_qt(bool *quotes, char *quote_type, char *cmd_line, int i);
 void		init_lexer(bool *qt, int *i, int *start);
 void		add_token(t_token **token_list, char *cmd_line, int start, int end);
 void		get_token_type(t_token *token);
-t_token 	*get_last_token(t_token *token_list);
+t_token		*get_last_token(t_token *token_list);
 
 // SYNTAX
 int			check_syntax(t_token *token_list);
@@ -129,11 +131,15 @@ void		populate_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int nbr_t
 t_cmd_table *get_last_cmd_table(t_cmd_table *cmd_list);
 int			get_nbr_args(t_token *token_list, int nbr_tokens);
 int			get_nbr_redir(t_token *token_list, int nbr_tokens);
-void		init_pop_cmd_table(int *i, int *j, int *w, char *redir, t_cmd_table **cmd_table);
-void		check_std_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int w);
+void		init_pop_cmd_table(int *i, int *j, int *w, char *redir,
+				t_cmd_table **cmd_table);
+void		check_std_cmd_table(t_token *token_list,
+				t_cmd_table **cmd_table, int w);
 void		check_redir_cmd_table(t_token *token_list, char *redir);
-void		assign_redir_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int *w, char redir);
-void		assign_redir_cmd_table_aux(t_cmd_table **cmd_table, int *w, int type, char *value);
+void		assign_redir_cmd_table(t_token *token_list, t_cmd_table **cmd_table,
+				int *w, char redir);
+void		assign_redir_cmd_table_aux(t_cmd_table **cmd_table, int *w,
+				int type, char *value);
 
 // INIT
 t_minishell	*init(char **envp);
@@ -193,18 +199,20 @@ char		*get_home(char **envp);
 // LOCAL VARIABLES
 void		local_variables(t_minishell *data);
 int			check_variable(t_cmd_table *cmd_table);
-void		create_new_variable(char *cmd, t_variable **local_vars, t_minishell *data);
+void		create_new_variable(char *cmd, t_variable **local_vars,
+				t_minishell *data);
 void		fill_variable(t_variable **variables, char *cmd, t_minishell *data);
 int			get_var_size(char *cmd, bool name);
 int			check_new_var(char *cmd, t_variable *local_vars);
-void		change_var_value(char *cmd, t_variable **local_vars, int laps, t_minishell *data);
+void		change_var_value(char *cmd, t_variable **local_vars,
+				int laps, t_minishell *data);
 t_variable	*get_last_variable(t_variable *local_vars);
 
 // EXEC
 /*	exec */
 int			executor(t_minishell *data);
 /*	error_handlers  */
-void		send_to_stderr(char *co, char *ar, char *err);
+void		send_to_stderr(char *co, char *ar, char *err, int is_out);
 /*	exec_utils  */
 int			open_file(char *name, int to_write);
 char		*get_path(char *cmd, char **env);

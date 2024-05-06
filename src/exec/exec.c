@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 09:14:24 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/06 12:52:11 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,19 @@ static void	do_pipe(t_minishell *data)
 
 static void	handle_cmd(t_minishell *data)
 {
+	int	ret;
+
 	if (!data->cmd_table)
 		exit(EXIT_SUCCESS);
 	if (data->cmd_table->n_redirections > 0)
-		if (redirect(data->cmd_table, 0))
-			exit(EXIT_FAILURE);
+	{
+		ret = redirect(data->cmd_table, 0);
+		if (ret)
+		{
+			g_global.error_num = ret;
+			exit(ret);
+		}
+	}
 	if (!data->cmd_table->next || data->cmd_table->out == TRUNC
 		|| data->cmd_table->out == APPEND)
 		exec_process(data);

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:50:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/03 14:48:06 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/06 12:48:09 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,14 @@ void	simple_builtin_executor(t_minishell *data)
 	if (!data->cmd_table)
 		exit(EXIT_SUCCESS);
 	if (data->cmd_table->n_redirections > 0)
-		if (redirect(data->cmd_table, 1))
-			exit(EXIT_FAILURE);
+	{
+		ret = redirect(data->cmd_table, 1);
+		if (ret)
+		{
+			g_global.error_num = ret;
+			exit(ret);
+		}
+	}
 	builtin_arr = check_if_builtin(data->cmd_table->cmd);
 	ret = builtin_arr(data);
 	if (ret)

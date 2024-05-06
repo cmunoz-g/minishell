@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:50:07 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 12:07:33 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/06 13:35:11 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ static void	sigint_handler(int sig)
 	(void) sig;
 }
 
-// static void	sigquit_handler(int sig)
-// {
-// 	ft_putstr_fd("Quit: ", STDERR_FILENO);
-// 	ft_putnbr_fd(sig, STDERR_FILENO);
-// 	ft_putchar_fd('\n', STDERR_FILENO);
-// }
+void	sigquit_handler(int sig)
+{
+	ft_putendl_fd("Quit", STDERR_FILENO);
+	g_global.error_num = 131;
+	(void) sig;
+}
 
 void	init_signals(void)
 {

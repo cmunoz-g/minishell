@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 10:23:23 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 12:40:11 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/06 13:32:57 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	minishell_loop(t_minishell *data)
 	local_variables(data);
 	if (!err_syntax)
 	{
+		signal(SIGQUIT, sigquit_handler);
 		if (!check_variable(data->cmd_table))
 			reset_loop(data);
 		g_global.in_cmd = 1;

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 12:52:11 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/06 12:57:34 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	exec_process(t_minishell *data)
 	if (!path)
 	{
 		g_global.error_num = errno;
-		send_to_stderr(cmd[0], NULL, "command not found", 0);
+		send_to_stderr(cmd[0], NULL, "command not found", 1);
 		free_arr(cmd);
 		exit(127);
 	}

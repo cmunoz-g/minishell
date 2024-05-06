@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 12:50:31 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/06 12:55:52 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	redirect(t_cmd_table *tbl, int is_builtin)
 		else if (tbl->redirections[i]->type == INPUT)
 		{
 			if (handle_infile(tbl->redirections[i]->value))
-				return (stderr_and_ret(tbl->redirections[i]->value, 1));
+				return (stderr_and_ret(tbl->redirections[i]->value, 0));
 		}
 		else if (tbl->redirections[i]->type == HEREDOC && !is_builtin)
 		{

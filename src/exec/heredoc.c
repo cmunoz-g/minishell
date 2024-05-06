@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:11:14 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 10:20:45 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/06 10:37:19 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*get_heredoc_filename(void)
 	return (filename);
 }
 
-static int	create_hd_file(t_minishell *data, int redir, char *delim)
+static int	create_hd_file(t_minishell *data, char *delim)
 {
 	char	*line;
 	char	*expanded;
@@ -71,8 +71,7 @@ static int	check_heredocs(t_minishell *data)
 				return (EXIT_FAILURE);
 			g_global.stop_heredoc = 0;
 			g_global.in_heredoc = 1;
-			if (create_hd_file(data, i,
-					data->cmd_table->redirections[i]->value))
+			if (create_hd_file(data, data->cmd_table->redirections[i]->value))
 				return (EXIT_FAILURE);
 			g_global.in_heredoc = 0;
 		}

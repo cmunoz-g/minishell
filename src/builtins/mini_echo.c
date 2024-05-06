@@ -6,12 +6,15 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:15:45 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/01 13:33:57 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/06 10:40:04 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+	Removed in line 35 a handler that if !expanded return EXIT_FAILURE
+*/
 int	mini_echo(t_minishell *data)
 {
 	int		endl;
@@ -30,8 +33,6 @@ int	mini_echo(t_minishell *data)
 	while (data->cmd_table->args[i])
 	{
 		expanded = expand(data->cmd_table->args[i], 0, data);
-		if (!expanded)
-			return (EXIT_FAILURE);
 		ft_putstr_fd(expanded, STDOUT_FILENO);
 		free(expanded);
 		i++;

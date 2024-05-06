@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:07:57 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/03 10:44:03 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/06 10:27:33 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	print_cmd_table(t_cmd_table *cmd_table) // borrar
 	while (cmd_table) 
 	{
 		printf("CMD:%s\n",cmd_table->cmd);
-		
 		if (cmd_table->args)
 		{
 			while (cmd_table->args[i])
@@ -65,23 +64,17 @@ void	print_cmd_table(t_cmd_table *cmd_table) // borrar
 		printf("nbr redir: %d\n", cmd_table->n_redirections);
 		if (cmd_table->new_cmd)
 			printf("new cdm TRUE\n");
-		else 
+		else
 			printf("new cdm FALSE\n");
 		cmd_table = cmd_table->next;
 		printf("\n");
 	}
 }
 
-void leaks(void)
-{
-	system("leaks minishell");
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	*data;
 
-	//atexit(leaks);
 	if (argc != 1 || argv[1])
 		exit(1);
 	data = init(envp);

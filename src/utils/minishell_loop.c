@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/03 14:47:37 by juramos          ###   ########.fr       */
+/*   Created: 2024/05/06 10:23:23 by juramos           #+#    #+#             */
+/*   Updated: 2024/05/06 10:23:25 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 

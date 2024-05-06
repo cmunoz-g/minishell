@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:27:08 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/05 17:53:52 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/06 10:25:56 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,37 +103,46 @@ extern t_global	g_global;
 // LEXER 
 void		lexer(char *cmd_line, t_token **token_list);
 void		lexer_qt(t_token **token_list, char *cmd_line, int *start, int i);
-void		lexer_new_token(t_token **token_list, char *cmd_line, int *start, int *i);
-void		lexer_new_token_aux(t_token **token_list, char *cmd_line, int *start, int *i);
+void		lexer_new_token(t_token **token_list,
+				char *cmd_line, int *start, int *i);
+void		lexer_new_token_aux(t_token **token_list,
+				char *cmd_line, int *start, int *i);
 void		lexer_new_cmd(t_token **token_list, char *cmd_line, int *i);
 void		check_redirections(t_token **token_list);
 void		set_qt(bool *quotes, char *quote_type, char *cmd_line, int i);
 void		init_lexer(bool *qt, int *i, int *start);
 void		add_token(t_token **token_list, char *cmd_line, int start, int end);
 void		get_token_type(t_token *token);
-t_token 	*get_last_token(t_token *token_list);
+t_token		*get_last_token(t_token *token_list);
 
 // SYNTAX
 int			check_syntax(t_token *token_list);
 void		check_comments(t_token **token_list);
-void    	take_out_tokens(t_token **tmp);
+void		take_out_tokens(t_token **tmp);
 
 // PARSER
 void		parser(t_cmd_table **cmd_table, t_token **token_list);
-void		init_parser(int start_end[2], t_token **tmp, t_token **token_list, bool *new_cmd);
+void		init_parser(int start_end[2], t_token **tmp,
+				t_token **token_list, bool *new_cmd);
 void		reset_parser(t_token **tmp, int start_end[2], bool *new_cmd);
 void		parser_aux(t_token **token_list, int *s_e);
-void		gen_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int start, int end);
+void		gen_cmd_table(t_token *token_list, t_cmd_table **cmd_table,
+				int start, int end);
 void		alloc_cmd_table(t_cmd_table **cmd_list, bool new_cmd);
-void		populate_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int nbr_tokens);
-t_cmd_table *get_last_cmd_table(t_cmd_table *cmd_list);
+void		populate_cmd_table(t_token *token_list,
+				t_cmd_table **cmd_table, int nbr_tokens);
+t_cmd_table	*get_last_cmd_table(t_cmd_table *cmd_list);
 int			get_nbr_args(t_token *token_list, int nbr_tokens);
 int			get_nbr_redir(t_token *token_list, int nbr_tokens);
-void		init_pop_cmd_table(int *i, int *j, int *w, char *redir, t_cmd_table **cmd_table);
-void		check_std_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int w);
+void		init_pop_cmd_table(int *i, int *j, int *w, char *redir,
+				t_cmd_table **cmd_table);
+void		check_std_cmd_table(t_token *token_list,
+				t_cmd_table **cmd_table, int w);
 void		check_redir_cmd_table(t_token *token_list, char *redir);
-void		assign_redir_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int *w, char redir);
-void		assign_redir_cmd_table_aux(t_cmd_table **cmd_table, int *w, int type, char *value);
+void		assign_redir_cmd_table(t_token *token_list, t_cmd_table **cmd_table,
+				int *w, char redir);
+void		assign_redir_cmd_table_aux(t_cmd_table **cmd_table, int *w,
+				int type, char *value);
 
 // INIT
 t_minishell	*init(char **envp);
@@ -193,11 +202,13 @@ char		*get_home(char **envp);
 // LOCAL VARIABLES
 void		local_variables(t_minishell *data);
 int			check_variable(t_cmd_table *cmd_table);
-void		create_new_variable(char *cmd, t_variable **local_vars, t_minishell *data);
+void		create_new_variable(char *cmd, t_variable **local_vars,
+				t_minishell *data);
 void		fill_variable(t_variable **variables, char *cmd, t_minishell *data);
 int			get_var_size(char *cmd, bool name);
 int			check_new_var(char *cmd, t_variable *local_vars);
-void		change_var_value(char *cmd, t_variable **local_vars, int laps, t_minishell *data);
+void		change_var_value(char *cmd, t_variable **local_vars,
+				int laps, t_minishell *data);
 t_variable	*get_last_variable(t_variable *local_vars);
 
 // EXEC

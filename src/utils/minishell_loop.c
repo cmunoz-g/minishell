@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 10:23:23 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 11:52:35 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/06 12:22:34 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@ static void	parse_data(t_minishell *data, bool *err_syntax);
 
 static void	parse_data(t_minishell *data, bool *err_syntax)
 {
+	t_token *token_tmp;
+	
 	join_history(data->line, data, data->env_vars);
 	lexer(data->line, &(data->token_list));
+	token_tmp = data->token_list;
 	if (!check_comments(&(data->token_list)))
 	{
 		*err_syntax = true;
@@ -33,7 +36,7 @@ static void	parse_data(t_minishell *data, bool *err_syntax)
 		else
 			*err_syntax = true;
 	}
-	clean_token_list(&(data->token_list));
+	clean_token_list(&token_tmp);
 }
 
 static void	create_main_fork(t_minishell *data)

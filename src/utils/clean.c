@@ -7,8 +7,7 @@ void	clean_token_list(t_token **token_list) // problema de #primero esta aqui
 	while (*token_list)
 	{
 		tmp = (*token_list)->next;
-		if ((*token_list)->value)
-			free((*token_list)->value);
+		free((*token_list)->value);
 		(*token_list)->value = NULL;
 		free(*token_list);
 		(*token_list) = tmp;

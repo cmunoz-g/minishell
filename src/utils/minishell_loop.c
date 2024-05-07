@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 10:23:23 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 13:32:57 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 11:46:21 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	parse_data(t_minishell *data, bool *err_syntax)
 
 	join_history(data->line, data, data->env_vars);
 	lexer(data->line, &(data->token_list));
+	data->token_list->data = data;
 	token_tmp = data->token_list;
 	if (!check_comments(&(data->token_list)))
 	{

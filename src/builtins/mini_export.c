@@ -75,7 +75,7 @@ char	**modify_variable(char **env, t_minishell *data, char *variable)
 		error(data, "Memory problems in mini_export");
 	while (i < nbr_env)
 	{
-		if (!ft_strncmp(env[i], variable, name_size) && ft_strncmp(env[i], variable + name_size, value_size))
+		if (!ft_strncmp(env[i], variable, get_var_size(env[i], true)) && ft_strncmp(env[i], variable + name_size, value_size))
 		{
 			new_env[i] = (char *)malloc(name_size + value_size + 2);
 			if (!new_env[i])

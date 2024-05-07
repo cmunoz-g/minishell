@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 12:14:02 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 12:29:42 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	check_and_exec_if_executable(char **str, t_minishell *data)
 		if (execve(str[0], str, data->env_vars) == -1)
 		{
 			g_global.error_num = errno;
-			send_to_stderr(str[0], NULL, strerror(errno), 0);
+			send_to_stderr(str[0], NULL, "command not found", 0);
 			free_arr(str);
 			exit(errno);
 		}

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 10:23:23 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 11:07:19 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 12:16:54 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	create_main_fork(t_minishell *data)
 		if (executor(data))
 		{
 			g_global.error_num = 130;
-			exit(EXIT_FAILURE);
+			exit(130);
 		}
 	}
 	waitpid(pid, &status, 0);

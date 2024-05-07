@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:50:07 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 11:06:37 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 11:58:27 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,11 @@ static void	sigint_handler(int sig)
 
 void	sigquit_handler(int sig)
 {
-	ft_putendl_fd("Quit", STDERR_FILENO);
 	g_global.error_num = 128 + sig;
 }
 
 static void	sigsegv_handler(int sig)
 {
-	ft_putendl_fd("Segmentation fault", STDERR_FILENO);
 	g_global.error_num = 128 + sig;
 }
 

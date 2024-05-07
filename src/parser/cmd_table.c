@@ -1,89 +1,114 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_table.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/07 11:31:28 by cmunoz-g          #+#    #+#             */
+/*   Updated: 2024/05/07 12:14:57 by cmunoz-g         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void	gen_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int start, int end)
+void	gen_cmd_table_redir(t_cmd_table *last, t_minishell *data)
 {
-	t_cmd_table *last;
-	int			i;
-	int			j;
+	int	j;
 
-	last = get_last_cmd_table((*cmd_table));
+	j = 0;
+	if (last->n_redirections)
+	{
+		last->redirections = (t_token **)malloc(sizeof(t_token *)
+				* last->n_redirections);
+		if (!last->redirections)
+			error(data, "Memory problems while creating redirections");
+	}
+	else
+		last->redirections = NULL;
+	while (j < last->n_redirections)
+	{
+		last->redirections[j] = (t_token *)malloc(sizeof(t_token));
+		if (!last->redirections[j])
+			error(data, "Memory problems while creating redirections");
+		j++;
+	}
+}
+
+void	gen_cmd_table(t_token *list, t_cmd_table **table, int start, int end)
+{
+	t_cmd_table	*last;
+	int			i;
+
+	last = get_last_cmd_table((*table));
 	i = 0;
 	while (i < start)
 	{
-		token_list = token_list->next;
+		list = list->next;
 		i++;
 	}
-	last->args = (char **)malloc(sizeof(char *) * (get_nbr_args(token_list, (end - start)) + 1)); // FALTA PROTEGER
-	last->n_redirections = get_nbr_redir(token_list, (end - start)); 
-	if (last->n_redirections)
-		last->redirections = (t_token **)malloc(sizeof(t_token *) * last->n_redirections); // FALTA PROTEGER
-	else
-		last->redirections = NULL;
-	j = 0;
-	while (j < last->n_redirections)
-	{
-		last->redirections[j] = (t_token *)malloc(sizeof(t_token)); // FALTA PROTEGER
-		j++;
-	}
-	populate_cmd_table(token_list, &last, (end - start));
+	last->args = (char **)malloc(sizeof(char *)
+			* (get_nbr_args(list, (end - start)) + 1));
+	if (!last->args)
+		error(list->data, "Memory problems while creating cmd arguments");
+	last->n_redirections = get_nbr_redir(list, (end - start));
+	gen_cmd_table_redir(last, list->data);
+	populate_cmd_table(list, &last, (end - start));
 }
 
-void	alloc_cmd_table(t_cmd_table **cmd_list)
+void	init_cmd_table(t_cmd_table **cmd_table)
 {
-	t_cmd_table	*cmd_table;
-	t_cmd_table *last;
-
-	cmd_table = (t_cmd_table *)malloc(sizeof(t_cmd_table));
-	if (!cmd_table)
-		clean_cmd_table_list(cmd_list);
-	last = get_last_cmd_table(*cmd_list);
-	if (!(*cmd_list))
-	{
-		(*cmd_list) = cmd_table;
-		cmd_table->prev = NULL;
-	}
-	else
-	{
-		last->next = cmd_table;
-		cmd_table->prev = last;
-	}
-	cmd_table->cmd = NULL;
-	cmd_table->args = NULL;
-	cmd_table->n_args = 0;
-	cmd_table->in = 0;
-	cmd_table->out = 0;
-	cmd_table->err = 0;
-	cmd_table->hd_file = NULL;
-	cmd_table->next = NULL;
-	cmd_table->n_redirections = 0;
-	cmd_table->redirections = NULL;
+	(*cmd_table)->cmd = NULL;
+	(*cmd_table)->args = NULL;
+	(*cmd_table)->n_args = 0;
+	(*cmd_table)->in = 0;
+	(*cmd_table)->out = 0;
+	(*cmd_table)->err = 0;
+	(*cmd_table)->hd_file = NULL;
+	(*cmd_table)->next = NULL;
+	(*cmd_table)->n_redirections = 0;
+	(*cmd_table)->redirections = NULL;
 }
 
-void	populate_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int nbr_tokens)
+void	populate_cmd_table(t_token *list, t_cmd_table **cmd_table, int nbr_tok)
 {
-	int		i;
-	int		j;
+	int		i_j[2];
 	int		w;
 	char	redir;
 
-	init_pop_cmd_table(&i, &j, &w, &redir, cmd_table);
-	while (i < nbr_tokens)
+	init_pop_cmd_table(i_j, &w, &redir, cmd_table);
+	while (i_j[0] < nbr_tok)
 	{
-		if (token_list->type == CMD)
-			(*cmd_table)->cmd = ft_strdup(token_list->value); 
-		else if (token_list->type == ARG)
-			(*cmd_table)->args[j++] = ft_strdup(token_list->value);
-		else if (token_list->type == PIPE)
+		if (list->type == CMD)
+			(*cmd_table)->cmd = ft_strdup(list->value);
+		else if (list->type == ARG)
+			(*cmd_table)->args[i_j[1]++] = ft_strdup(list->value);
+		else if (list->type == PIPE)
 			(*cmd_table)->out = PIPE;
-		else if ((token_list->type == STDOUT || token_list->type == STDERR) && (w < (*cmd_table)->n_redirections))
-			check_std_cmd_table(token_list, cmd_table, w);
-		check_redir_cmd_table(token_list, &redir);
-		if (token_list->type == FILENAME)
-			assign_redir_cmd_table(token_list, cmd_table, &w, redir);
-		i++;
-		token_list = token_list->next;
+		else if ((list->type == STDOUT || list->type == STDERR)
+			&& (w < (*cmd_table)->n_redirections))
+			check_std_cmd_table(list, cmd_table, w);
+		check_redir_cmd_table(list, &redir);
+		if (list->type == FILENAME)
+			assign_redir_cmd_t(list, cmd_table, &w, redir);
+		i_j[0]++;
+		list = list->next;
 	}
 	if ((*cmd_table)->args)
-		(*cmd_table)->args[j] = NULL;
-	(*cmd_table)->n_args = j;
+		(*cmd_table)->args[i_j[1]] = NULL;
+	(*cmd_table)->n_args = i_j[1];
+}
+
+void	init_pop_cmd_table(int *i_j, int *w, char *redir, t_cmd_table **table)
+{
+	i_j[0] = 0;
+	i_j[1] = 0;
+	*w = 0;
+	*redir = '\0';
+	if ((*table)->prev)
+		(*table)->in = PIPE;
+	else
+		(*table)->in = STDIN;
+	(*table)->out = STDOUT;
+	(*table)->err = STDERR;
 }

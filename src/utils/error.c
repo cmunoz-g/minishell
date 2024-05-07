@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 11:26:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/01 10:42:13 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/07 11:03:46 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	error(t_minishell *data, char *error_message)
 	if (data)
 		clean_data(&data);
 	msg_len = ft_strlen(error_message);
-	write(2, "Error: " , 8);
+	write(2, "Error: ", 8);
 	write(2, error_message, msg_len);
 	write(2, "\n", 1);
 }

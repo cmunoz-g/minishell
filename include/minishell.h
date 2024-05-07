@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/07 10:54:19 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 16:16:04 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@
 # include <signal.h>
 # include <termios.h>
 
+typedef struct s_minishell	t_minishell;
+
 typedef struct s_variable
 {
 	struct s_variable	*next;
@@ -62,6 +64,7 @@ typedef struct s_token
 	char			*value;
 	struct s_token	*next;
 	struct s_token	*prev;
+	t_minishell		*data;
 }					t_token;
 
 typedef struct s_cmd_table
@@ -131,15 +134,15 @@ void		populate_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int nbr_t
 t_cmd_table *get_last_cmd_table(t_cmd_table *cmd_list);
 int			get_nbr_args(t_token *token_list, int nbr_tokens);
 int			get_nbr_redir(t_token *token_list, int nbr_tokens);
-void		init_pop_cmd_table(int *i, int *j, int *w, char *redir,
-				t_cmd_table **cmd_table);
+void		init_pop_cmd_table(int *i_j, int *w, char *redir, t_cmd_table **cmd_table);
 void		check_std_cmd_table(t_token *token_list,
 				t_cmd_table **cmd_table, int w);
 void		check_redir_cmd_table(t_token *token_list, char *redir);
-void		assign_redir_cmd_table(t_token *token_list, t_cmd_table **cmd_table,
+void		assign_redir_cmd_t(t_token *token_list, t_cmd_table **cmd_table,
 				int *w, char redir);
 void		assign_redir_cmd_table_aux(t_cmd_table **cmd_table, int *w,
 				int type, char *value);
+void	init_cmd_table(t_cmd_table **cmd_table);
 
 // INIT
 t_minishell	*init(char **envp);
@@ -159,10 +162,19 @@ int			mini_env(t_minishell *data);
 /* mini_unset*/
 int			mini_unset(t_minishell *data);
 int			get_nbr_env(char **env);
+int		get_equal_sign(char *variable);
+int	is_env(char *variable, char **env);
 /* mini_export*/
 int			mini_export(t_minishell *data);
 int			variable_in_env(t_variable *variable, char **env);
+int		variable_in_env_char(char *variable, char **env);
+char	**mod_var(char **env, t_minishell *data, char *variable);
 t_variable	*get_var_to_mod(t_variable *local_vars, int laps);
+void	env_order(t_minishell *data);
+int	check_if_declaration(char *arg);
+char	**add_variable(char *variable, char **env, t_minishell *data);
+char	**modify_variable(char **env, t_minishell *data, char *variable);
+int		get_comp_size(int name_size, char *var);
 /* utills_builtins */
 int			(*check_if_builtin(char *str))(t_minishell *data);
 void		simple_builtin_executor(t_minishell *data);
@@ -208,6 +220,12 @@ int			check_new_var(char *cmd, t_variable *local_vars);
 void		change_var_value(char *cmd, t_variable **local_vars,
 				int laps, t_minishell *data);
 t_variable	*get_last_variable(t_variable *local_vars);
+int		check_variable(t_cmd_table *cmd_table);
+int	check_new_var(char *cmd, t_variable *local_vars);
+int		get_var_size(char *cmd, bool name);
+void	fill_variable(t_variable **variables, char *cmd, t_minishell *data);
+t_variable	*get_last_variable(t_variable *local_vars);
+void	create_new_variable(char *cmd, t_variable **local_vars, t_minishell *data);
 
 // EXEC
 /*	exec */

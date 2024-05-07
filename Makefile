@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
+#    By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/05/06 12:10:54 by camunozg         ###   ########.fr        #
+#    Updated: 2024/05/07 16:14:29 by cmunoz-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC_FILES 	= 	main\
 				history\
 				local_variables/local_variables\
 				local_variables/local_variables_utils\
+				local_variables/local_variables_checks\
 				lexer/lexer_utils\
 				lexer/lexer\
 				lexer/tokens\
@@ -35,6 +36,7 @@ SRC_FILES 	= 	main\
 				parser/parser_utils\
 				parser/parser\
 				utils/clean\
+				utils/clean_cmd\
 				utils/extra_libft\
 				utils/error\
 				utils/minishell_loop\
@@ -50,8 +52,12 @@ SRC_FILES 	= 	main\
 				builtins/mini_pwd\
 				builtins/mini_echo\
 				builtins/mini_env\
-				builtins/mini_unset\
-				builtins/mini_export\
+				builtins/mini_unset/mini_unset\
+				builtins/mini_unset/mini_unset_utils\
+				builtins/mini_export/mini_export\
+				builtins/mini_export/mini_export_order\
+				builtins/mini_export/mini_export_utils\
+				builtins/mini_export/mini_export_operations\
 				builtins/utils_builtins\
 				signals\
 				

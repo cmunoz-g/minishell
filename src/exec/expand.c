@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/03 11:40:57 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 13:10:44 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static char	*expand_local(char *str, t_variable *vars)
 	get_first_variable(&vars);
 	while (vars)
 	{
-		if (!ft_strncmp(str, vars->name, ft_strlen(vars->name)))
+		if (!ft_strncmp(str, vars->name, ft_strlen(vars->name))
+			&& !ft_strncmp(str, vars->name, ft_strlen(str)))
 			return (vars->value);
 		vars = vars->next;
 	}

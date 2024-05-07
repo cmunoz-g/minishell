@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 10:23:23 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 13:32:57 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 11:07:19 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,22 @@ static void	parse_data(t_minishell *data, bool *err_syntax)
 	clean_token_list(&token_tmp);
 }
 
+static void	print_exit_msg(int wstatus, int signo)
+{
+	if (signo == SIGQUIT)
+		ft_putstr_fd("Quit", STDERR_FILENO);
+	else if (signo == SIGSEGV)
+		ft_putstr_fd("Segmentation fault", STDERR_FILENO);
+	if (WCOREDUMP(wstatus))
+		ft_putstr_fd(" (core dumped)", STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+}
+
 static void	create_main_fork(t_minishell *data)
 {
 	pid_t		pid;
 	int			status;
+	int			signo;
 
 	status = 0;
 	pid = fork();
@@ -59,6 +71,12 @@ static void	create_main_fork(t_minishell *data)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		g_global.error_num = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		signo = WTERMSIG(status);
+		if (signo == SIGQUIT || signo == SIGSEGV)
+			print_exit_msg(status, signo);
+	}
 }
 
 void	minishell_loop(t_minishell *data)

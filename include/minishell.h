@@ -6,7 +6,7 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/07 14:01:51 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:16:04 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,14 +162,19 @@ int			mini_env(t_minishell *data);
 /* mini_unset*/
 int			mini_unset(t_minishell *data);
 int			get_nbr_env(char **env);
+int		get_equal_sign(char *variable);
+int	is_env(char *variable, char **env);
 /* mini_export*/
 int			mini_export(t_minishell *data);
 int			variable_in_env(t_variable *variable, char **env);
 int		variable_in_env_char(char *variable, char **env);
-char	**modify_variable(char **env, t_minishell *data, char *variable);
+char	**mod_var(char **env, t_minishell *data, char *variable);
 t_variable	*get_var_to_mod(t_variable *local_vars, int laps);
 void	env_order(t_minishell *data);
 int	check_if_declaration(char *arg);
+char	**add_variable(char *variable, char **env, t_minishell *data);
+char	**modify_variable(char **env, t_minishell *data, char *variable);
+int		get_comp_size(int name_size, char *var);
 /* utills_builtins */
 int			(*check_if_builtin(char *str))(t_minishell *data);
 void		simple_builtin_executor(t_minishell *data);

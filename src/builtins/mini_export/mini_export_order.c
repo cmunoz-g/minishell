@@ -6,29 +6,29 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:00:36 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 14:00:37 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:06:10 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void swap(char **x, char **y) 
+void	swap(char **x, char **y)
 {
-    char *temp;
-	
+	char	*temp;
+
 	temp = *x;
-    *x = *y;
-    *y = temp;
+	*x = *y;
+	*y = temp;
 }
 
-int partition(char *arr[], int low, int high) 
+int	partition(char *arr[], int low, int high)
 {
-    char	*pivot;
+	char	*pivot;
 	int		i;
 	int		j;
-	
-	pivot = arr[high]; 
-    i = (low - 1); 
+
+	pivot = arr[high];
+	i = (low - 1);
 	j = low;
 	while (j <= (high - 1))
 	{
@@ -39,25 +39,25 @@ int partition(char *arr[], int low, int high)
 		}
 		j++;
 	}
-    swap(&arr[i + 1], &arr[high]);
-    return (i + 1);
+	swap(&arr[i + 1], &arr[high]);
+	return (i + 1);
 }
 
-void quicksort(char **arr, int low, int high) 
+void	quicksort(char **arr, int low, int high)
 {
-	int pi;
+	int	pi;
 
-    if (low < high) 
+	if (low < high)
 	{
-        pi = partition(arr, low, high);
-        quicksort(arr, low, pi - 1);
-        quicksort(arr, pi + 1, high);
-    }
+		pi = partition(arr, low, high);
+		quicksort(arr, low, pi - 1);
+		quicksort(arr, pi + 1, high);
+	}
 }
 
 void	env_order(t_minishell *data)
 {
-	char 	**sorted_env;
+	char	**sorted_env;
 	int		n;
 	int		i;
 	int		j;

@@ -6,7 +6,7 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:16:35 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 13:24:08 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:05:49 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	local_variables(t_minishell *data)
 		{
 			if (!variable_in_env_char(tmp->cmd, data->env_vars))
 			{
-				new_env = modify_variable(data->env_vars, data, tmp->cmd);
+				new_env = mod_var(data->env_vars, data, tmp->cmd);
 				free_arr(data->env_vars);
 				data->env_vars = new_env;
 			}

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_export_utils.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/07 16:01:55 by cmunoz-g          #+#    #+#             */
+/*   Updated: 2024/05/07 16:02:13 by cmunoz-g         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	check_if_declaration(char *arg)
@@ -40,7 +52,7 @@ t_variable	*get_var_to_mod(t_variable *local_vars, int laps)
 	return (it);
 }
 
-int		variable_in_env(t_variable *variable, char **env)
+int	variable_in_env(t_variable *variable, char **env)
 {
 	int	name_size;
 	int	i;
@@ -70,5 +82,15 @@ int	variable_in_env_char(char *variable, char **env)
 		i++;
 	}
 	return (1);
+}
 
+int	get_comp_size(int name_size, char *var)
+{
+	int	var_size;
+
+	var_size = get_var_size(var, true);
+	if (name_size > var_size)
+		return (name_size);
+	else
+		return (var_size);
 }

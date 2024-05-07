@@ -1,43 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_unset.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/07 16:14:36 by cmunoz-g          #+#    #+#             */
+/*   Updated: 2024/05/07 16:17:27 by cmunoz-g         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	get_nbr_env(char **env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i])
-		i++;
-	return (i);
-}
-
-int	get_equal_sign(char *variable)
-{
-	int	i;
-
-	i = 0;
-	while (variable[i] && variable[i] != '=')
-		i++;
-	return (i);
-}
-
-int	is_env(char *variable, char **env)
-{
-	int	i;
-	int	equal_pos;
-
-	i = 0;
-	equal_pos = 0;
-	while (env[i])
-	{
-		equal_pos = get_equal_sign(env[i]);
-		if (!ft_strncmp(variable, env[i], equal_pos)) 
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-char	**unset_env(char *variable, char **env, t_minishell *data) 
+char	**unset_env(char *variable, char **env, t_minishell *data)
 {
 	char	**new_env;
 	int		nbr_env;
@@ -45,23 +20,22 @@ char	**unset_env(char *variable, char **env, t_minishell *data)
 	int		j;
 	int		equal_pos;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	nbr_env = get_nbr_env(env);
 	new_env = (char **)malloc(sizeof(char *) * (nbr_env));
 	if (!new_env)
 		error(data, "Memory problems in mini_unset");
-	while (i < nbr_env && env[i])
+	while (++i < nbr_env && env[i])
 	{
 		equal_pos = get_equal_sign(env[i]);
 		if (ft_strncmp(variable, env[i], equal_pos))
 		{
 			new_env[j] = ft_strdup(env[i]);
-			if (!new_env[j])
-				(free_arr(new_env), error(data, "Memory problems in mini_unset"));
-			j++;
+			if (!new_env[j++])
+				(free_arr(new_env),
+					error(data, "Memory problems in mini_unset"));
 		}
-		i++;
 	}
 	new_env[j] = NULL;
 	return (new_env);
@@ -69,8 +43,8 @@ char	**unset_env(char *variable, char **env, t_minishell *data)
 
 t_variable	*get_var_to_mod_u(char *variable, t_variable **local_vars)
 {
-	int	name_size;
-	t_variable *it;
+	int			name_size;
+	t_variable	*it;
 
 	name_size = get_var_size(variable, true);
 	it = (*local_vars);
@@ -105,6 +79,7 @@ void	unset_local(char *char_variable, t_variable **local_vars)
 	free(variable);
 	variable = NULL;
 }
+
 int	mini_unset(t_minishell *data)
 {
 	int		i;

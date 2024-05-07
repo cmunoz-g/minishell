@@ -6,7 +6,7 @@
 #    By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/05/07 14:00:08 by cmunoz-g         ###   ########.fr        #
+#    Updated: 2024/05/07 16:14:29 by cmunoz-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,10 +52,12 @@ SRC_FILES 	= 	main\
 				builtins/mini_pwd\
 				builtins/mini_echo\
 				builtins/mini_env\
-				builtins/mini_unset\
+				builtins/mini_unset/mini_unset\
+				builtins/mini_unset/mini_unset_utils\
 				builtins/mini_export/mini_export\
 				builtins/mini_export/mini_export_order\
 				builtins/mini_export/mini_export_utils\
+				builtins/mini_export/mini_export_operations\
 				builtins/utils_builtins\
 				signals\
 				

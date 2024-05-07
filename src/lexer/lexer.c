@@ -6,13 +6,62 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:30:07 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 13:40:09 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:00:37 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* El nombre de variable token_list ha sido modificado por list*/
+
+// PRUEBAS: a=1 b=2 crea solo b=2
+
+// a=hola quetal 
+
+// cmunoz-g@c1r3s2:~/Documents/minishell$ a=hola quetal
+// equetal: command not found
+// cmunoz-g@c1r3s2:~/Documents/minishell$ echo $a
+
+// cmunoz-g@c1r3s2:~/Documents/minishell$ hola="hola"
+// cmunoz-g@c1r3s2:~/Documents/minishell$ echo $hola
+// hola
+
+
+int		is_pos_variable(char *value)
+{
+	int		i;
+
+	i = 0;
+	if (value[i++] == '=')
+		return (1);
+	while (value[i])
+	{
+		if (value[i] == '=')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	check_local_var(t_token **token_list) 
+{
+	t_token	*it_variable;
+
+	it_variable = *(token_list);
+	while (it_variable)
+	{
+		if (!is_pos_variable(it_variable->value))
+			it_variable->variable = true;
+		if (!it_variable->prev && it_variable->variable)
+			it_variable->type = CMD;
+		else if (it_variable->prev && it_variable->variable)
+		{
+			if (it_variable->prev->variable)
+				it_variable->type = CMD;
+		}
+		it_variable = it_variable->next;
+	}
+}
 
 void	lexer(char *line, t_token **list)
 {
@@ -39,6 +88,7 @@ void	lexer(char *line, t_token **list)
 	if (i > (st))
 		add_token(list, line, st, i);
 	check_redirections(list);
+	check_local_var(list); // checkea si deberia cambiar las local var por CMDS
 }
 
 void	lexer_qt(t_token **token_list, char *cmd_line, int *start, int i)

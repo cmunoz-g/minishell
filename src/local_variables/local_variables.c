@@ -6,7 +6,7 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:16:35 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 15:05:49 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:01:03 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,42 @@ void	local_variables_aux(t_minishell *data, t_cmd_table *tmp)
 	else
 		change_var_value(tmp->cmd, &(data->local_vars), laps, data);
 }
+
+// void	print_cmd_table(t_cmd_table *cmd_table) // borrar
+// {
+// 	int i = 0; 
+
+// 	while (cmd_table) 
+// 	{
+// 		printf("CMD:%s\n",cmd_table->cmd);
+// 		if (cmd_table->args)
+// 		{
+// 			while (cmd_table->args[i])
+// 			{
+// 				printf("ARG%d:%s\n", i, cmd_table->args[i]);
+// 				i++;
+// 			}
+
+// 		}
+// 		if (cmd_table->in)
+// 			printf("IN:%d\n", cmd_table->in);
+// 		printf("OUT:%d\n", cmd_table->out);
+// 		printf("ERR:%d\n", cmd_table->err);
+// 		i = 0;
+// 		while (i < cmd_table->n_redirections)
+// 		{
+// 			printf("redir number: %d type: %d value: %s\n", i, cmd_table->redirections[i]->type, cmd_table->redirections[i]->value);
+// 			i++;
+// 		}
+// 		printf("nbr redir: %d\n", cmd_table->n_redirections);
+// 		// if (cmd_table->new_cmd)
+// 		// 	printf("new cdm TRUE\n");
+// 		// else
+// 		// 	printf("new cdm FALSE\n");
+// 		cmd_table = cmd_table->next;
+// 		printf("\n");
+// 	}
+// }
 
 void	local_variables(t_minishell *data)
 {

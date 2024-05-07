@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/06 13:32:53 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 10:54:19 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ void		assign_redir_cmd_table_aux(t_cmd_table **cmd_table, int *w,
 
 // INIT
 t_minishell	*init(char **envp);
+void		init_signal_vars(void);
 
 //BUILTINS
 /* mini_cd */
@@ -189,7 +190,6 @@ void		reset_loop(t_minishell *data);
 /* signals */
 void		init_signals(void);
 void		sigquit_handler(int sig);
-void		init_signal_vars(void);
 
 // HISTORY
 void		join_history(char *cmd, t_minishell *data, char **envp);

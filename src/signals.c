@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:50:07 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 13:35:11 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 10:53:06 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,17 @@ int	event(void)
 	return (EXIT_SUCCESS);
 }
 
-void	init_signal_vars(void)
-{
-	g_global.stop_heredoc = 0;
-	g_global.in_cmd = 0;
-	g_global.in_heredoc = 0;
-}
-
 static void	sigint_handler(int sig)
 {
 	if (!g_global.in_heredoc)
 	{
 		ft_putstr_fd("\n", STDERR_FILENO);
-		g_global.error_num = 130;
+		g_global.error_num = 128 + sig;
 	}
 	if (g_global.in_cmd)
 	{
 		g_global.stop_heredoc = 1;
-		g_global.error_num = 130;
+		g_global.error_num = 128 + sig;
 		rl_redisplay();
 		rl_done = 1;
 		return ;
@@ -42,19 +35,24 @@ static void	sigint_handler(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	(void) sig;
 }
 
 void	sigquit_handler(int sig)
 {
 	ft_putendl_fd("Quit", STDERR_FILENO);
-	g_global.error_num = 131;
-	(void) sig;
+	g_global.error_num = 128 + sig;
+}
+
+static void	sigsegv_handler(int sig)
+{
+	ft_putendl_fd("Segmentation fault", STDERR_FILENO);
+	g_global.error_num = 128 + sig;
 }
 
 void	init_signals(void)
 {
 	rl_event_hook = event;
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGSEGV, sigsegv_handler);
 	signal(SIGINT, sigint_handler);
 }

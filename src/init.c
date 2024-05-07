@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:22:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 10:27:03 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 10:53:18 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	init_signal_vars(void)
+{
+	g_global.stop_heredoc = 0;
+	g_global.in_cmd = 0;
+	g_global.in_heredoc = 0;
+}
 
 t_minishell	*init(char **envp)
 {

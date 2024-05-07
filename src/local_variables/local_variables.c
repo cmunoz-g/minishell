@@ -6,7 +6,7 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:16:35 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 19:36:24 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:38:03 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	local_variables(t_minishell *data) // el tema de las local variables se que
 		if (!check_variable(tmp))
 		{
 			if (tmp->n_args)
-				variable_with_quotes(&tmp);
+				variable_with_quotes(&tmp); // ft que debe concatenar el contenido de args en cmd y liberar args, sin las quotes
 			if (!variable_in_env_char(tmp->cmd, data->env_vars))
 			{
 				new_env = mod_var(data->env_vars, data, tmp->cmd);

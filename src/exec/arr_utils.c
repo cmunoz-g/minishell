@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arr_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:52 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/03 11:23:35 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 13:23:46 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**ft_str_arr_join_exec(char *s1, char **strarr, t_minishell *data)
 	len = get_str_arr_len(strarr);
 	i = 0;
 	str3 = ft_calloc(sizeof(char *), len + 2);
-	str3[i++] = s1;
+	str3[i++] = expand(s1, 0, data);
 	if (!strarr)
 		return (str3);
 	while (i < len + 1)

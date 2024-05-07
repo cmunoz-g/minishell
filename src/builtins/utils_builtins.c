@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:50:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 12:48:09 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 12:22:41 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int	(*check_if_builtin(char *str))(t_minishell *data)
 	{
 		if (str)
 		{
-			if (!ft_strncmp(builtins[i][0], str, ft_strlen((builtins[i][0]))))
+			if (!ft_strncmp(builtins[i][0], str, ft_strlen(str))
+				&& !ft_strncmp(builtins[i][0], str, ft_strlen(builtins[i][0])))
 				return (builtins[i][1]);
 		}
 		i++;

@@ -6,16 +6,16 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:18:34 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 12:18:50 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/07 13:25:53 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		get_var_size(char *cmd, bool name)
+int	get_var_size(char *cmd, bool name)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -25,7 +25,7 @@ int		get_var_size(char *cmd, bool name)
 			i++;
 		return (i);
 	}
-	else 
+	else
 	{
 		while (cmd[i] && cmd[i] != '=')
 			i++;
@@ -37,17 +37,15 @@ int		get_var_size(char *cmd, bool name)
 		}
 		return (j);
 	}
-		
 }
 
 void	fill_variable(t_variable **variables, char *cmd, t_minishell *data)
 {
 	int	name_size;
 	int	value_size;
-	
+
 	name_size = get_var_size(cmd, true);
 	value_size = get_var_size(cmd, false);
-
 	(*variables)->name = (char *)malloc(sizeof(char) * (name_size + 1));
 	if (!(*variables)->name)
 		error(data, "Memory errors while filling variable");
@@ -67,18 +65,18 @@ t_variable	*get_last_variable(t_variable *local_vars)
 	return (local_vars);
 }
 
-void	create_new_variable(char *cmd, t_variable **local_vars, t_minishell *data)
+void	create_new_variable(char *cmd, t_variable **loc, t_minishell *data)
 {
-	t_variable *last;
-	t_variable *variables;
+	t_variable	*last;
+	t_variable	*variables;
 
 	variables = (t_variable *)malloc(sizeof(t_variable));
 	if (!variables)
 		error(data, "Memory problems while creating a new variable");
-	last = get_last_variable(*local_vars);
+	last = get_last_variable(*loc);
 	if (!last)
 	{
-		(*local_vars) = variables;
+		(*loc) = variables;
 		variables->prev = NULL;
 	}
 	else

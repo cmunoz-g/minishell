@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_exit.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/07 13:49:53 by cmunoz-g          #+#    #+#             */
+/*   Updated: 2024/05/07 13:50:06 by cmunoz-g         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 long long	ft_atoll(char *str)
@@ -31,9 +43,11 @@ int	check_if_too_big(char *arg)
 	chars = ft_strlen(arg);
 	if (chars > 20)
 		return (1);
-	else if (arg[0] == '-' && chars == 20 && ft_strncmp("-9223372036854775808", arg, 21) < 0)
+	else if (arg[0] == '-' && chars == 20
+		&& ft_strncmp("-9223372036854775808", arg, 21) < 0)
 		return (1);
-	else if (arg[0] != '-' && chars == 19 && ft_strncmp("9223372036854775807", arg, 21) < 0)
+	else if (arg[0] != '-' && chars == 19
+		&& ft_strncmp("9223372036854775807", arg, 21) < 0)
 		return (1);
 	return (0);
 }
@@ -64,7 +78,7 @@ int	count_args(char **args)
 	return (i);
 }
 
-int	mini_exit(t_minishell *data) 
+int	mini_exit(t_minishell *data)
 {
 	long long	exit_code;
 

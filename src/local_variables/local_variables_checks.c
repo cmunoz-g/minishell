@@ -6,16 +6,16 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:18:00 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 12:18:55 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/07 13:26:16 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		check_variable(t_cmd_table *cmd_table)
+int	check_variable(t_cmd_table *cmd_table)
 {
 	int	i;
-	
+
 	i = 0;
 	if (!cmd_table->cmd)
 		return (1);
@@ -37,7 +37,7 @@ int	check_new_var(char *cmd, t_variable *local_vars)
 	equal_pos = get_var_size(cmd, true);
 	it = local_vars;
 	i = 0;
-	while (it) 
+	while (it)
 	{
 		if (!ft_strncmp(cmd, it->name, equal_pos))
 			return (i);

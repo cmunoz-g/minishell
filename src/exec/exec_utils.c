@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:17:12 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 09:16:36 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 13:09:46 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ char	*my_getenv(char *key, char **env)
 		while (env[i][j] && env[i][j] != '=')
 			j++;
 		comp = ft_substr(env[i], 0, j);
-		if (ft_strncmp(key, comp, ft_strlen(comp)) == 0)
+		if (!ft_strncmp(key, comp, ft_strlen(comp))
+			&& !ft_strncmp(key, comp, ft_strlen(key)))
 		{
 			free(comp);
 			return (&env[i][j + 1]);

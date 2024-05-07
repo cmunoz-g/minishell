@@ -6,7 +6,7 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 17:21:11 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:22:41 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 # include <termios.h>
 
 typedef struct s_minishell	t_minishell;
-extern struct  s_global		g_global;
+extern struct s_global		g_global;
 
 typedef struct s_variable
 {

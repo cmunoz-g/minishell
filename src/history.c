@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/07 10:58:30 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 10:59:08 by cmunoz-g         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 char	*get_home(char **envp)
@@ -59,8 +47,11 @@ void	get_past_history(char **envp, t_minishell *data)
 			error(data, "Memory problems when loading history");
 		fd = open(home, O_CREAT | O_RDWR | O_APPEND, 0644);
 		free(home);
-		if (fd == -1)
+		if (fd == -1 )
+		{
 			error(data, "Could not load history");
+			exit(EXIT_FAILURE);
+		}
 		load_history(fd);
 		close(fd);
 	}
@@ -83,7 +74,10 @@ void	join_history(char *cmd, t_minishell *data, char **envp)
 		fd = open(home, O_CREAT | O_RDWR | O_APPEND, 0644);
 		free(home);
 		if (fd == -1)
+		{
 			error(data, "Could not add to history");
+			exit(EXIT_FAILURE);
+		}
 		ft_putstr_fd(cmd, fd);
 		ft_putchar_fd('\n', fd);
 		close(fd);

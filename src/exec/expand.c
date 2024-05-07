@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 13:10:44 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 13:21:46 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,7 @@ char	*expand(char *str, int is_heredoc, t_minishell *data)
 	i = 0;
 	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'' && !is_heredoc)
 		return (remove_quotes(str));
-	else if (str[0] == '\'' || str[0] == '\"')
-		ret = remove_quotes(str);
-	else
-		ret = ft_strdup(str);
+	ret = remove_quotes(str);
 	while (ret[i])
 	{
 		if (ret[i] == '$' && ret[i + 1] && !ft_isspace(ret[i + 1]))
@@ -101,6 +98,8 @@ char	*expand(char *str, int is_heredoc, t_minishell *data)
 			while (ret[i] && !(ft_isspace(ret[i])))
 				i++;
 			ret = expand_str(ret, start, &i, data);
+			if (!ret || !ft_strlen(ret))
+				return (ret);
 		}
 		else
 			i++;

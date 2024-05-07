@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 12:29:42 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 13:25:14 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static void	check_and_exec_if_executable(char **str, t_minishell *data)
 {
+	if (!str[0] || !ft_strlen(str[0]))
+		exit(EXIT_SUCCESS);
 	if (access(str[0], F_OK) == 0)
 	{
 		if (execve(str[0], str, data->env_vars) == -1)

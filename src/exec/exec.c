@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 13:33:05 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 17:07:21 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	check_and_exec_if_executable(char **str, t_minishell *data);
+static void	do_pipe(t_minishell *data);
+static void	exec_process(t_minishell *data);
+static void	handle_cmd(t_minishell *data);
 
 static void	check_and_exec_if_executable(char **str, t_minishell *data)
 {

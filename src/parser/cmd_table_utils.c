@@ -6,14 +6,11 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:25:09 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 12:13:53 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:41:08 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* EN LA FT DE ABAJO: if (token_list->next) // hacer pruebas en las que esto
-no se cumple, a ver que pasa con la tabla */
 
 void	check_std_cmd_table(t_token *token_list, t_cmd_table **cmd_table, int w)
 {

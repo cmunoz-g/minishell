@@ -6,7 +6,7 @@
 #    By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/05/07 16:14:29 by cmunoz-g         ###   ########.fr        #
+#    Updated: 2024/05/07 16:24:41 by cmunoz-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ CFLAGS 		= 	-Wall -Werror -Wextra -g3 -fsanitize=address
 # Removed signal_handler\ for now
 SRC_DIR 	= 	src/
 SRC_FILES 	= 	main\
+				minishell_loop\
 				init\
 				history\
 				local_variables/local_variables\
@@ -39,7 +40,6 @@ SRC_FILES 	= 	main\
 				utils/clean_cmd\
 				utils/extra_libft\
 				utils/error\
-				utils/minishell_loop\
 				exec/arr_utils\
 				exec/exec\
 				exec/error_handlers\

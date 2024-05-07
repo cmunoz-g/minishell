@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:22:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 10:53:18 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 16:27:47 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,3 @@ t_minishell	*init(char **envp)
 	init_signal_vars();
 	return (data);
 }
-/*typedef struct s_minishell
-{
-	char		*line;
-	t_token		*token_list;
-	t_cmd_table	*cmd_table;
-	t_variable	*local_vars;
-	char		**env_vars;
-	char		*pwd;
-	char		*old_pwd;
-}				t_minishell;*/

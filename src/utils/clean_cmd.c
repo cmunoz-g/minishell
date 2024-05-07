@@ -6,7 +6,7 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:06:24 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 11:08:29 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:31:46 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ t_cmd_table	**get_first_node(t_cmd_table ***cmd)
 		*cmd = &(**cmd)->prev;
 	return (*cmd);
 }
-
-/* esta ft solia estar dentro de la de abajo*/
 
 void	clean_cmd_table_list_aux(t_cmd_table **cmd_table, int *j)
 {

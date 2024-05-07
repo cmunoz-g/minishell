@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 13:21:46 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 17:07:31 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*expand_local(char *str, t_variable *vars);
+static char	*expand_str(char *str, int start, int *i, t_minishell *data);
+static char	*expand_word(char *str, int start, int end, t_minishell *data);
+static char	*remove_quotes(char *str);
 
 static char	*remove_quotes(char *str)
 {

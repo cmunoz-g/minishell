@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   arr_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:52 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 13:23:46 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 17:07:07 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	get_str_arr_len(char **strarr);
 
 static int	get_str_arr_len(char **strarr)
 {

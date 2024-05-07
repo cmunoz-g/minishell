@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:11:14 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 10:37:19 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 17:07:40 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*get_heredoc_filename(void);
+static int	create_hd_file(t_minishell *data, char *delim);
+static int	check_heredocs(t_minishell *data);
 
 static char	*get_heredoc_filename(void)
 {

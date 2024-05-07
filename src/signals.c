@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:50:07 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 11:58:27 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 17:06:05 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	sigint_handler(int sig);
+static void	sigsegv_handler(int sig);
 
 int	event(void)
 {

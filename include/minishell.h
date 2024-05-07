@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/07 17:05:39 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 17:12:50 by juramos          ###   ########.fr       */
+/*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
+/*   Updated: 2024/05/07 17:22:41 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 # include <termios.h>
 
 typedef struct s_minishell	t_minishell;
+extern struct s_global		g_global;
 
 typedef struct s_variable
 {
@@ -99,166 +100,225 @@ typedef struct s_global
 	int	in_heredoc;
 }				t_global;
 
-extern t_global	g_global;
+//	main
+int			main(int argc, char **argv, char **envp);
 
-// LEXER 
-void			lexer(char *cmd_line, t_token **token_list);
-void			lexer_qt(t_token **token_list, char *cmd_line,
-					int *start, int i);
-void			lexer_new_token(t_token **token_list,
-					char *cmd_line, int *start, int *i);
-void			lexer_new_token_aux(t_token **token_list,
-					char *cmd_line, int *start, int *i);
-void			lexer_new_cmd(t_token **token_list, char *cmd_line, int *i);
-void			check_redirections(t_token **token_list);
-void			set_qt(bool *quotes, char *quote_type, char *cmd_line, int i);
-void			init_lexer(bool *qt, int *i, int *start);
-void			add_token(t_token **token_list, char *cmd_line,
-					int start, int end);
-void			get_token_type(t_token *token);
-t_token			*get_last_token(t_token *token_list);
+//	minishell_loop
+void		minishell_loop(t_minishell *data);
+void		reset_loop(t_minishell *data);
 
-// SYNTAX
-int				check_syntax(t_token *token_list);
-int				check_comments(t_token **token_list);
-void			take_out_tokens(t_token **tmp);
+//	init
+t_minishell	*init(char **envp);
+void		init_signal_vars(void);
 
-// PARSER
-void			parser(t_cmd_table **cmd_table, t_token **token_list);
-void			init_parser(int start_end[2], t_token **tmp,
-					t_token **token_list);
-void			reset_parser(t_token **tmp, int start_end[2], bool *new_cmd);
-void			parser_aux(t_token **token_list, int *s_e);
-void			gen_cmd_table(t_token *token_list, t_cmd_table **cmd_table,
-					int start, int end);
-void			alloc_cmd_table(t_cmd_table **cmd_list);
-void			populate_cmd_table(t_token *token_list, t_cmd_table **cmd_table,
-					int nbr_tokens);
-t_cmd_table		*get_last_cmd_table(t_cmd_table *cmd_list);
-int				get_nbr_args(t_token *token_list, int nbr_tokens);
-int				get_nbr_redir(t_token *token_list, int nbr_tokens);
-void			init_pop_cmd_table(int *i_j, int *w, char *redir,
-					t_cmd_table **cmd_table);
-void			check_std_cmd_table(t_token *token_list,
-					t_cmd_table **cmd_table, int w);
-void			check_redir_cmd_table(t_token *token_list, char *redir);
-void			assign_redir_cmd_t(t_token *token_list, t_cmd_table **cmd_table,
-					int *w, char redir);
-void			assign_redir_cmd_table_aux(t_cmd_table **cmd_table, int *w,
-					int type, char *value);
-void			init_cmd_table(t_cmd_table **cmd_table);
+//	signals
+int			event(void);
+void		init_signals(void);
+void		sigquit_handler(int sig);
 
-// INIT
-t_minishell		*init(char **envp);
-void			init_signal_vars(void);
+//	history
+char		*get_home(char **envp);
+void		get_past_history(char **envp, t_minishell *data);
+void		join_history(char *cmd, t_minishell *data, char **envp);
+void		load_history(int fd);
 
-//BUILTINS
-/* mini_cd */
-int				mini_cd(t_minishell	*data);
-/* mini_exit */
-int				mini_exit(t_minishell *data);
-/* mini_pwd */
-int				mini_pwd(t_minishell *data);
-/* mini_echo */
-int				mini_echo(t_minishell *data);
-/* mini_env */
-int				mini_env(t_minishell *data);
-/* mini_unset*/
-int				mini_unset(t_minishell *data);
-int				get_nbr_env(char **env);
-int				get_equal_sign(char *variable);
-int				is_env(char *variable, char **env);
-/* mini_export*/
-int				mini_export(t_minishell *data);
-int				variable_in_env(t_variable *variable, char **env);
-int				variable_in_env_char(char *variable, char **env);
-char			**mod_var(char **env, t_minishell *data, char *variable);
-t_variable		*get_var_to_mod(t_variable *local_vars, int laps);
-void			env_order(t_minishell *data);
-int				check_if_declaration(char *arg);
-char			**add_variable(char *variable, char **env, t_minishell *data);
-char			**modify_variable(char **env,
-					t_minishell *data, char *variable);
-int				get_comp_size(int name_size, char *var);
-/* utills_builtins */
-int				(*check_if_builtin(char *str))(t_minishell *data);
-void			simple_builtin_executor(t_minishell *data);
-int				execute_builtin(t_minishell *data,
-					int (*builtin_arr)(t_minishell *data));
+/***							BUILTINS							***/
 
-// UTILS
-void			clean_token_list(t_token **token_list);
-void			clean_cmd_table_list(t_cmd_table **cmd_table);
-void			clean_cmd_table_redir(t_cmd_table **cmd_table, int *j);
-void			clean_data(t_minishell **data);
-void			clean_local_vars(t_variable **local_vars);
-void			get_first_variable(t_variable **var);
-int				ft_strcmp(const char *str1, const char *str2);
-int				ft_isspace(int c);
-int				check_spaces(char *line);
-char			*ft_strdup_mod(const char *s, size_t size);
-void			error(t_minishell *data, char *error_message);
-int				error_builtins(t_minishell *data, int exit_code);
+/*	mini_export	*/
+//	mini_export_operations
+char		**add_variable(char *variable, char **env, t_minishell *data);
+char		**mod_var(char **env, t_minishell *data, char *variable);
+void		mod_var_aux(t_minishell *data, char **new_env,
+				int *n_v_i, char *var);
 
-/*	minishell_loop */
-void			minishell_loop(t_minishell *data);
-void			reset_loop(t_minishell *data);
+//	mini_export_order
+void		env_order(t_minishell *data);
+void		quicksort(char **arr, int low, int high);
+int			partition(char *arr[], int low, int high);
+void		swap(char **x, char **y);
 
-/* signals */
-void			init_signals(void);
-void			sigquit_handler(int sig);
+//	mini_export_utils
+int			check_if_declaration(char *arg);
+int			get_comp_size(int name_size, char *var);
+int			variable_in_env(t_variable *variable, char **env);
+int			variable_in_env_char(char *variable, char **env);
+t_variable	*get_var_to_mod(t_variable *local_vars, int laps);
 
-// HISTORY
-void			join_history(char *cmd, t_minishell *data, char **envp);
-void			get_past_history(char **envp, t_minishell *data);
-void			load_history(int fd);
-char			*get_home(char **envp);
+//	mini_export
+char		*get_new_var(char *variable, t_variable *local_vars,
+				t_minishell *data);
+int			mini_export(t_minishell *data);
+void		declaration(t_minishell *data, int i, int laps, char **new_env);
+void		no_declaration(t_minishell *data, int i,
+				char *new_var, char **new_env);
+void		reset_export(t_minishell *data, int i, int *declaration, int *laps);
+/*				*/
 
-// LOCAL VARIABLES
-void			local_variables(t_minishell *data);
-int				check_variable(t_cmd_table *cmd_table);
-void			create_new_variable(char *cmd, t_variable **local_vars,
-					t_minishell *data);
-void			fill_variable(t_variable **variables, char *cmd,
-					t_minishell *data);
-int				get_var_size(char *cmd, bool name);
-int				check_new_var(char *cmd, t_variable *local_vars);
-void			change_var_value(char *cmd, t_variable **local_vars,
-					int laps, t_minishell *data);
-t_variable		*get_last_variable(t_variable *local_vars);
-int				check_variable(t_cmd_table *cmd_table);
-int				check_new_var(char *cmd, t_variable *local_vars);
-int				get_var_size(char *cmd, bool name);
-void			fill_variable(t_variable **variables, char *cmd,
-					t_minishell *data);
-t_variable		*get_last_variable(t_variable *local_vars);
-void			create_new_variable(char *cmd, t_variable **local_vars,
-					t_minishell *data);
+/*	mini_unset	*/
+//	mini_unset_utils
+int			get_equal_sign(char *variable);
+int			get_nbr_env(char **env);
+int			is_env(char *variable, char **env);
 
-// EXEC
-/*	exec */
-int				executor(t_minishell *data);
-/*	error_handlers  */
-void			send_to_stderr(char *co, char *ar, char *err, int is_out);
-/*	exec_utils  */
-int				open_file(char *name, int to_write);
-char			*get_path(char *cmd, char **env);
-char			*my_getenv(char *key, char **env);
-/*	redirections */
-int				redirect(t_cmd_table *tbl, int is_builtin);
-/*	arr_utils */
-char			**ft_str_arr_join_exec(char *s1, char **strarr,
-					t_minishell *data);
-void			free_arr(char **arr);
-char			**ft_arrdup(char **arr);
-/*	heredoc */
-int				check_all_heredocs(t_minishell *data);
-/*	expand */
-char			*expand(char *str, int is_heredoc, t_minishell *data);
+//	mini_unset
+char		**unset_env(char *variable, char **env, t_minishell *data);
+int			mini_unset(t_minishell *data);
+t_variable	*get_var_to_mod_u(char *variable, t_variable **local_vars);
+void		unset_local(char *char_variable, t_variable **local_vars);
+/*				*/
 
-// DELETE
-void			print_tokens(t_token *token_list);
-void			print_cmd_table(t_cmd_table *cmd_table);
-void			print_local_variables(t_variable *local_vars);
+//	mini_cd
+int			mini_cd(t_minishell	*data);
+
+//	mini_echo
+int			mini_echo(t_minishell *data);
+
+//	mini_env
+int			mini_env(t_minishell *data);
+
+//	mini_exit
+int			check_if_number(char *arg);
+int			check_if_too_big(char *arg);
+int			mini_exit(t_minishell *data);
+long long	ft_atoll(char *str);
+void		mini_exit_aux(t_minishell *data);
+
+//	mini_pwd
+int			mini_pwd(t_minishell *data);
+
+//	utils_builtins
+int			(*check_if_builtin(char *str))(t_minishell *data);
+int			execute_builtin(t_minishell *data,
+				int (*builtin_arr)(t_minishell *data));
+void		simple_builtin_executor(t_minishell *data);
+
+/***							EXEC						***/
+//	arr_utils
+char		**ft_arrdup(char **arr);
+char		**ft_str_arr_join_exec(char *s1, char **strarr, t_minishell *data);
+void		free_arr(char **arr);
+
+//	error_handlers
+void		send_to_stderr(char *co, char *ar, char *err, int is_out);
+
+//	exec_utils
+char		*get_path(char *cmd, char **env);
+char		*my_getenv(char *key, char **env);
+int			open_file(char *name, int to_write);
+
+//	exec
+int			executor(t_minishell *data);
+
+//	expand
+char		*expand(char *str, int is_heredoc, t_minishell *data);
+
+//	heredoc
+int			check_all_heredocs(t_minishell *data);
+
+//	redirections
+int			redirect(t_cmd_table *tbl, int is_builtin);
+
+/***							LEXER							***/
+//	lexer_utils
+void		init_lexer(bool *qt, int *i, int *start);
+void		set_qt(bool *quotes, char *quote_type, char *cmd_line, int i);
+
+//	lexer
+void		check_redirections(t_token **token_list);
+void		lexer(char *line, t_token **list);
+void		lexer_qt(t_token **token_list, char *cmd_line, int *start, int i);
+void		lexer_new_token(t_token **list, char *line, int *start, int *i);
+void		lexer_new_token_aux(t_token **list, char *line, int *start, int *i);
+
+//	tokens
+t_token		*get_last_token(t_token *token_list);
+void		add_token(t_token **token_list, char *cmd_line, int start, int end);
+void		get_token_type(t_token *token);
+
+/***							LOCAL_VARIABLES							***/
+//	local_variables_checks
+int			check_new_var(char *cmd, t_variable *local_vars);
+int			check_variable(t_cmd_table *cmd_table);
+
+//	local_variables_utils
+int			get_var_size(char *cmd, bool name);
+t_variable	*get_last_variable(t_variable *local_vars);
+void		create_new_variable(char *cmd, t_variable **loc, t_minishell *data);
+void		fill_variable(t_variable **variables, char *cmd, t_minishell *data);
+
+//	local_variables
+void		change_var_value(char *cmd, t_variable **loc,
+				int l, t_minishell *data);
+void		local_variables(t_minishell *data);
+void		local_variables_aux(t_minishell *data, t_cmd_table *tmp);
+
+/***							PARSER							***/
+//	cmd_table_utils
+void		assign_redir_cmd_t(t_token *list, t_cmd_table **table,
+				int *w, char r);
+void		assign_redir_cmd_table_aux(t_cmd_table **table, int *w,
+				int t, char *v);
+void		check_std_cmd_table(t_token *token_list,
+				t_cmd_table **cmd_table, int w);
+void		check_redir_cmd_table(t_token *token_list,
+				char *redir);
+void		check_redir_cmd_table_aux(t_token *token_list,
+				char *redir);
+
+//	cmd_table
+void		gen_cmd_table(t_token *list, t_cmd_table **table,
+				int start, int end);
+void		gen_cmd_table_redir(t_cmd_table *last,
+				t_minishell *data);
+void		init_cmd_table(t_cmd_table **cmd_table);
+void		init_pop_cmd_table(int *i_j, int *w, char *redir,
+				t_cmd_table **table);
+void		populate_cmd_table(t_token *list, t_cmd_table **cmd_table,
+				int nbr_tok);
+
+//	parser_utils
+int			get_nbr_args(t_token *token_list, int nbr_tokens);
+int			get_nbr_redir(t_token *token_list, int nbr_tokens);
+t_cmd_table	*get_last_cmd_table(t_cmd_table *cmd_list);
+
+//	parser
+void		alloc_cmd_table(t_cmd_table **cmd_list);
+void		init_parser(int start_end[2], t_token **tmp, t_token **token_list);
+void		parser(t_cmd_table **cmd_table, t_token **token_list);
+void		parser_aux(t_token **token_list, int *s_e);
+
+/***							SYNTAX							***/
+//	comments
+int			check_comments(t_token **token_list);
+void		take_out_tokens(t_token **tmp);
+
+//	syntax
+int			check_syntax(t_token *token_list);
+int			check_syntax_end(t_token *it);
+int			check_syntax_pipe(t_token *it);
+int			check_syntax_redir(t_token *it);
+void		print_syntax_error(t_token *token);
+
+/*** 							UTILS 							***/
+//	clean_cmd
+t_cmd_table	**get_first_node(t_cmd_table ***cmd);
+void		clean_cmd_table_list(t_cmd_table **cmd_table);
+void		clean_cmd_table_list_aux(t_cmd_table **cmd_table, int *j);
+void		clean_cmd_table_redir(t_cmd_table **cmd_table, int *j);
+
+//	clean
+void		clean_data(t_minishell **data);
+void		clean_local_vars(t_variable **local_vars);
+void		clean_token_list(t_token **token_list);
+void		get_first_variable(t_variable **var);
+
+//	error
+int			error_builtins(t_minishell *data, int exit_code);
+void		error(t_minishell *data, char *error_message);
+
+//	extra_libft
+char		*ft_strdup_mod(const char *s, size_t size);
+int			check_spaces(char *line);
+int			ft_strcmp(const char *str1, const char *str2);
 
 #endif

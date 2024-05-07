@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 12:55:52 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 17:07:50 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	handle_infile(char *str);
+static int	handle_outfile(t_token *tkn);
+static int	stderr_and_ret(char *str, int is_out);
 
 static int	handle_outfile(t_token *tkn)
 {

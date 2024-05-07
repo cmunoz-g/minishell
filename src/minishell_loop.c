@@ -6,16 +6,15 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 13:41:44 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:05:38 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		minishell_loop(t_minishell *data);
 static void	create_main_fork(t_minishell *data);
-void		reset_loop(t_minishell *data);
 static void	parse_data(t_minishell *data, bool *err_syntax);
+static void	print_exit_msg(int wstatus, int signo);
 
 static void	parse_data(t_minishell *data, bool *err_syntax)
 {

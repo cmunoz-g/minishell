@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   mini_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:13:47 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/06 10:21:43 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/07 17:06:50 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <limits.h>
+
+static void	change_path_on_mini(t_minishell *data);
+static void	update_path_on_env(t_minishell *data);
 
 static void	change_path_on_mini(t_minishell *data)
 {

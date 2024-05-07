@@ -6,7 +6,7 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:49:53 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 13:50:06 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/07 13:57:01 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,13 @@ int	check_if_number(char *arg)
 	return (0);
 }
 
-int	count_args(char **args)
+void	mini_exit_aux(t_minishell *data)
 {
-	int	i;
-
-	i = 0;
-	while (args[i])
-		i++;
-	return (i);
+	ft_putendl_fd("exit", 1);
+	ft_putstr_fd("minishell: exit: ", 2);
+	ft_putstr_fd(data->cmd_table->args[0], 2);
+	ft_putendl_fd(": numeric argument required", 2);
+	clean_data(&data);
 }
 
 int	mini_exit(t_minishell *data)
@@ -94,14 +93,7 @@ int	mini_exit(t_minishell *data)
 		{
 			if (check_if_number(data->cmd_table->args[0])
 				|| check_if_too_big(data->cmd_table->args[0]))
-			{
-				ft_putendl_fd("exit", 1);
-				ft_putstr_fd("minishell: exit: ", 2);
-				ft_putstr_fd(data->cmd_table->args[0], 2);
-				ft_putendl_fd(": numeric argument required", 2);
-				clean_data(&data);
-				exit(2);
-			}
+				(mini_exit_aux(data), exit(2));
 			exit_code = ft_atoll(data->cmd_table->args[0]);
 		}
 	}

@@ -1,61 +1,5 @@
 #include "minishell.h"
 
-int	check_if_declaration(char *arg)
-{
-	int		i;
-	bool	flag;
-
-	i = 0;
-	flag = false;
-	while (arg[i])
-	{
-		if (arg[i] == '-')
-			flag = true;
-		if (!flag && arg[i] == '=' && i != 0)
-			return (0);
-		else if (arg[i] == '=' && i == 0)
-		{
-			printf("minishell: export: '%s': not a valid identifier\n", arg);
-			g_global.error_num = 1;
-		}
-		i++;
-	}
-	if (flag)
-		printf("minishell: export: '%s': not a valid identifier\n", arg);
-	return (1);
-}
-
-t_variable	*get_var_to_mod(t_variable *local_vars, int laps)
-{
-	t_variable	*it;
-	int			i;
-
-	it = local_vars;
-	i = 0;
-	while (i < laps && it)
-	{
-		it = it->next;
-		i++;
-	}
-	return (it);
-}
-
-int		variable_in_env(t_variable *variable, char **env)
-{
-	int	name_size;
-	int	i;
-
-	name_size = ft_strlen(variable->name);
-	i = 0;
-	while (env[i])
-	{
-		if (!ft_strncmp(variable->name, env[i], name_size))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 char	**modify_variable(char **env, t_minishell *data, char *variable)
 {
 	int		nbr_env;
@@ -149,92 +93,23 @@ char	*get_new_var(char *variable, t_variable *local_vars, t_minishell *data)
 	return (new_var);
 }
 
-void swap(char **x, char **y) 
+void	no_declaration(t_minishell *data, int i, int laps, char **new_env)
 {
-    char *temp;
-	
-	temp = *x;
-    *x = *y;
-    *y = temp;
-}
-
-int partition(char *arr[], int low, int high) 
-{
-    char	*pivot;
-	int		i;
-	int		j;
-	
-	pivot = arr[high]; 
-    i = (low - 1); 
-	j = low;
-	while (j <= (high - 1))
+	if (!variable_in_env_char(data->cmd_table->args[i], data->env_vars))
+			new_env = modify_variable(data->env_vars, data, data->cmd_table->args[i]);
+	else
 	{
-		if (ft_strcmp(arr[j], pivot) < 0)
-		{
-			i++;
-			swap(&arr[i], &arr[j]);
-		}
-		j++;
+		if (laps < 0)
+			create_new_variable(data->cmd_table->args[i], &(data->local_vars), data);
+		else
+			change_var_value(data->cmd_table->args[i], &(data->local_vars), laps, data);
+		if (laps >= 0 && !variable_in_env(get_var_to_mod(data->local_vars, laps), data->env_vars))
+			new_env = modify_variable(data->env_vars, data, data->cmd_table->args[i]);
+		else
+			new_env = add_variable(data->cmd_table->args[i], data->env_vars, data);
 	}
-    swap(&arr[i + 1], &arr[high]);
-    return (i + 1);
-}
-
-void quicksort(char **arr, int low, int high) 
-{
-	int pi;
-
-    if (low < high) 
-	{
-        pi = partition(arr, low, high);
-        quicksort(arr, low, pi - 1);
-        quicksort(arr, pi + 1, high);
-    }
-}
-
-void	env_order(t_minishell *data)
-{
-	char 	**sorted_env;
-	int		n;
-	int		i;
-	int		j;
-
-	sorted_env = ft_arrdup(data->env_vars);
-	n = get_nbr_env(sorted_env);
-	quicksort(sorted_env, 0, n - 1);
-	i = 0;
-	j = 0;
-	while (sorted_env[i])
-	{
-		printf("declare -x ");
-		while (sorted_env[i][j] != '=')
-			printf("%c", sorted_env[i][j++]);
-		printf("=\"");
-		j++;
-		while (sorted_env[i][j])
-			printf("%c", sorted_env[i][j++]);
-		printf("\"\n");
-		j = 0;
-		i++;
-	}
-	free_arr(sorted_env);
-}
-
-int	variable_in_env_char(char *variable, char **env)
-{
-	int	name_size;
-	int	i;
-
-	name_size = get_var_size(variable, true);
-	i = 0;
-	while (env[i])
-	{
-		if (!ft_strncmp(variable, env[i], name_size))
-			return (0);
-		i++;
-	}
-	return (1);
-
+	free_arr(data->env_vars);
+		data->env_vars = new_env;
 }
 
 int	mini_export(t_minishell *data) 
@@ -248,28 +123,13 @@ int	mini_export(t_minishell *data)
 	i = 0;
 	if (data->cmd_table->n_args == 0)
 		env_order(data);
+	new_env = NULL;
 	while (i < data->cmd_table->n_args)
 	{
 		declaration = check_if_declaration(data->cmd_table->args[i]);
 		laps = check_new_var(data->cmd_table->args[i], data->local_vars);
 		if (!declaration)
-		{
-			if (!variable_in_env_char(data->cmd_table->args[i], data->env_vars))
-				new_env = modify_variable(data->env_vars, data, data->cmd_table->args[i]);
-			else
-			{
-				if (laps < 0)
-					create_new_variable(data->cmd_table->args[i], &(data->local_vars), data);
-				else
-					change_var_value(data->cmd_table->args[i], &(data->local_vars), laps, data);
-				if (laps >= 0 && !variable_in_env(get_var_to_mod(data->local_vars, laps), data->env_vars))
-					new_env = modify_variable(data->env_vars, data, data->cmd_table->args[i]);
-				else
-					new_env = add_variable(data->cmd_table->args[i], data->env_vars, data);
-			}
-			free_arr(data->env_vars);
-			data->env_vars = new_env;
-		}
+			no_declaration(data, i, laps, new_env);
 		else if (declaration && check_new_var(data->cmd_table->args[i], data->local_vars) >= 0 && variable_in_env(get_var_to_mod(data->local_vars, laps), data->env_vars))
 		{
 			new_var = get_new_var(data->cmd_table->args[i], data->local_vars, data);

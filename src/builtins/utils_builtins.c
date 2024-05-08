@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:50:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 12:22:41 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/08 14:26:38 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ void	simple_builtin_executor(t_minishell *data)
 {
 	int		ret;
 	int		(*builtin_arr)(t_minishell *data);
+	int		in;
+	int		out;
 
+	in = dup(STDIN_FILENO);
+	out = dup(STDOUT_FILENO);
 	if (check_all_heredocs(data))
 		g_global.error_num = 130;
 	if (!data->cmd_table)
@@ -29,13 +33,15 @@ void	simple_builtin_executor(t_minishell *data)
 		if (ret)
 		{
 			g_global.error_num = ret;
-			exit(ret);
+			return ;
 		}
 	}
 	builtin_arr = check_if_builtin(data->cmd_table->cmd);
 	ret = builtin_arr(data);
 	if (ret)
 		g_global.error_num = ret;
+	dup2(in, STDIN_FILENO);
+	dup2(out, STDOUT_FILENO);
 }
 
 int	execute_builtin(t_minishell *data, int (*builtin_arr)(t_minishell *data))

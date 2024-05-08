@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   local_variables.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:16:35 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 19:38:03 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/08 11:32:21 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,40 +46,27 @@ void	local_variables_aux(t_minishell *data, t_cmd_table *tmp)
 		change_var_value(tmp->cmd, &(data->local_vars), laps, data);
 }
 
-void	print_cmd_table(t_cmd_table *cmd_table) // borrar
+int	get_new_var_space(t_cmd_table *tmp)
 {
-	int i = 0; 
+	int	res;
+	int	i;
+	int	j;
 
-	while (cmd_table) 
+	j = 0;
+	i = 0;
+	res = 0;
+	while (tmp->args[i])
 	{
-		printf("CMD:%s\n",cmd_table->cmd);
-		if (cmd_table->args)
+		while (tmp->args[i][j])
 		{
-			while (cmd_table->args[i])
-			{
-				printf("ARG%d:%s\n", i, cmd_table->args[i]);
-				i++;
-			}
-
+			if (tmp->args[i][j] != '\'' && tmp->args[i][j] != '\"')
+				res++;
+			j++;
 		}
-		if (cmd_table->in)
-			printf("IN:%d\n", cmd_table->in);
-		printf("OUT:%d\n", cmd_table->out);
-		printf("ERR:%d\n", cmd_table->err);
-		i = 0;
-		while (i < cmd_table->n_redirections)
-		{
-			printf("redir number: %d type: %d value: %s\n", i, cmd_table->redirections[i]->type, cmd_table->redirections[i]->value);
-			i++;
-		}
-		printf("nbr redir: %d\n", cmd_table->n_redirections);
-		// if (cmd_table->new_cmd)
-		// 	printf("new cdm TRUE\n");
-		// else
-		// 	printf("new cdm FALSE\n");
-		cmd_table = cmd_table->next;
-		printf("\n");
+		i++;
+		j = 0;
 	}
+	return (res);
 }
 
 void	variable_with_quotes(t_cmd_table **tmp)
@@ -92,27 +79,32 @@ void	variable_with_quotes(t_cmd_table **tmp)
 
 	i = 0;
 	j = 0;
-	w = ft_strlen(tmp->cmd);
-	new_space = get_new_var_space(tmp); // calcular cuanto espacio necesitamos en cmd, sin contar comillas
-	new_cmd = (char *)malloc(ft_strlen(tmp->cmd) + new_space + 1);
-	if (!new_cmd)
+	w = ft_strlen((*tmp)->cmd);
+	new_space = get_new_var_space((*tmp)); 
+	new_cmd = (char *)malloc(w + new_space + 1);
+	//if (!new_cmd)
 	// proteger
-	ft_strlcpy(new_cmd, tmp->cmd, w);
+	ft_strlcpy(new_cmd, (*tmp)->cmd, (size_t)(w + 1));
 	while (i < (*tmp)->n_args)
 	{
-		while (args[i][j])
+		while ((*tmp)->args[i][j])
 		{
-			if (args[i][j] == '\'' || args[i][j] == "\"")
-				j++;
-			else
-				new_cmd[w] = args[i][j];
+			if ((*tmp)->args[i][j] != '\'' && (*tmp)->args[i][j] != '\"')
+			{
+				new_cmd[w] = (*tmp)->args[i][j];
+				w++;
+			}
 			j++;
-			w++;
 		}
 		j = 0;
 		i++;
 	}
 	new_cmd[w] = '\0';
+	free_arr((*tmp)->args);
+	(*tmp)->args = NULL;
+	free((*tmp)->cmd);
+	(*tmp)->cmd = new_cmd;
+	(*tmp)->n_args = 0;
 }
 
 void	local_variables(t_minishell *data) // el tema de las local variables se que ha quedado aqui, nose porque cuando mandas a=1 b=2 no esta reconociendo el primer comando, mirar como se esta creando la cmd table
@@ -122,14 +114,12 @@ void	local_variables(t_minishell *data) // el tema de las local variables se que
 
 	tmp = data->cmd_table;
 	new_env = NULL;
-	print_cmd_table(tmp);
-	exit(0);
 	while (tmp)
 	{
 		if (!check_variable(tmp))
 		{
 			if (tmp->n_args)
-				variable_with_quotes(&tmp); // ft que debe concatenar el contenido de args en cmd y liberar args, sin las quotes
+				variable_with_quotes(&tmp);
 			if (!variable_in_env_char(tmp->cmd, data->env_vars))
 			{
 				new_env = mod_var(data->env_vars, data, tmp->cmd);

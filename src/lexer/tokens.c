@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:26:41 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 18:51:13 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/08 12:33:48 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,13 @@ void	add_token(t_token **token_list, char *cmd_line, int start, int end)
 	new_token->variable = NULL;
 	get_token_type(new_token);
 }
+
+// return 1 si ha de ser ARG, return 0 si ha de ser CMD
+
+// a="hola", para hola debe retornar 1
+// a="hola" ls, para hola debe retornar 1, para ls 0
+// a="hola" "adios", ha de retornar 1 para ambos
+// a=1 ls, ha de retornar 1 para ls
 
 void	get_token_type(t_token *token)
 {

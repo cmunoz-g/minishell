@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 18:50:42 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/08 11:26:55 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,8 @@ int			redirect(t_cmd_table *tbl, int is_builtin);
 
 /***							LEXER							***/
 //	lexer_utils
+int			is_quoted_var(char *value);
+int			is_pos_variable(char *value);
 void		init_lexer(bool *qt, int *i, int *start);
 void		set_qt(bool *quotes, char *quote_type, char *cmd_line, int i);
 

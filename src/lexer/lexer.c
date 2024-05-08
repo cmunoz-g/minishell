@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:30:07 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 19:00:37 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/08 13:51:36 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,56 @@
 // cmunoz-g@c1r3s2:~/Documents/minishell$ echo $hola
 // hola
 
-
-int		is_pos_variable(char *value)
+int	check_if_repeated_value(t_token *it_variable)
 {
+	t_token *tmp;
 	int		i;
-
+	
 	i = 0;
-	if (value[i++] == '=')
-		return (1);
-	while (value[i])
+	while (it_variable)
 	{
-		if (value[i] == '=')
-			return (0);
-		i++;
+		tmp = it_variable->prev;
+		while (tmp)
+		{
+			if (!ft_strcmp(tmp->value, it_variable->value))
+				i++;
+			tmp = tmp->prev;
+		}
+		it_variable = it_variable->prev;
 	}
+	return (i);
+}
+
+int	is_there_space(t_token *it_variable, char *line)
+{
+	char	*str;
+	char	*tmp;
+	int		laps;
+
+	tmp = line;
+	laps = check_if_repeated_value(it_variable);
+	if (laps)
+	{
+		while (laps != 0)
+		{
+			str = ft_strnstr(tmp, it_variable->value, ft_strlen(tmp)) + ft_strlen(it_variable->value) + 1;
+			laps--;
+		}
+		str = ft_strnstr(str, it_variable->value, ft_strlen(tmp) + 1);
+		str--;
+		if (*str && *str == ' ')
+			return (0);
+		else
+			return (1);
+	}
+	str = ft_strnstr(tmp, it_variable->value, ft_strlen(tmp));
+	str--;
+	if (*str && *str == ' ')
+		return (0);
 	return (1);
 }
 
-void	check_local_var(t_token **token_list) 
+void	check_local_var(t_token **token_list, char *line) 
 {
 	t_token	*it_variable;
 
@@ -52,14 +84,30 @@ void	check_local_var(t_token **token_list)
 	{
 		if (!is_pos_variable(it_variable->value))
 			it_variable->variable = true;
-		if (!it_variable->prev && it_variable->variable)
+		if (!it_variable->prev && it_variable->variable == true)
 			it_variable->type = CMD;
-		else if (it_variable->prev && it_variable->variable)
+		else if (it_variable->prev && it_variable->variable == true)
 		{
-			if (it_variable->prev->variable)
+			if (it_variable->prev->variable || it_variable->prev->type != CMD)
+				it_variable->type = CMD;
+		}
+		else if (it_variable->prev && it_variable->variable == false)
+		{
+			if (it_variable->prev->variable == true && is_quoted_var(it_variable->value))
+				it_variable->type = CMD;
+			else if ((!is_there_space(it_variable, line)) && !is_quoted_var(it_variable->value)) 
 				it_variable->type = CMD;
 		}
 		it_variable = it_variable->next;
+	}
+}
+
+void	print_tokens(t_token *token_list) // borrar
+{
+	while (token_list)
+	{
+	 	printf("value:%s type:%d\n",token_list->value, token_list->type);
+	 	token_list = token_list->next;
 	}
 }
 
@@ -88,7 +136,7 @@ void	lexer(char *line, t_token **list)
 	if (i > (st))
 		add_token(list, line, st, i);
 	check_redirections(list);
-	check_local_var(list); // checkea si deberia cambiar las local var por CMDS
+	check_local_var(list, line); // checkea si deberia cambiar las local var por CMDS
 }
 
 void	lexer_qt(t_token **token_list, char *cmd_line, int *start, int i)

@@ -3,25 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   mini_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:13:47 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 17:06:50 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/08 10:38:41 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <limits.h>
 
-static void	change_path_on_mini(t_minishell *data);
+static void	change_path_on_mini(t_minishell *data, char *buff);
 static void	update_path_on_env(t_minishell *data);
 
-static void	change_path_on_mini(t_minishell *data)
+static void	change_path_on_mini(t_minishell *data, char *buff)
 {
 	char	*tmp;
-	char	*buff;
 
-	buff = ft_calloc(PATH_MAX, sizeof(char));
 	tmp = ft_strdup(data->pwd);
 	free(data->old_pwd);
 	data->old_pwd = tmp;
@@ -58,7 +56,7 @@ static void	update_path_on_env(t_minishell *data)
 	}
 }
 
-int	mini_cd(t_minishell	*data)
+static int	get_ret(t_minishell *data)
 {
 	int		ret;
 	char	*expanded;
@@ -73,14 +71,26 @@ int	mini_cd(t_minishell	*data)
 		ret = chdir(expanded);
 		free(expanded);
 	}
-	if (ret != 0)
+	return (ret);
+
+}
+
+int	mini_cd(t_minishell	*data)
+{
+	int		ret;
+	char	*buff;
+
+	ret = get_ret(data);
+	buff = ft_calloc(PATH_MAX, sizeof(char));
+	if (ret != 0 || !getcwd(buff, PATH_MAX))
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(data->cmd_table->args[0], STDERR_FILENO);
 		perror(" ");
+		free(buff);
 		return (EXIT_FAILURE);
 	}
-	change_path_on_mini(data);
+	change_path_on_mini(data, buff);
 	update_path_on_env(data);
 	return (EXIT_SUCCESS);
 }

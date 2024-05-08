@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 17:07:21 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/08 14:29:33 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ static void	handle_cmd(t_minishell *data)
 			exit(ret);
 		}
 	}
+	if (!data->cmd_table->cmd)
+		exit(EXIT_SUCCESS);
 	if (!data->cmd_table->next || data->cmd_table->out == TRUNC
 		|| data->cmd_table->out == APPEND)
 		exec_process(data);

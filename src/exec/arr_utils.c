@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arr_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:52 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 17:07:07 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:06:36 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,28 @@ static int	get_str_arr_len(char **strarr)
 	return (n);
 }
 
+static char	**expand_cmd(char *s1, char **strarr, t_minishell *data, int *i)
+{
+	int		len;
+	int		len_expanded;
+	char	**str3;
+	char	*expanded;
+	char	**splitted_expanded;
+
+	len = get_str_arr_len(strarr);
+	expanded = expand(s1, 0, data);
+	splitted_expanded = ft_split(expanded, ' ');
+	free(expanded);
+	len_expanded = get_str_arr_len(splitted_expanded);
+	str3 = ft_calloc(sizeof(char *), len + len_expanded + 1);
+	while (*i < len_expanded)
+	{
+		str3[*i] = splitted_expanded[*i];
+		(*i)++;
+	}
+	return (str3);
+}
+
 char	**ft_str_arr_join_exec(char *s1, char **strarr, t_minishell *data)
 {
 	int		i;
@@ -35,8 +57,7 @@ char	**ft_str_arr_join_exec(char *s1, char **strarr, t_minishell *data)
 
 	len = get_str_arr_len(strarr);
 	i = 0;
-	str3 = ft_calloc(sizeof(char *), len + 2);
-	str3[i++] = expand(s1, 0, data);
+	str3 = expand_cmd(s1, strarr, data, &i);
 	if (!strarr)
 		return (str3);
 	while (i < len + 1)

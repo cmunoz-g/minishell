@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:50:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/08 14:28:20 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/08 17:16:00 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,20 @@
 
 int	(*check_if_builtin(char *str))(t_minishell *data);
 
-void	simple_builtin_executor(t_minishell *data)
+void	run_builtin(t_minishell *data)
 {
 	int		ret;
 	int		(*builtin_arr)(t_minishell *data);
+
+	builtin_arr = check_if_builtin(data->cmd_table->cmd);
+	ret = builtin_arr(data);
+	if (ret)
+		g_global.error_num = ret;
+}
+
+void	simple_builtin_executor(t_minishell *data)
+{
+	int		ret;
 	int		in;
 	int		out;
 
@@ -34,10 +44,8 @@ void	simple_builtin_executor(t_minishell *data)
 			return ;
 		}
 	}
-	builtin_arr = check_if_builtin(data->cmd_table->cmd);
-	ret = builtin_arr(data);
-	if (ret)
-		g_global.error_num = ret;
+	if (!g_global.stop_heredoc)
+		run_builtin(data);
 	dup2(in, STDIN_FILENO);
 	dup2(out, STDOUT_FILENO);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:26:15 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/08 10:58:23 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/09 12:12:50 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	parser(t_cmd_table **cmd_table, t_token **token_list)
 	while (*token_list)
 	{
 		if ((*token_list)->type == PIPE || ((*token_list)->next
-			&& (*token_list)->next->type == CMD))
+			&& (*token_list)->next->type == CMD && !is_pos_variable((*token_list)->next->value)))
 		{
 			alloc_cmd_table(cmd_table);
 			gen_cmd_table(tmp, cmd_table, s_e[0], s_e[1] + 1);

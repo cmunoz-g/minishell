@@ -6,7 +6,7 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/09 11:00:43 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/09 12:22:48 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,8 @@ void	minishell_loop(t_minishell *data)
 		reset_loop(data);
 	parse_data(data, &err_syntax);
 	local_variables(data);
+	// print_cmd_table(data->cmd_table);
+	// exit(0);
 	if (!err_syntax)
 	{
 		signal(SIGQUIT, sigquit_handler);

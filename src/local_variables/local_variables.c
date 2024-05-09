@@ -6,7 +6,7 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:16:35 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/09 11:18:46 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/09 12:09:09 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,26 @@ int	get_new_var_space(t_cmd_table *tmp)
 	int		res;
 	int		i;
 	int		j;
-	//bool	in_quotes;
-	//char	quote;
+	bool	in_quotes;
+	char	quote;
 
 	j = 0;
 	i = 0;
 	res = 0;
+	quote = '\0';
+	in_quotes = false;
 	while (tmp->args[i])
 	{
 		while (tmp->args[i][j])
 		{
-			//if (tmp->args[i][j] == '\'' || tmp)
-			if (tmp->args[i][j] != '\'' && tmp->args[i][j] != '\"')
+			if (tmp->args[i][j] == quote && in_quotes == true)
+				in_quotes = false;
+			if (tmp->args[i][j] == '\'' || tmp->args[i][j] == '\"')
+			{
+				in_quotes = true;
+				quote = tmp->args[i][j];
+			}
+			if (in_quotes == true || (tmp->args[i][j] != '\'' && tmp->args[i][j] != '\"'))
 				res++;
 			j++;
 		}
@@ -79,7 +87,11 @@ void	variable_with_quotes(t_cmd_table **tmp)
 	int		w;
 	int		new_space;
 	char	*new_cmd;
+	bool	quote;
+	char	quote_type;
 
+	quote = false;
+	quote_type = '\0';
 	i = 0;
 	j = 0;
 	w = ft_strlen((*tmp)->cmd);
@@ -92,7 +104,14 @@ void	variable_with_quotes(t_cmd_table **tmp)
 	{
 		while ((*tmp)->args[i][j])
 		{
-			if ((*tmp)->args[i][j] != '\'' && (*tmp)->args[i][j] != '\"')
+			if ((*tmp)->args[i][j] == quote_type && quote == true)
+				quote = false;
+			if (quote == false && ((*tmp)->args[i][j] == '\'' || (*tmp)->args[i][j] == '\"'))
+			{
+				quote = true;
+				quote_type = (*tmp)->args[i][j];
+			}
+			if ((quote == true && quote_type != (*tmp)->args[i][j]) || ((*tmp)->args[i][j] != '\'' && (*tmp)->args[i][j] != '\"'))
 			{
 				new_cmd[w] = (*tmp)->args[i][j];
 				w++;

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:52 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/08 18:06:36 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/09 11:28:23 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,10 @@ static char	**expand_cmd(char *s1, char **strarr, t_minishell *data, int *i)
 	str3 = ft_calloc(sizeof(char *), len + len_expanded + 1);
 	while (*i < len_expanded)
 	{
-		str3[*i] = splitted_expanded[*i];
+		str3[*i] = ft_strdup(splitted_expanded[*i]);
 		(*i)++;
 	}
+	free_arr(splitted_expanded);
 	return (str3);
 }
 

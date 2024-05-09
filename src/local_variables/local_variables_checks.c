@@ -6,7 +6,7 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:18:00 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 13:26:16 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/09 10:25:13 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	check_variable(t_cmd_table *cmd_table)
 
 	i = 0;
 	if (!cmd_table->cmd)
+		return (1);
+	if (cmd_table->cmd[i++] == '=')
 		return (1);
 	while (cmd_table->cmd[i])
 	{

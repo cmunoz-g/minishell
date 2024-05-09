@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:30:07 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/08 13:51:36 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/09 10:59:04 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,6 @@ void	check_local_var(t_token **token_list, char *line)
 	}
 }
 
-void	print_tokens(t_token *token_list) // borrar
-{
-	while (token_list)
-	{
-	 	printf("value:%s type:%d\n",token_list->value, token_list->type);
-	 	token_list = token_list->next;
-	}
-}
-
 void	lexer(char *line, t_token **list)
 {
 	int		i;
@@ -136,7 +127,7 @@ void	lexer(char *line, t_token **list)
 	if (i > (st))
 		add_token(list, line, st, i);
 	check_redirections(list);
-	check_local_var(list, line); // checkea si deberia cambiar las local var por CMDS
+	check_local_var(list, line);
 }
 
 void	lexer_qt(t_token **token_list, char *cmd_line, int *start, int i)

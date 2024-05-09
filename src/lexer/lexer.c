@@ -6,7 +6,7 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:30:07 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/09 10:19:21 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/09 10:59:04 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,15 +99,6 @@ void	check_local_var(t_token **token_list, char *line)
 				it_variable->type = CMD;
 		}
 		it_variable = it_variable->next;
-	}
-}
-
-void	print_tokens(t_token *token_list) // borrar
-{
-	while (token_list)
-	{
-	 	printf("value:%s type:%d\n",token_list->value, token_list->type);
-	 	token_list = token_list->next;
 	}
 }
 

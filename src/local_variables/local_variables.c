@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   local_variables.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:16:35 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/08 11:32:21 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/09 11:18:46 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@ void	local_variables_aux(t_minishell *data, t_cmd_table *tmp)
 
 int	get_new_var_space(t_cmd_table *tmp)
 {
-	int	res;
-	int	i;
-	int	j;
+	int		res;
+	int		i;
+	int		j;
+	//bool	in_quotes;
+	//char	quote;
 
 	j = 0;
 	i = 0;
@@ -59,6 +61,7 @@ int	get_new_var_space(t_cmd_table *tmp)
 	{
 		while (tmp->args[i][j])
 		{
+			//if (tmp->args[i][j] == '\'' || tmp)
 			if (tmp->args[i][j] != '\'' && tmp->args[i][j] != '\"')
 				res++;
 			j++;
@@ -107,13 +110,53 @@ void	variable_with_quotes(t_cmd_table **tmp)
 	(*tmp)->n_args = 0;
 }
 
-void	local_variables(t_minishell *data) // el tema de las local variables se que ha quedado aqui, nose porque cuando mandas a=1 b=2 no esta reconociendo el primer comando, mirar como se esta creando la cmd table
+void	cmd_table_no_vars(t_minishell *data)
+{
+	t_cmd_table	*tmp;
+	t_cmd_table	*next;
+	int			i;
+
+	i = 0;
+	tmp = data->cmd_table;
+	while (tmp)
+	{
+		next = tmp->next;
+		if (!check_variable(tmp))
+		{
+			free(tmp->cmd);
+			free_arr(tmp->args);
+			while (i < tmp->n_redirections)
+			{
+				free(tmp->redirections[i]->value);
+				free(tmp->redirections[i++]);
+			}
+			free(tmp->redirections);
+			if (tmp->prev)
+			{
+				tmp->prev->next = next->next;
+				tmp->prev->in = STDIN;
+			}
+			else
+			{
+				next->prev = NULL;
+				data->cmd_table = next;	
+				next->in = STDIN;
+			}
+			free(tmp);
+		}
+		tmp = next;
+	}
+}
+
+void	local_variables(t_minishell *data)
 {
 	t_cmd_table	*tmp;
 	char		**new_env;
+	bool		var;
 
 	tmp = data->cmd_table;
 	new_env = NULL;
+	var = false;
 	while (tmp)
 	{
 		if (!check_variable(tmp))
@@ -128,14 +171,14 @@ void	local_variables(t_minishell *data) // el tema de las local variables se que
 			}
 			else
 				local_variables_aux(data, tmp);
-			tmp = tmp->next;
+			var = true;
 		}
-		else
-			tmp = tmp->next;
+		else if (check_variable(tmp) && var == true)
+		{
+			clean_local_vars(&data->local_vars);
+			cmd_table_no_vars(data);
+			return ;
+		}
+		tmp = tmp->next;
 	}
 }
-
-/*minishell> a="112"'awsd'
-CMD:a=
-ARG0:"112"
-ARG1:'awsd'*/

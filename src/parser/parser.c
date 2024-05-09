@@ -6,7 +6,7 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:26:15 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/09 12:28:31 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/09 12:29:18 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	parser(t_cmd_table **cmd_table, t_token **token_list)
 	while (*token_list)
 	{
 		if ((*token_list)->type == PIPE || ((*token_list)->next
-			&& (*token_list)->next->type == CMD && !is_pos_variable((*token_list)->next->value)))
 			&& (*token_list)->next->type == CMD && !is_pos_variable((*token_list)->next->value)))
 		{
 			alloc_cmd_table(cmd_table);

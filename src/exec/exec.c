@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/09 11:19:09 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/09 11:26:44 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@ static void	check_and_exec_if_executable(char **str, t_minishell *data)
 
 	if (!str[0] || !ft_strlen(str[0]))
 		exit(EXIT_SUCCESS);
-	stat(str[0], &path_stat);
-	if (S_ISDIR(path_stat.st_mode))
-	{
-		send_to_stderr(str[0], NULL, "Is a directory", 0);
-		g_global.error_num = 126;
-		exit(126);
-	}
 	if (access(str[0], F_OK) == 0)
 	{
 		if (execve(str[0], str, data->env_vars) == -1)
 		{
+			stat(str[0], &path_stat);
+			if (S_ISDIR(path_stat.st_mode))
+			{
+				send_to_stderr(str[0], NULL, "Is a directory", 0);
+				g_global.error_num = 126;
+				exit(126);
+			}
 			g_global.error_num = errno;
 			send_to_stderr(str[0], NULL, "command not found", 0);
 			free_arr(str);

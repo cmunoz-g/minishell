@@ -6,7 +6,7 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/09 12:22:48 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/09 12:51:39 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,9 +135,9 @@ void	minishell_loop(t_minishell *data)
 	else if (check_spaces(data->line) || ft_strlen(data->line) == 0)
 		reset_loop(data);
 	parse_data(data, &err_syntax);
+	print_cmd_table(data->cmd_table); // con b=3 ls no esta creando la tabla de comandos de b=3, revisar la logica de parser pero asegurandome de que cosas como ls "-la" sigan funcionando como deben
+	exit(0);
 	local_variables(data);
-	// print_cmd_table(data->cmd_table);
-	// exit(0);
 	if (!err_syntax)
 	{
 		signal(SIGQUIT, sigquit_handler);

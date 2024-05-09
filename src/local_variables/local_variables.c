@@ -6,7 +6,7 @@
 /*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:16:35 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/09 12:09:09 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/09 12:49:51 by cmunoz-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,7 @@ void	local_variables(t_minishell *data)
 		}
 		else if (check_variable(tmp) && var == true)
 		{
+			printf("hola!");
 			clean_local_vars(&data->local_vars);
 			cmd_table_no_vars(data);
 			return ;

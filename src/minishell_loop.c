@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 18:14:35 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/10 18:28:37 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ static void	create_main_fork(t_minishell *data)
 
 	n_pipes = get_n_of_pipes(data);
 	data->pids = ft_calloc(n_pipes + 2, sizeof(pid_t *));
+	if (!data->pids)
+		exit(EXIT_FAILURE);
 	pipe_n = ft_fork(data);
 	if (data->pids[pipe_n] == -1)
 		exit(EXIT_FAILURE);
@@ -168,14 +170,17 @@ void	minishell_loop(t_minishell *data)
 
 void	reset_loop(t_minishell *data)
 {
+	if (data->pids)
+	{
+		free(data->pids);
+		data->pids = NULL;
+	}
 	if (data->cmd_table)
 		clean_cmd_table_list(&(data->cmd_table));
 	if (data->line || ft_strlen(data->line))
 		free(data->line);
 	if (data->token_list)
 		data->token_list = NULL;
-	if (data->pids)
-		free(data->pids);
 	init_signal_vars();
 	dup2(data->fd_in, STDIN_FILENO);
 	dup2(data->fd_out, STDOUT_FILENO);

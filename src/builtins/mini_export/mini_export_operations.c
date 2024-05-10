@@ -3,14 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   mini_export_operations.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:59:52 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 16:08:45 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:49:38 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	**mod_var_export(char **export_vars, t_minishell *data, char *variable)
+{
+	int		nbr_export;
+	int		i;
+	int		size;
+	char	**new_export;
+	
+	i = 0;
+	size = get_var_size(variable, true);
+	nbr_export = get_nbr_env(export_vars);
+	new_export = (char **)malloc(sizeof(char *) * (nbr_export + 1));
+	if (!new_export)
+		error(data, "Memory problems while modifying export variables");
+	while (export_vars[i])
+	{
+		if (!ft_strncmp(variable, export_vars[i], size))
+			new_export[i] = ft_strdup(variable); 
+		//proteget
+		else
+			new_export[i] = ft_strdup(export_vars[i]);
+		// proteger
+		i++;
+	}
+	new_export[i] = NULL;
+	return (new_export);
+}
 
 void	mod_var_aux(t_minishell *data, char **new_env, int *n_v_i, char *var)
 {

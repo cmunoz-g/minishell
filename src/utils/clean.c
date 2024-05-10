@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:01:30 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 09:55:07 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/10 10:34:11 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	clean_data(t_minishell **data)
 		free((*data)->line);
 	if ((*data)->env_vars)
 		free_arr((*data)->env_vars);
+	if ((*data)->export_vars)
+		free_arr((*data)->export_vars);
 	if ((*data)->pwd)
 		free((*data)->pwd);
 	if ((*data)->old_pwd)

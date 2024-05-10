@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:30:07 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/09 12:22:37 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/10 09:39:42 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,15 @@
 // cmunoz-g@c1r3s2:~/Documents/minishell$ hola="hola"
 // cmunoz-g@c1r3s2:~/Documents/minishell$ echo $hola
 // hola
+
+void	print_tokens(t_token *token_list) // borrar
+{
+	while (token_list)
+	{
+	 	printf("value:%s type:%d\n",token_list->value, token_list->type);
+	 	token_list = token_list->next;
+	}
+}
 
 int	check_if_repeated_value(t_token *it_variable)
 {
@@ -95,7 +104,7 @@ void	check_local_var(t_token **token_list, char *line)
 		{
 			if (it_variable->prev->variable == true && is_quoted_var(it_variable->value))
 				it_variable->type = CMD;
-			else if (it_variable->prev->type != CMD && (!is_there_space(it_variable, line)) && !is_quoted_var(it_variable->value)) 
+			else if (it_variable->prev->type != CMD && !is_quoted_var(it_variable->value) && (!is_there_space(it_variable, line))) 
 				it_variable->type = CMD;
 		}
 		it_variable = it_variable->next;

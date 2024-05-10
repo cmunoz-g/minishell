@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:01 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/08 11:32:38 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/10 09:33:07 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ int	is_quoted_var(char *value)
 	quote_type = '\0';
 	while (value[i])
 	{
+		if (value[i] == quote_type)
+			is_quote = false;
 		if (value[i] == '\'' || value[i] == '\"')
 		{
 			is_quote = true;
 			quote_type = value[i];
 		}
 		i++;
-		if (!value[i] || value[i] == quote_type)
-			is_quote = false;
 	}
 	if (is_quote == false && quote_type == '\0') // no ha habido ninguna quote 
 		return (1);

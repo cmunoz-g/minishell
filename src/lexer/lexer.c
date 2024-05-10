@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:30:07 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 09:58:14 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/10 12:13:22 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@
 // cmunoz-g@c1r3s2:~/Documents/minishell$ echo $hola
 // hola
 
-// void	print_tokens(t_token *token_list) // borrar
-// {
-// 	while (token_list)
-// 	{
-// 	 	printf("value:%s type:%d\n",token_list->value, token_list->type);
-// 	 	token_list = token_list->next;
-// 	}
-// }
+void	print_tokens(t_token *token_list) // borrar
+{
+	while (token_list)
+	{
+	 	printf("value:%s type:%d\n",token_list->value, token_list->type);
+	 	token_list = token_list->next;
+	}
+}
 
 int	check_if_repeated_value(t_token *it_variable)
 {

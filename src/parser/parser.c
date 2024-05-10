@@ -6,13 +6,26 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:26:15 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 10:03:02 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/10 12:22:19 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parser(t_cmd_table **cmd_table, t_token **token_list)
+int	check_first_cmd(t_token **token_list)
+{
+	t_token	*tmp;
+
+	tmp = *(token_list);
+	while (tmp->prev)
+		tmp = tmp->prev;
+	if (!ft_strncmp("export", tmp->value, 6))
+		return (0);
+	else
+		return (1);
+}
+
+void	parser(t_cmd_table **cmd_table, t_token **token_list) // EL PROBLEMA de export a=1 b=2 esta aqui
 {
 	t_token		*tmp;
 	int			s_e[2];
@@ -21,7 +34,7 @@ void	parser(t_cmd_table **cmd_table, t_token **token_list)
 	while (*token_list)
 	{
 		if ((*token_list)->type == PIPE || ((*token_list)->next
-			&& (*token_list)->next->type == CMD && (!is_pos_variable((*token_list)->next->value) || !is_pos_variable((*token_list)->value))))
+			&& (*token_list)->next->type == CMD && (!is_pos_variable((*token_list)->next->value) || (!is_pos_variable((*token_list)->value) && check_first_cmd(token_list)))))
 		{
 			alloc_cmd_table(cmd_table);
 			gen_cmd_table(tmp, cmd_table, s_e[0], s_e[1] + 1);

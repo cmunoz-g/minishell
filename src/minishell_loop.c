@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 09:58:49 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:01:58 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,15 +97,17 @@ static void	print_exit_msg(int wstatus, int signo)
 
 static void	create_main_fork(t_minishell *data)
 {
-	pid_t		pid;
 	int			status;
 	int			signo;
+	int			n_pipes;
+	int			i;
 
-	status = 0;
-	pid = fork();
-	if (pid == -1)
-		exit(1);
-	if (pid == 0)
+	n_pipes = get_n_of_pipes(data);
+	data->pids = ft_calloc(n_pipes + 2, sizeof(pid_t *));
+	data->pids[data->pipes++] = fork();
+	if (data->pids[data->pipes - 1] == -1)
+		exit(EXIT_FAILURE);
+	if (data->pids[data->pipes - 1] == 0)
 	{
 		if (executor(data))
 		{
@@ -113,14 +115,19 @@ static void	create_main_fork(t_minishell *data)
 			exit(130);
 		}
 	}
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		g_global.error_num = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
+	i = 0;
+	while (i <= data->pipes)
 	{
-		signo = WTERMSIG(status);
-		if (signo == SIGQUIT || signo == SIGSEGV)
-			print_exit_msg(status, signo);
+		waitpid(data->pids[data->pipes], &status, 0);
+		if (WIFEXITED(status))
+			g_global.error_num = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+		{
+			signo = WTERMSIG(status);
+			if (signo == SIGQUIT || signo == SIGSEGV)
+				print_exit_msg(status, signo);
+		}
+		i++;
 	}
 }
 
@@ -160,6 +167,9 @@ void	reset_loop(t_minishell *data)
 		free(data->line);
 	if (data->token_list)
 		data->token_list = NULL;
+	if (data->pids)
+		free(data->pids);
+	data->pipes = 0;
 	init_signal_vars();
 	minishell_loop(data);
 }

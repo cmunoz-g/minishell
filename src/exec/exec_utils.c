@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:17:12 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 13:09:46 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/10 17:51:50 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	get_n_of_pipes(t_minishell *data)
+{
+	int			n;
+	t_cmd_table	*start;
+
+	n = 0;
+	start = data->cmd_table;
+	while (data->cmd_table->next && ++n)
+		data->cmd_table = data->cmd_table->next;
+	data->cmd_table = start;
+	return (n);
+}
 
 int	open_file(char *name, int to_write)
 {

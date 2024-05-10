@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/09 11:26:44 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/10 18:00:27 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,24 +74,19 @@ static void	exec_process(t_minishell *data)
 static void	do_pipe(t_minishell *data)
 {
 	int		p_fd[2];
-	pid_t	pid;
-	int		status;
 
 	if (pipe(p_fd) == -1)
 		exit(EXIT_FAILURE);
-	pid = fork();
-	if (pid == -1)
+	data->pids[data->pipes++] = fork();
+	if (data->pids[data->pipes] == -1)
 		exit(EXIT_FAILURE);
-	if (pid == 0)
+	if (data->pids[data->pipes++] == 0)
 	{
 		close(p_fd[0]);
 		if (!(data->cmd_table->next->in == HEREDOC))
 			dup2(p_fd[1], 1);
 		exec_process(data);
 	}
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		g_global.error_num = WEXITSTATUS(status);
 	close(p_fd[1]);
 	dup2(p_fd[0], 0);
 }

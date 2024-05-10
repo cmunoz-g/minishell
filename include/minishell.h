@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 11:49:24 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:52:08 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ typedef struct s_minishell
 	char		**env_vars;
 	char		**export_vars;
 	char		*pwd;
+	pid_t		*pids;
+	int			pipes;
 	char		*old_pwd;
 }				t_minishell;
 
@@ -205,6 +207,7 @@ void		free_arr(char **arr);
 void		send_to_stderr(char *co, char *ar, char *err, int is_out);
 
 //	exec_utils
+int			get_n_of_pipes(t_minishell *data);
 char		*get_path(char *cmd, char **env);
 char		*my_getenv(char *key, char **env);
 int			open_file(char *name, int to_write);

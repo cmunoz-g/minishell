@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:22:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/10 10:23:38 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:50:35 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_minishell	*init(char **envp)
 	data->cmd_table = NULL;
 	data->cmd_table = NULL;
 	data->line = NULL;
+	data->pids = NULL;
+	data->pipes = 0;
 	data->env_vars = ft_arrdup(envp);
 	data->local_vars = NULL;
 	data->export_vars = ft_arrdup(data->env_vars);

@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:16:35 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 11:50:09 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:51:49 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void	cmd_table_no_vars(t_minishell *data)
 	}
 }
 
-void	local_variables(t_minishell *data) // DEBEN ACTUALIZAR EXPORT TAMBIEN
+void	local_variables(t_minishell *data) 
 {
 	t_cmd_table	*tmp;
 	char		**new_env;

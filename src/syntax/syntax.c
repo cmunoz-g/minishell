@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:15:16 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/09 10:22:56 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:57:06 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	check_syntax_pipe(t_token *it)
 		print_syntax_error(it);
 		return (1);
 	}
-	if (it->next && (it->next->type != CMD))
+	if (it->next && (it->next->type == PIPE || it->next->type == DOUBLEPIPE))
 	{
 		print_syntax_error(it);
 		return (1);

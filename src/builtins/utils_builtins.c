@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:50:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/08 17:16:00 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/10 18:04:12 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,7 @@ void	run_builtin(t_minishell *data)
 void	simple_builtin_executor(t_minishell *data)
 {
 	int		ret;
-	int		in;
-	int		out;
 
-	in = dup(STDIN_FILENO);
-	out = dup(STDOUT_FILENO);
 	if (check_all_heredocs(data))
 		g_global.error_num = 130;
 	if (data->cmd_table->n_redirections > 0)
@@ -46,8 +42,6 @@ void	simple_builtin_executor(t_minishell *data)
 	}
 	if (!g_global.stop_heredoc)
 		run_builtin(data);
-	dup2(in, STDIN_FILENO);
-	dup2(out, STDOUT_FILENO);
 }
 
 int	execute_builtin(t_minishell *data, int (*builtin_arr)(t_minishell *data))

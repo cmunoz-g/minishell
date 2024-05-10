@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 18:01:58 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/10 18:14:35 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,30 +95,16 @@ static void	print_exit_msg(int wstatus, int signo)
 	ft_putstr_fd("\n", STDERR_FILENO);
 }
 
-static void	create_main_fork(t_minishell *data)
+static void	wait_pids(t_minishell *data, int n_pipes)
 {
-	int			status;
-	int			signo;
-	int			n_pipes;
-	int			i;
+	int	status;
+	int	i;
+	int	signo;
 
-	n_pipes = get_n_of_pipes(data);
-	data->pids = ft_calloc(n_pipes + 2, sizeof(pid_t *));
-	data->pids[data->pipes++] = fork();
-	if (data->pids[data->pipes - 1] == -1)
-		exit(EXIT_FAILURE);
-	if (data->pids[data->pipes - 1] == 0)
-	{
-		if (executor(data))
-		{
-			g_global.error_num = 130;
-			exit(130);
-		}
-	}
 	i = 0;
-	while (i <= data->pipes)
+	while (i <= n_pipes)
 	{
-		waitpid(data->pids[data->pipes], &status, 0);
+		waitpid(data->pids[i], &status, 0);
 		if (WIFEXITED(status))
 			g_global.error_num = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
@@ -129,6 +115,27 @@ static void	create_main_fork(t_minishell *data)
 		}
 		i++;
 	}
+}
+
+static void	create_main_fork(t_minishell *data)
+{
+	int	n_pipes;
+	int	pipe_n;
+
+	n_pipes = get_n_of_pipes(data);
+	data->pids = ft_calloc(n_pipes + 2, sizeof(pid_t *));
+	pipe_n = ft_fork(data);
+	if (data->pids[pipe_n] == -1)
+		exit(EXIT_FAILURE);
+	if (data->pids[pipe_n] == 0)
+	{
+		if (executor(data))
+		{
+			g_global.error_num = 130;
+			exit(130);
+		}
+	}
+	wait_pids(data, n_pipes);
 }
 
 void	minishell_loop(t_minishell *data)
@@ -169,7 +176,8 @@ void	reset_loop(t_minishell *data)
 		data->token_list = NULL;
 	if (data->pids)
 		free(data->pids);
-	data->pipes = 0;
 	init_signal_vars();
+	dup2(data->fd_in, STDIN_FILENO);
+	dup2(data->fd_out, STDOUT_FILENO);
 	minishell_loop(data);
 }

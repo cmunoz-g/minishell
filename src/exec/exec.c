@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/10 18:00:27 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/10 18:12:07 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,15 @@ static void	exec_process(t_minishell *data)
 
 static void	do_pipe(t_minishell *data)
 {
-	int		p_fd[2];
+	int	p_fd[2];
+	int	pipe_n;
 
 	if (pipe(p_fd) == -1)
 		exit(EXIT_FAILURE);
-	data->pids[data->pipes++] = fork();
-	if (data->pids[data->pipes] == -1)
+	pipe_n = ft_fork(data);
+	if (data->pids[pipe_n] == -1)
 		exit(EXIT_FAILURE);
-	if (data->pids[data->pipes++] == 0)
+	if (data->pids[pipe_n] == 0)
 	{
 		close(p_fd[0]);
 		if (!(data->cmd_table->next->in == HEREDOC))

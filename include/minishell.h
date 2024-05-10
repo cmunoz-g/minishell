@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 17:52:08 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/10 18:12:46 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ typedef struct s_minishell
 	char		**export_vars;
 	char		*pwd;
 	pid_t		*pids;
-	int			pipes;
+	int			fd_in;
+	int			fd_out;
 	char		*old_pwd;
 }				t_minishell;
 
@@ -102,6 +103,7 @@ typedef struct s_global
 	int	stop_heredoc;
 	int	in_cmd;
 	int	in_heredoc;
+	int	reset_pipes;
 }				t_global;
 
 //	main
@@ -207,6 +209,7 @@ void		free_arr(char **arr);
 void		send_to_stderr(char *co, char *ar, char *err, int is_out);
 
 //	exec_utils
+int			ft_fork(t_minishell *data);
 int			get_n_of_pipes(t_minishell *data);
 char		*get_path(char *cmd, char **env);
 char		*my_getenv(char *key, char **env);

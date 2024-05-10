@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_export_order.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:00:36 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 16:06:10 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/10 10:56:33 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	env_order(t_minishell *data)
 	int		i;
 	int		j;
 
-	sorted_env = ft_arrdup(data->env_vars);
+	sorted_env = ft_arrdup(data->export_vars);
 	n = get_nbr_env(sorted_env);
 	quicksort(sorted_env, 0, n - 1);
 	i = 0;
@@ -70,13 +70,18 @@ void	env_order(t_minishell *data)
 	while (sorted_env[i])
 	{
 		printf("declare -x ");
-		while (sorted_env[i][j] != '=')
+		while (sorted_env[i][j] && sorted_env[i][j] != '=')
 			printf("%c", sorted_env[i][j++]);
-		printf("=\"");
-		j++;
-		while (sorted_env[i][j])
-			printf("%c", sorted_env[i][j++]);
-		printf("\"\n");
+		if (sorted_env[i][j] == '=')
+		{
+			printf("=\"");
+			j++;
+			while (sorted_env[i][j])
+				printf("%c", sorted_env[i][j++]);
+			printf("\"\n");
+		}
+		else
+			printf("\n");
 		j = 0;
 		i++;
 	}

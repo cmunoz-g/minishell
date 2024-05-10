@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/08 11:26:55 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:49:24 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_minishell
 	t_cmd_table	*cmd_table;
 	t_variable	*local_vars;
 	char		**env_vars;
+	char		**export_vars;
 	char		*pwd;
 	char		*old_pwd;
 }				t_minishell;
@@ -131,6 +132,7 @@ char		**add_variable(char *variable, char **env, t_minishell *data);
 char		**mod_var(char **env, t_minishell *data, char *variable);
 void		mod_var_aux(t_minishell *data, char **new_env,
 				int *n_v_i, char *var);
+char		**mod_var_export(char **export_vars, t_minishell *data, char *variable);
 
 //	mini_export_order
 void		env_order(t_minishell *data);

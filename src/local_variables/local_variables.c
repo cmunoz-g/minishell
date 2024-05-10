@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:16:35 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 09:57:13 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:50:09 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,14 +167,16 @@ void	cmd_table_no_vars(t_minishell *data)
 	}
 }
 
-void	local_variables(t_minishell *data)
+void	local_variables(t_minishell *data) // DEBEN ACTUALIZAR EXPORT TAMBIEN
 {
 	t_cmd_table	*tmp;
 	char		**new_env;
+	char		**new_export;
 	bool		var;
 
 	tmp = data->cmd_table;
 	new_env = NULL;
+	new_export = NULL;
 	var = false;
 	while (tmp)
 	{
@@ -187,6 +189,12 @@ void	local_variables(t_minishell *data)
 				new_env = mod_var(data->env_vars, data, tmp->cmd);
 				free_arr(data->env_vars);
 				data->env_vars = new_env;
+			}
+			if (!variable_in_env_char(tmp->cmd, data->export_vars))
+			{
+				new_export = mod_var_export(data->env_vars, data, tmp->cmd);
+				free_arr(data->export_vars);
+				data->export_vars = new_export;
 			}
 			else
 				local_variables_aux(data, tmp);

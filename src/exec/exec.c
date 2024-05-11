@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/11 13:39:01 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/11 13:48:26 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ static void	do_pipe(t_minishell *data, int pipe_n)
 
 	if (pipe(p_fd) == -1)
 		exit(EXIT_FAILURE);
-	if (data->pids[pipe_n] == -1)
-		exit(EXIT_FAILURE);
+	printf("pid is %d\n", data->pids[pipe_n]);
 	if (data->pids[pipe_n] == 0)
 	{
 		close(p_fd[0]);
@@ -112,7 +111,6 @@ int	single_cmd(t_minishell *data)
 
 void	handle_cmd(t_minishell *data, int i)
 {
-	redirect_all(data);
 	if (!data->cmd_table->cmd)
 		exit(EXIT_SUCCESS);
 	if (!data->cmd_table->next || data->cmd_table->out == TRUNC

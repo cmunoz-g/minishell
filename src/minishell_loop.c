@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/11 14:22:48 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/11 14:37:53 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,19 +119,11 @@ static void	wait_pids(t_minishell *data, int n_pipes)
 /*
 	Currently `cat | cat | ls` doesn't exit: maybe related to piping process?
 */
-int	executor(t_minishell *data)
+
+int	iter_over_cmds(t_minishell *data)
 {
-	int	n_pipes;
 	int	p_fd[2];
 
-	n_pipes = get_n_of_pipes(data);
-	data->pids = ft_calloc(n_pipes + 2, sizeof(pid_t *));
-	if (!data->pids)
-		return (EXIT_FAILURE);
-	if (check_all_heredocs(data))
-		return (EXIT_FAILURE);
-	if (n_pipes == 0)
-		return (single_cmd(data));
 	while (data->cmd_table)
 	{
 		redirect_all(data);
@@ -142,6 +134,23 @@ int	executor(t_minishell *data)
 		dup2(p_fd[0], STDIN_FILENO);
 		data->cmd_table = data->cmd_table->next;
 	}
+	return (EXIT_SUCCESS);
+}
+
+int	executor(t_minishell *data)
+{
+	int	n_pipes;
+
+	n_pipes = get_n_of_pipes(data);
+	data->pids = ft_calloc(n_pipes + 2, sizeof(pid_t *));
+	if (!data->pids)
+		return (EXIT_FAILURE);
+	if (check_all_heredocs(data))
+		return (EXIT_FAILURE);
+	if (n_pipes == 0)
+		return (single_cmd(data));
+	if (iter_over_cmds(data))
+		return (EXIT_FAILURE);
 	wait_pids(data, n_pipes);
 	return (EXIT_SUCCESS);
 }

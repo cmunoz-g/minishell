@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/11 12:48:52 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/11 13:18:05 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,47 +91,30 @@ static void	do_pipe(t_minishell *data, int pipe_n)
 
 int	single_cmd(t_minishell *data)
 {
-	int		ret;
 	pid_t	pid;
 	int		status;
 
 	if (!data->cmd_table)
 		exit(EXIT_SUCCESS);
-	if (data->cmd_table->n_redirections > 0)
-	{
-		ret = redirect(data->cmd_table, 0);
-		if (ret)
-		{
-			g_global.error_num = ret;
-			exit(ret);
-		}
-	}
+	redirect_all(data);
 	pid = fork();
 	if (pid == -1)
 		return (EXIT_FAILURE);
 	if (!data->cmd_table->cmd)
-		return (EXIT_SUCCESS);
+		exit (EXIT_SUCCESS);
 	if (pid == 0)
 		exec_process(data);
 	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		g_global.error_num = WEXITSTATUS(status);
 	return (EXIT_SUCCESS);
 }
 
 void	handle_cmd(t_minishell *data, int i)
 {
-	int	ret;
-
 	if (!data->cmd_table)
 		exit(EXIT_SUCCESS);
-	if (data->cmd_table->n_redirections > 0)
-	{
-		ret = redirect(data->cmd_table, 0);
-		if (ret)
-		{
-			g_global.error_num = ret;
-			exit(ret);
-		}
-	}
+	redirect_all(data);
 	if (!data->cmd_table->cmd)
 		exit(EXIT_SUCCESS);
 	if (!data->cmd_table->next || data->cmd_table->out == TRUNC

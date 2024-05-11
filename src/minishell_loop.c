@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/11 12:49:27 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/11 13:09:27 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,12 +129,15 @@ static int	create_main_fork(t_minishell *data)
 		return (EXIT_FAILURE);
 	if (n_pipes == 0)
 		single_cmd(data);
-	while (data->cmd_table)
+	else
 	{
-		ft_fork(data);
-		data->cmd_table = data->cmd_table->next;
+		while (data->cmd_table)
+		{
+			ft_fork(data);
+			data->cmd_table = data->cmd_table->next;
+		}
+		wait_pids(data, n_pipes);
 	}
-	wait_pids(data, n_pipes);
 	return (EXIT_SUCCESS);
 }
 

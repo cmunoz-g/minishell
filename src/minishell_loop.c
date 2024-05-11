@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/11 14:18:02 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/11 14:22:48 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,9 @@ static void	wait_pids(t_minishell *data, int n_pipes)
 		i++;
 	}
 }
+/*
+	Currently `cat | cat | ls` doesn't exit: maybe related to piping process?
+*/
 int	executor(t_minishell *data)
 {
 	int	n_pipes;

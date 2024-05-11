@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/11 13:17:49 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/11 14:15:47 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,15 +209,14 @@ void		free_arr(char **arr);
 void		send_to_stderr(char *co, char *ar, char *err, int is_out);
 
 //	exec_utils
-void		ft_fork(t_minishell *data);
 int			get_n_of_pipes(t_minishell *data);
 char		*get_path(char *cmd, char **env);
 char		*my_getenv(char *key, char **env);
 int			open_file(char *name, int to_write);
 
 //	exec
-void		handle_cmd(t_minishell *data, int i);
 int			single_cmd(t_minishell *data);
+void		ft_fork(t_minishell *data, int *p_fd);
 
 //	expand
 char		*expand(char *str, int is_heredoc, t_minishell *data);

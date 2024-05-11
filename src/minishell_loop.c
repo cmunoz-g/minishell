@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/11 13:50:33 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/11 14:18:02 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,10 @@ static void	wait_pids(t_minishell *data, int n_pipes)
 		i++;
 	}
 }
-
-static int	executor(t_minishell *data)
+int	executor(t_minishell *data)
 {
 	int	n_pipes;
+	int	p_fd[2];
 
 	n_pipes = get_n_of_pipes(data);
 	data->pids = ft_calloc(n_pipes + 2, sizeof(pid_t *));
@@ -132,7 +132,11 @@ static int	executor(t_minishell *data)
 	while (data->cmd_table)
 	{
 		redirect_all(data);
-		ft_fork(data);
+		if (pipe(p_fd) == -1)
+			return (EXIT_FAILURE);
+		ft_fork(data, p_fd);
+		close(p_fd[1]);
+		dup2(p_fd[0], STDIN_FILENO);
 		data->cmd_table = data->cmd_table->next;
 	}
 	wait_pids(data, n_pipes);

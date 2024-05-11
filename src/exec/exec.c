@@ -6,14 +6,14 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/11 13:48:26 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/11 14:16:05 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	check_and_exec_if_executable(char **str, t_minishell *data);
-static void	do_pipe(t_minishell *data, int i);
+static void	handle_cmd(t_minishell *data, int *p_fd);
 static void	exec_process(t_minishell *data);
 
 static void	check_and_exec_if_executable(char **str, t_minishell *data)
@@ -70,24 +70,6 @@ static void	exec_process(t_minishell *data)
 	}
 }
 
-static void	do_pipe(t_minishell *data, int pipe_n)
-{
-	int	p_fd[2];
-
-	if (pipe(p_fd) == -1)
-		exit(EXIT_FAILURE);
-	printf("pid is %d\n", data->pids[pipe_n]);
-	if (data->pids[pipe_n] == 0)
-	{
-		close(p_fd[0]);
-		if (!(data->cmd_table->next->in == HEREDOC))
-			dup2(p_fd[1], 1);
-		exec_process(data);
-	}
-	close(p_fd[1]);
-	dup2(p_fd[0], 0);
-}
-
 int	single_cmd(t_minishell *data)
 {
 	pid_t	pid;
@@ -109,13 +91,35 @@ int	single_cmd(t_minishell *data)
 	return (EXIT_SUCCESS);
 }
 
-void	handle_cmd(t_minishell *data, int i)
+void	ft_fork(t_minishell *data, int *p_fd)
 {
+	static int	i = 0;
+
+	if (g_global.reset_pipes)
+	{
+		g_global.reset_pipes = 0;
+		i = 0;
+	}
+	data->pids[i] = fork();
+	if (data->pids[i] == -1)
+		exit(EXIT_FAILURE);
+	if (data->pids[i] == 0)
+		handle_cmd(data, p_fd);
+	i++;
+}
+
+static void	handle_cmd(t_minishell *data, int *p_fd)
+{
+	close(p_fd[0]);
 	if (!data->cmd_table->cmd)
 		exit(EXIT_SUCCESS);
 	if (!data->cmd_table->next || data->cmd_table->out == TRUNC
 		|| data->cmd_table->out == APPEND)
 		exec_process(data);
 	else if (data->cmd_table->next)
-		do_pipe(data, i);
+	{
+		if (!(data->cmd_table->next->in == HEREDOC))
+			dup2(p_fd[1], 1);
+		exec_process(data);
+	}
 }

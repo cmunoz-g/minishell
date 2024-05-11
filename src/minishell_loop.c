@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/11 13:35:57 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/11 13:50:33 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,16 +128,14 @@ static int	executor(t_minishell *data)
 	if (check_all_heredocs(data))
 		return (EXIT_FAILURE);
 	if (n_pipes == 0)
-		single_cmd(data);
-	else
+		return (single_cmd(data));
+	while (data->cmd_table)
 	{
-		while (data->cmd_table)
-		{
-			ft_fork(data);
-			data->cmd_table = data->cmd_table->next;
-		}
-		wait_pids(data, n_pipes);
+		redirect_all(data);
+		ft_fork(data);
+		data->cmd_table = data->cmd_table->next;
 	}
+	wait_pids(data, n_pipes);
 	return (EXIT_SUCCESS);
 }
 

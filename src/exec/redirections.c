@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/11 14:57:51 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/11 15:01:53 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,33 +92,4 @@ void	redirect_all(t_minishell *data)
 			exit(ret);
 		}
 	}
-}
-
-int	check_fd_heredocs(t_minishell *data, int *p_fd)
-{
-	int	i;
-	int	fd_in;
-
-	fd_in = 0;
-	if (data->cmd_table->n_redirections > 0)
-	{
-		i = 0;
-		while (i < data->cmd_table->n_redirections)
-		{
-			if (data->cmd_table->redirections[i]->type == HEREDOC)
-			{
-				close(p_fd[0]);
-				fd_in = open(data->cmd_table->hd_file, O_RDONLY);
-				if (fd_in == -1)
-				{
-					g_global.error_num = EXIT_FAILURE;
-					exit(EXIT_FAILURE);
-				}
-			}
-			i++;
-		}
-	}
-	if (!fd_in)
-		fd_in = p_fd[0];
-	return (fd_in);
 }

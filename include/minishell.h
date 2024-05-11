@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/11 14:56:07 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/11 15:04:02 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,9 @@ int			open_file(char *name, int to_write);
 int			single_cmd(t_minishell *data);
 void		ft_fork(t_minishell *data, int *p_fd);
 
+// main_exec
+int			executor(t_minishell *data);
+
 //	expand
 char		*expand(char *str, int is_heredoc, t_minishell *data);
 
@@ -227,7 +230,6 @@ int			check_all_heredocs(t_minishell *data);
 //	redirections
 int			redirect(t_cmd_table *tbl, int is_builtin);
 void		redirect_all(t_minishell *data);
-int			check_fd_heredocs(t_minishell *data, int *p_fd);
 
 /***							LEXER							***/
 //	lexer_utils

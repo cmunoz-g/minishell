@@ -6,13 +6,13 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/11 13:09:27 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/11 13:35:57 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	create_main_fork(t_minishell *data);
+static int	executor(t_minishell *data);
 static void	parse_data(t_minishell *data, bool *err_syntax);
 static void	print_exit_msg(int wstatus, int signo);
 
@@ -117,7 +117,7 @@ static void	wait_pids(t_minishell *data, int n_pipes)
 	}
 }
 
-static int	create_main_fork(t_minishell *data)
+static int	executor(t_minishell *data)
 {
 	int	n_pipes;
 
@@ -163,7 +163,7 @@ void	minishell_loop(t_minishell *data)
 			&& check_if_builtin(data->cmd_table->cmd))
 			simple_builtin_executor(data);
 		else
-			create_main_fork(data);
+			executor(data);
 		g_global.in_cmd = 0;
 	}
 	reset_loop(data);

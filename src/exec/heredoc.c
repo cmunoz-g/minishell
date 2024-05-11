@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:11:14 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 17:07:40 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/11 13:36:35 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,10 @@ int	check_all_heredocs(t_minishell *data)
 	while (data->cmd_table)
 	{
 		if (check_heredocs(data))
+		{
+			g_global.error_num = 130;
 			return (EXIT_FAILURE);
+		}
 		data->cmd_table = data->cmd_table->next;
 	}
 	data->cmd_table = start;

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/11 14:37:53 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/11 14:56:49 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,13 +117,16 @@ static void	wait_pids(t_minishell *data, int n_pipes)
 	}
 }
 /*
-	Currently `cat | cat | ls` doesn't exit: maybe related to piping process?
+	Currently `cat | cat | ls << END` doesn't exit:
+	probably related to line 140, might have to check 
+	whether there is existing heredoc to pipe it there
 */
-
 int	iter_over_cmds(t_minishell *data)
 {
 	int	p_fd[2];
+	int	fd_in;
 
+	fd_in = data->fd_in;
 	while (data->cmd_table)
 	{
 		redirect_all(data);
@@ -132,6 +135,9 @@ int	iter_over_cmds(t_minishell *data)
 		ft_fork(data, p_fd);
 		close(p_fd[1]);
 		dup2(p_fd[0], STDIN_FILENO);
+		if (data->cmd_table->prev)
+			close(fd_in);
+		fd_in = check_fd_heredocs(data, p_fd);
 		data->cmd_table = data->cmd_table->next;
 	}
 	return (EXIT_SUCCESS);

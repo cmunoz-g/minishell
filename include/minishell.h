@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/11 14:15:47 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/11 14:56:07 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,7 @@ int			check_all_heredocs(t_minishell *data);
 //	redirections
 int			redirect(t_cmd_table *tbl, int is_builtin);
 void		redirect_all(t_minishell *data);
+int			check_fd_heredocs(t_minishell *data, int *p_fd);
 
 /***							LEXER							***/
 //	lexer_utils

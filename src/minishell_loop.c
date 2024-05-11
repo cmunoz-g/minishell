@@ -6,13 +6,13 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 18:28:37 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/11 12:49:27 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	create_main_fork(t_minishell *data);
+static int	create_main_fork(t_minishell *data);
 static void	parse_data(t_minishell *data, bool *err_syntax);
 static void	print_exit_msg(int wstatus, int signo);
 
@@ -117,27 +117,25 @@ static void	wait_pids(t_minishell *data, int n_pipes)
 	}
 }
 
-static void	create_main_fork(t_minishell *data)
+static int	create_main_fork(t_minishell *data)
 {
 	int	n_pipes;
-	int	pipe_n;
 
 	n_pipes = get_n_of_pipes(data);
 	data->pids = ft_calloc(n_pipes + 2, sizeof(pid_t *));
 	if (!data->pids)
-		exit(EXIT_FAILURE);
-	pipe_n = ft_fork(data);
-	if (data->pids[pipe_n] == -1)
-		exit(EXIT_FAILURE);
-	if (data->pids[pipe_n] == 0)
+		return (EXIT_FAILURE);
+	if (check_all_heredocs(data))
+		return (EXIT_FAILURE);
+	if (n_pipes == 0)
+		single_cmd(data);
+	while (data->cmd_table)
 	{
-		if (executor(data))
-		{
-			g_global.error_num = 130;
-			exit(130);
-		}
+		ft_fork(data);
+		data->cmd_table = data->cmd_table->next;
 	}
 	wait_pids(data, n_pipes);
+	return (EXIT_SUCCESS);
 }
 
 void	minishell_loop(t_minishell *data)

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:17:12 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/10 18:12:33 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/11 12:50:30 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	get_n_of_pipes(t_minishell *data)
 	return (n);
 }
 
-int	ft_fork(t_minishell *data)
+void	ft_fork(t_minishell *data)
 {
 	static int	i = 0;
 
@@ -35,8 +35,11 @@ int	ft_fork(t_minishell *data)
 		i = 0;
 	}
 	data->pids[i] = fork();
+	if (data->pids[i] == -1)
+		exit(EXIT_FAILURE);
+	if (data->pids[i] == 0)
+		handle_cmd(data, i);
 	i++;
-	return (i - 1);
 }
 
 int	open_file(char *name, int to_write)

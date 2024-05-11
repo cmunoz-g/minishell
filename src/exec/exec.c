@@ -6,16 +6,15 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/10 18:12:07 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/11 12:48:52 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	check_and_exec_if_executable(char **str, t_minishell *data);
-static void	do_pipe(t_minishell *data);
+static void	do_pipe(t_minishell *data, int i);
 static void	exec_process(t_minishell *data);
-static void	handle_cmd(t_minishell *data);
 
 static void	check_and_exec_if_executable(char **str, t_minishell *data)
 {
@@ -71,14 +70,12 @@ static void	exec_process(t_minishell *data)
 	}
 }
 
-static void	do_pipe(t_minishell *data)
+static void	do_pipe(t_minishell *data, int pipe_n)
 {
 	int	p_fd[2];
-	int	pipe_n;
 
 	if (pipe(p_fd) == -1)
 		exit(EXIT_FAILURE);
-	pipe_n = ft_fork(data);
 	if (data->pids[pipe_n] == -1)
 		exit(EXIT_FAILURE);
 	if (data->pids[pipe_n] == 0)
@@ -92,7 +89,35 @@ static void	do_pipe(t_minishell *data)
 	dup2(p_fd[0], 0);
 }
 
-static void	handle_cmd(t_minishell *data)
+int	single_cmd(t_minishell *data)
+{
+	int		ret;
+	pid_t	pid;
+	int		status;
+
+	if (!data->cmd_table)
+		exit(EXIT_SUCCESS);
+	if (data->cmd_table->n_redirections > 0)
+	{
+		ret = redirect(data->cmd_table, 0);
+		if (ret)
+		{
+			g_global.error_num = ret;
+			exit(ret);
+		}
+	}
+	pid = fork();
+	if (pid == -1)
+		return (EXIT_FAILURE);
+	if (!data->cmd_table->cmd)
+		return (EXIT_SUCCESS);
+	if (pid == 0)
+		exec_process(data);
+	waitpid(pid, &status, 0);
+	return (EXIT_SUCCESS);
+}
+
+void	handle_cmd(t_minishell *data, int i)
 {
 	int	ret;
 
@@ -113,17 +138,5 @@ static void	handle_cmd(t_minishell *data)
 		|| data->cmd_table->out == APPEND)
 		exec_process(data);
 	else if (data->cmd_table->next)
-		do_pipe(data);
-}
-
-int	executor(t_minishell *data)
-{
-	if (check_all_heredocs(data))
-		return (EXIT_FAILURE);
-	while (data->cmd_table)
-	{
-		handle_cmd(data);
-		data->cmd_table = data->cmd_table->next;
-	}
-	return (EXIT_SUCCESS);
+		do_pipe(data, i);
 }

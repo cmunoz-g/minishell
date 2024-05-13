@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/11 14:16:05 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/13 09:27:49 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,7 @@ static void	handle_cmd(t_minishell *data, int *p_fd)
 		exec_process(data);
 	else if (data->cmd_table->next)
 	{
-		if (!(data->cmd_table->next->in == HEREDOC))
-			dup2(p_fd[1], 1);
+		dup2(p_fd[1], STDOUT_FILENO);
 		exec_process(data);
 	}
 }

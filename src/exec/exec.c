@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/13 09:53:04 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/13 09:54:34 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ int	single_cmd(t_minishell *data)
 
 	if (!data->cmd_table)
 		return (EXIT_SUCCESS);
-	redirect_all(data);
+	if (redirect_all(data))
+		return (EXIT_FAILURE);
 	pid = fork();
 	if (pid == -1)
 		return (EXIT_FAILURE);

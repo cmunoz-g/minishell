@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:00:23 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/13 09:47:44 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/13 09:54:57 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ static int	iter_over_cmds(t_minishell *data)
 	fd_in = data->fd_in;
 	while (data->cmd_table)
 	{
-		redirect_all(data);
+		if (redirect_all(data))
+			return (EXIT_FAILURE);
 		if (pipe(p_fd) == -1)
 			return (EXIT_FAILURE);
 		ft_fork(data, p_fd);

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/11 15:01:53 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/13 09:55:25 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	redirect(t_cmd_table *tbl, int is_builtin)
 	return (EXIT_SUCCESS);
 }
 
-void	redirect_all(t_minishell *data)
+int	redirect_all(t_minishell *data)
 {
 	int	ret;
 
@@ -89,7 +89,8 @@ void	redirect_all(t_minishell *data)
 		if (ret)
 		{
 			g_global.error_num = ret;
-			exit(ret);
+			return (ret);
 		}
 	}
+	return (EXIT_SUCCESS);
 }

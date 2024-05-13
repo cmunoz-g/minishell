@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:26:15 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 10:03:02 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/13 12:28:36 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	alloc_cmd_table(t_cmd_table **cmd_list)
 
 	cmd_table = (t_cmd_table *)malloc(sizeof(t_cmd_table));
 	if (!cmd_table)
-		clean_cmd_table_list(cmd_list);
+		clean_cmd_table_list(*cmd_list);
 	last = get_last_cmd_table(*cmd_list);
 	if (!(*cmd_list))
 	{

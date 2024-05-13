@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/11 15:03:49 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/13 12:10:23 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,10 @@ void	reset_loop(t_minishell *data)
 		data->pids = NULL;
 	}
 	if (data->cmd_table)
-		clean_cmd_table_list(&(data->cmd_table));
+	{
+		clean_cmd_table_list(data->cmd_table);
+		data->cmd_table = NULL;
+	}
 	if (data->line || ft_strlen(data->line))
 		free(data->line);
 	if (data->token_list)

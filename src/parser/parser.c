@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:26:15 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/13 12:11:02 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/13 12:34:29 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	parser(t_cmd_table **cmd_table, t_token **token_list)
 	{
 		if (!parser_conditions(*token_list))
 		{
-			printf("%s, %d\n",(*token_list)->value, parser_conditions(*token_list));
 			alloc_cmd_table(cmd_table);
 			gen_cmd_table(tmp, cmd_table, s_e[0], s_e[1] + 1);
 			s_e[0] = s_e[1];

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:22:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/10 18:10:58 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/13 11:22:15 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ t_minishell	*init(char **envp)
 
 	data = (t_minishell *)malloc(sizeof(t_minishell));
 	data->token_list = NULL;
-	data->cmd_table = NULL;
 	data->cmd_table = NULL;
 	data->line = NULL;
 	data->pids = NULL;

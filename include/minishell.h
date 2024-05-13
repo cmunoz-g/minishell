@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/13 09:54:01 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/13 10:12:45 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,8 @@ char		**add_variable(char *variable, char **env, t_minishell *data);
 char		**mod_var(char **env, t_minishell *data, char *variable);
 void		mod_var_aux(t_minishell *data, char **new_env,
 				int *n_v_i, char *var);
-char		**mod_var_export(char **export_vars, t_minishell *data, char *variable);
+char		**mod_var_export(char **export_vars,
+				t_minishell *data, char *variable);
 
 //	mini_export_order
 void		env_order(t_minishell *data);

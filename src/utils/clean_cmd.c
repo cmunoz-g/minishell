@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:06:24 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/13 11:18:59 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:27:57 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	clean_cmd_table_list(t_cmd_table **cmd_table)
 
 	i = 0;
 	j = 0;
-	printf("entre");
 	cmd_table = get_first_node(&cmd_table);
 	while (*cmd_table)
 	{

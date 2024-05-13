@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:30:07 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 12:13:22 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/13 12:17:31 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,40 @@
 // cmunoz-g@c1r3s2:~/Documents/minishell$ echo $hola
 // hola
 
-void	print_tokens(t_token *token_list) // borrar
+// void	print_tokens(t_token *token_list) // borrar
+// {
+// 	while (token_list)
+// 	{
+// 	 	printf("value:%s type:%d\n",token_list->value, token_list->type);
+// 	 	token_list = token_list->next;
+// 	}
+// }
+
+int	check_first_cmd(t_token *it_variable)
 {
-	while (token_list)
+	t_token	*tmp;
+
+	tmp = it_variable;
+	while (tmp->prev)
+		tmp = tmp->prev;
+	if (!ft_strncmp("export", tmp->value, 6))
+		return (0);
+	else
+		return (1);
+}
+
+int	check_if_pipe(t_token *it_variable)
+{
+	t_token *tmp;
+
+	tmp = it_variable;
+	while (tmp->prev)
 	{
-	 	printf("value:%s type:%d\n",token_list->value, token_list->type);
-	 	token_list = token_list->next;
+		if (tmp->type == PIPE)
+			return (1);
+		tmp = tmp->prev;
 	}
+	return (0);
 }
 
 int	check_if_repeated_value(t_token *it_variable)
@@ -98,11 +125,16 @@ void	check_local_var(t_token **token_list, char *line)
 		else if (it_variable->prev && it_variable->variable == true)
 		{
 			if (it_variable->prev->variable || it_variable->prev->type != CMD)
-				it_variable->type = CMD;
+			{
+				if (!check_first_cmd(it_variable) && !check_if_pipe(it_variable))
+					it_variable->type = ARG;
+				else
+					it_variable->type = CMD;
+			}
 		}
 		else if (it_variable->prev && it_variable->variable == false)
 		{
-			if (it_variable->prev->variable == true && is_quoted_var(it_variable->value))
+			if (it_variable->type != PIPE && it_variable->prev->variable == true && is_quoted_var(it_variable->value))
 				it_variable->type = CMD;
 			else if (it_variable->prev->type != CMD && !is_quoted_var(it_variable->value) && (!is_there_space(it_variable, line))) 
 				it_variable->type = CMD;

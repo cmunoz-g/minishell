@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:00:23 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/13 09:54:57 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/13 11:24:38 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,12 @@ static int	check_fd_heredocs(t_minishell *data, int *p_fd)
 
 static int	iter_over_cmds(t_minishell *data)
 {
-	int	p_fd[2];
-	int	fd_in;
+	int			p_fd[2];
+	int			fd_in;
+	t_cmd_table	*start;
 
 	fd_in = data->fd_in;
+	start = data->cmd_table;
 	while (data->cmd_table)
 	{
 		if (redirect_all(data))
@@ -94,6 +96,7 @@ static int	iter_over_cmds(t_minishell *data)
 		fd_in = check_fd_heredocs(data, p_fd);
 		data->cmd_table = data->cmd_table->next;
 	}
+	data->cmd_table = start;
 	return (EXIT_SUCCESS);
 }
 

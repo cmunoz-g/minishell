@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:01:30 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 10:34:11 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/13 12:09:54 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	clean_data(t_minishell **data)
 	if ((*data)->local_vars)
 		clean_local_vars(&(*data)->local_vars);
 	if ((*data)->cmd_table)
-		clean_cmd_table_list(&((*data)->cmd_table));
+		clean_cmd_table_list(((*data)->cmd_table));
 	rl_clear_history();
 	free((*data));
 }

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:00:23 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/13 11:24:38 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/13 12:00:11 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	executor(t_minishell *data)
 		return (EXIT_FAILURE);
 	if (n_pipes == 0)
 		return (single_cmd(data));
-	else if (iter_over_cmds(data))
+	if (iter_over_cmds(data))
 		return (EXIT_FAILURE);
 	wait_pids(data, n_pipes);
 	return (EXIT_SUCCESS);

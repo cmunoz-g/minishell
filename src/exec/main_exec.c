@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:00:23 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/13 12:00:11 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/13 17:02:21 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ static int	iter_over_cmds(t_minishell *data)
 	start = data->cmd_table;
 	while (data->cmd_table)
 	{
-		if (redirect_all(data))
-			return (EXIT_FAILURE);
+		redirect_all(data);
 		if (pipe(p_fd) == -1)
 			return (EXIT_FAILURE);
 		ft_fork(data, p_fd);
@@ -103,6 +102,7 @@ static int	iter_over_cmds(t_minishell *data)
 int	executor(t_minishell *data)
 {
 	int	n_pipes;
+	int	ret;
 
 	n_pipes = get_n_of_pipes(data);
 	data->pids = ft_calloc(n_pipes + 2, sizeof(pid_t *));
@@ -112,8 +112,7 @@ int	executor(t_minishell *data)
 		return (EXIT_FAILURE);
 	if (n_pipes == 0)
 		return (single_cmd(data));
-	if (iter_over_cmds(data))
-		return (EXIT_FAILURE);
+	ret = iter_over_cmds(data);
 	wait_pids(data, n_pipes);
-	return (EXIT_SUCCESS);
+	return (ret);
 }

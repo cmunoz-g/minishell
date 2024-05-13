@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/13 11:09:06 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:23:30 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,6 @@ void	minishell_loop(t_minishell *data)
 	else if (check_spaces(data->line) || ft_strlen(data->line) == 0)
 		reset_loop(data);
 	parse_data(data, &err_syntax);
-	print_cmd_table(data->cmd_table);
-	exit(0);
 	local_variables(data);
 	if (!err_syntax)
 	{
@@ -120,7 +118,9 @@ void	reset_loop(t_minishell *data)
 		data->pids = NULL;
 	}
 	if (data->cmd_table)
+	{
 		clean_cmd_table_list(&(data->cmd_table));
+	}
 	if (data->line || ft_strlen(data->line))
 		free(data->line);
 	if (data->token_list)

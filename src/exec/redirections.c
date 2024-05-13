@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/07 17:07:50 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/13 09:55:25 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,22 @@ int	redirect(t_cmd_table *tbl, int is_builtin)
 				return (EXIT_FAILURE);
 		}
 		i++;
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	redirect_all(t_minishell *data)
+{
+	int	ret;
+
+	if (data->cmd_table->n_redirections > 0)
+	{
+		ret = redirect(data->cmd_table, 0);
+		if (ret)
+		{
+			g_global.error_num = ret;
+			return (ret);
+		}
 	}
 	return (EXIT_SUCCESS);
 }

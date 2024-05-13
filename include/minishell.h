@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 11:49:24 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/13 10:12:45 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,9 @@ typedef struct s_minishell
 	char		**env_vars;
 	char		**export_vars;
 	char		*pwd;
+	pid_t		*pids;
+	int			fd_in;
+	int			fd_out;
 	char		*old_pwd;
 }				t_minishell;
 
@@ -100,6 +103,7 @@ typedef struct s_global
 	int	stop_heredoc;
 	int	in_cmd;
 	int	in_heredoc;
+	int	reset_pipes;
 }				t_global;
 
 //	main
@@ -132,7 +136,8 @@ char		**add_variable(char *variable, char **env, t_minishell *data);
 char		**mod_var(char **env, t_minishell *data, char *variable);
 void		mod_var_aux(t_minishell *data, char **new_env,
 				int *n_v_i, char *var);
-char		**mod_var_export(char **export_vars, t_minishell *data, char *variable);
+char		**mod_var_export(char **export_vars,
+				t_minishell *data, char *variable);
 
 //	mini_export_order
 void		env_order(t_minishell *data);
@@ -205,11 +210,16 @@ void		free_arr(char **arr);
 void		send_to_stderr(char *co, char *ar, char *err, int is_out);
 
 //	exec_utils
+int			get_n_of_pipes(t_minishell *data);
 char		*get_path(char *cmd, char **env);
 char		*my_getenv(char *key, char **env);
 int			open_file(char *name, int to_write);
 
 //	exec
+int			single_cmd(t_minishell *data);
+void		ft_fork(t_minishell *data, int *p_fd);
+
+// main_exec
 int			executor(t_minishell *data);
 
 //	expand
@@ -220,6 +230,7 @@ int			check_all_heredocs(t_minishell *data);
 
 //	redirections
 int			redirect(t_cmd_table *tbl, int is_builtin);
+int			redirect_all(t_minishell *data);
 
 /***							LEXER							***/
 //	lexer_utils

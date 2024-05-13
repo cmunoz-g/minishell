@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 09:58:49 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/11 15:03:49 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	create_main_fork(t_minishell *data);
 static void	parse_data(t_minishell *data, bool *err_syntax);
-static void	print_exit_msg(int wstatus, int signo);
 
 void	print_cmd_table(t_cmd_table *cmd_table) // borrar
 {
@@ -84,46 +82,6 @@ static void	parse_data(t_minishell *data, bool *err_syntax)
 	clean_token_list(&token_tmp);
 }
 
-static void	print_exit_msg(int wstatus, int signo)
-{
-	if (signo == SIGQUIT)
-		ft_putstr_fd("Quit", STDERR_FILENO);
-	else if (signo == SIGSEGV)
-		ft_putstr_fd("Segmentation fault", STDERR_FILENO);
-	if (WCOREDUMP(wstatus))
-		ft_putstr_fd(" (core dumped)", STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-}
-
-static void	create_main_fork(t_minishell *data)
-{
-	pid_t		pid;
-	int			status;
-	int			signo;
-
-	status = 0;
-	pid = fork();
-	if (pid == -1)
-		exit(1);
-	if (pid == 0)
-	{
-		if (executor(data))
-		{
-			g_global.error_num = 130;
-			exit(130);
-		}
-	}
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		g_global.error_num = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-	{
-		signo = WTERMSIG(status);
-		if (signo == SIGQUIT || signo == SIGSEGV)
-			print_exit_msg(status, signo);
-	}
-}
-
 void	minishell_loop(t_minishell *data)
 {
 	bool	err_syntax;
@@ -146,7 +104,7 @@ void	minishell_loop(t_minishell *data)
 			&& check_if_builtin(data->cmd_table->cmd))
 			simple_builtin_executor(data);
 		else
-			create_main_fork(data);
+			executor(data);
 		g_global.in_cmd = 0;
 	}
 	reset_loop(data);
@@ -154,6 +112,11 @@ void	minishell_loop(t_minishell *data)
 
 void	reset_loop(t_minishell *data)
 {
+	if (data->pids)
+	{
+		free(data->pids);
+		data->pids = NULL;
+	}
 	if (data->cmd_table)
 		clean_cmd_table_list(&(data->cmd_table));
 	if (data->line || ft_strlen(data->line))
@@ -161,5 +124,7 @@ void	reset_loop(t_minishell *data)
 	if (data->token_list)
 		data->token_list = NULL;
 	init_signal_vars();
+	dup2(data->fd_in, STDIN_FILENO);
+	dup2(data->fd_out, STDOUT_FILENO);
 	minishell_loop(data);
 }

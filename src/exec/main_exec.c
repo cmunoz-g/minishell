@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_helpers.c                                  :+:      :+:    :+:   */
+/*   main_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:00:23 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/11 15:02:28 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/13 09:47:44 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,6 @@ static int	check_fd_heredocs(t_minishell *data, int *p_fd)
 	return (fd_in);
 }
 
-/*
-	Currently `cat | cat | ls << END` doesn't exit:
-	probably related to line 140, might have to check 
-	whether there is existing heredoc to pipe it there
-*/
 static int	iter_over_cmds(t_minishell *data)
 {
 	int	p_fd[2];
@@ -113,7 +108,7 @@ int	executor(t_minishell *data)
 		return (EXIT_FAILURE);
 	if (n_pipes == 0)
 		return (single_cmd(data));
-	if (iter_over_cmds(data))
+	else if (iter_over_cmds(data))
 		return (EXIT_FAILURE);
 	wait_pids(data, n_pipes);
 	return (EXIT_SUCCESS);

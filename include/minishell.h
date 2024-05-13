@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/13 12:04:07 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/13 12:16:51 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,8 +319,6 @@ void		print_syntax_error(t_token *token);
 //	clean_cmd
 t_cmd_table	*get_first_node(t_cmd_table *cmd);
 void		clean_cmd_table_list(t_cmd_table *cmd_table);
-void		clean_cmd_table_list_aux(t_cmd_table **cmd_table, int *j);
-void		clean_cmd_table_redir(t_cmd_table **cmd_table, int *j);
 
 //	clean
 void		clean_data(t_minishell **data);

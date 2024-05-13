@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+         #
+#    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/05/07 16:24:41 by cmunoz-g         ###   ########.fr        #
+#    Updated: 2024/05/11 15:03:26 by juramos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRC_FILES 	= 	main\
 				exec/exec_utils\
 				exec/heredoc\
 				exec/expand\
+				exec/main_exec\
 				builtins/mini_cd\
 				builtins/mini_exit\
 				builtins/mini_pwd\

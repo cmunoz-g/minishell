@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:26:15 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/13 12:34:29 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/13 12:35:27 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	alloc_cmd_table(t_cmd_table **cmd_list)
 
 	cmd_table = (t_cmd_table *)malloc(sizeof(t_cmd_table));
 	if (!cmd_table)
-		clean_cmd_table_list(cmd_list);
+		clean_cmd_table_list(*cmd_list);
 	last = get_last_cmd_table(*cmd_list);
 	if (!(*cmd_list))
 	{

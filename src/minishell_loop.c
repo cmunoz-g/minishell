@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/13 12:17:54 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/13 12:36:07 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,8 @@ void	reset_loop(t_minishell *data)
 	}
 	if (data->cmd_table)
 	{
-		clean_cmd_table_list(&(data->cmd_table));
+		clean_cmd_table_list(data->cmd_table);
+		data->cmd_table = NULL;
 	}
 	if (data->line || ft_strlen(data->line))
 		free(data->line);

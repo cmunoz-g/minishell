@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/13 09:54:34 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/13 09:59:21 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,12 @@ int	single_cmd(t_minishell *data)
 	pid = fork();
 	if (pid == -1)
 		return (EXIT_FAILURE);
-	if (!data->cmd_table->cmd)
-		exit (EXIT_SUCCESS);
 	if (pid == 0)
+	{
+		if (!data->cmd_table->cmd)
+			exit (EXIT_SUCCESS);
 		exec_process(data);
+	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		g_global.error_num = WEXITSTATUS(status);

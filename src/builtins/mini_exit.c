@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:49:53 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 13:57:01 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:41:55 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,6 @@ int	mini_exit(t_minishell *data)
 	exit_code %= 256;
 	if (exit_code < 0)
 		exit_code += 256;
-	clean_data(&data);
+	clean_data(&data); 
 	(ft_putendl_fd("exit", 1), exit(exit_code));
 }

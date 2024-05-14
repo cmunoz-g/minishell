@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:22:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/14 12:14:31 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:57:02 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,10 @@ t_minishell	*init(char **envp)
 	if (!data->pwd)
 		error(data, "Could not alloc memory for pwd");
 	data->old_pwd = ft_strdup(my_getenv("OLDPWD", data->env_vars));
-	if (!data->old_pwd)
+	if (!data->old_pwd) // en mi VSC en casa revienta porque en env no hay old pwd, comprobar en 42
 		error(data, "Could not alloc memory for old pwd");
 	g_global.error_num = 0;
 	init_signal_vars();
+	update_sh_lvl(data, 1);
 	return (data);
 }

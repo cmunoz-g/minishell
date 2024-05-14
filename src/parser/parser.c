@@ -3,16 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:26:15 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/13 12:28:36 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/13 12:35:27 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parser(t_cmd_table **cmd_table, t_token **token_list)
+int		parser_conditions(t_token *token)
+{
+	if (token->type == PIPE)
+		return (0);
+	else if (token->next && token->next->type == CMD)
+	{
+		if (!is_pos_variable(token->next->value))
+			return (0);
+		else if (!is_pos_variable(token->value))
+			return (0);
+		else
+			return (1);
+	}
+	return (1);
+}
+
+void	parser(t_cmd_table **cmd_table, t_token **token_list) 
 {
 	t_token		*tmp;
 	int			s_e[2];
@@ -20,8 +36,7 @@ void	parser(t_cmd_table **cmd_table, t_token **token_list)
 	init_parser(s_e, &tmp, token_list);
 	while (*token_list)
 	{
-		if ((*token_list)->type == PIPE || ((*token_list)->next
-			&& (*token_list)->next->type == CMD && (!is_pos_variable((*token_list)->next->value) || !is_pos_variable((*token_list)->value))))
+		if (!parser_conditions(*token_list))
 		{
 			alloc_cmd_table(cmd_table);
 			gen_cmd_table(tmp, cmd_table, s_e[0], s_e[1] + 1);

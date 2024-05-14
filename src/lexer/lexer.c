@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:30:07 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/14 10:21:47 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/14 11:53:22 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,22 @@ int	is_there_space(t_token *it_variable, char *line)
 	return (1);
 }
 
+int	check_if_variable(t_token *it_variable)
+{
+	t_token *tmp;
+
+	tmp = it_variable;
+	while (tmp->prev)
+	{
+		if (tmp->type == CMD && tmp->variable == true)
+			return (0);
+		else if (tmp->type == PIPE)
+			return (1);
+		tmp = tmp->prev;
+	}
+	return (1);
+}
+
 void	check_local_var(t_token **token_list, char *line) 
 {
 	t_token	*it_variable;
@@ -136,8 +152,9 @@ void	check_local_var(t_token **token_list, char *line)
 		{
 			if (it_variable->type != PIPE && it_variable->prev->variable == true && (!is_there_space(it_variable, line)))
 				it_variable->type = CMD;
-			else if (it_variable->type != PIPE && it_variable->prev->type != CMD && (!is_there_space(it_variable, line))) 
-				it_variable->type = CMD;
+			else if (it_variable->type != PIPE && it_variable->prev->type != CMD && (!is_there_space(it_variable, line)) && !check_if_variable(it_variable)) 
+					it_variable->type = CMD;
+			//printf("itvalue %s, valor de checkif %d\n", it_variable->value, check_if_variable(it_variable));
 		}
 		it_variable = it_variable->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/13 11:20:28 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/14 12:36:55 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@ static void	check_and_exec_if_executable(char **str, t_minishell *data)
 		exit(EXIT_SUCCESS);
 	if (access(str[0], F_OK) == 0)
 	{
+		//if (!ft_strncmp(str[0], "./minishell", 11))
+			//update_sh_lvl(data, 1);
 		if (execve(str[0], str, data->env_vars) == -1)
 		{
 			stat(str[0], &path_stat);
+			//update_sh_lvl(data, -1);
 			if (S_ISDIR(path_stat.st_mode))
 			{
 				send_to_stderr(str[0], NULL, "Is a directory", 0);

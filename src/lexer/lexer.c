@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:30:07 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/14 11:53:22 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:00:15 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int	is_there_space(t_token *it_variable, char *line)
 
 	tmp = line;
 	laps = check_if_repeated_value(it_variable);
+	if (is_quoted_var(it_variable->value))
+		return (1);
 	if (laps)
 	{
 		while (laps != 0)
@@ -118,7 +120,7 @@ int	check_if_variable(t_token *it_variable)
 	tmp = it_variable;
 	while (tmp->prev)
 	{
-		if (tmp->type == CMD && tmp->variable == true)
+		if (tmp->prev->type == CMD && tmp->prev->variable == true)
 			return (0);
 		else if (tmp->type == PIPE)
 			return (1);
@@ -152,9 +154,8 @@ void	check_local_var(t_token **token_list, char *line)
 		{
 			if (it_variable->type != PIPE && it_variable->prev->variable == true && (!is_there_space(it_variable, line)))
 				it_variable->type = CMD;
-			else if (it_variable->type != PIPE && it_variable->prev->type != CMD && (!is_there_space(it_variable, line)) && !check_if_variable(it_variable)) 
-					it_variable->type = CMD;
-			//printf("itvalue %s, valor de checkif %d\n", it_variable->value, check_if_variable(it_variable));
+			else if (it_variable->type != PIPE && it_variable->prev->type != CMD && (!is_there_space(it_variable, line)) && !check_if_variable(it_variable)) // se queda bugeado cuadno un comando normal se repite en istherespace pero necesia estar ahi para que no se ralle con a=hola"quetal"
+				it_variable->type = CMD;
 		}
 		it_variable = it_variable->next;
 	}

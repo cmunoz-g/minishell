@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
+#    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/05/11 15:03:26 by juramos          ###   ########.fr        #
+#    Updated: 2024/05/14 12:17:05 by camunozg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,9 +24,10 @@ SRC_FILES 	= 	main\
 				minishell_loop\
 				init\
 				history\
-				local_variables/local_variables\
-				local_variables/local_variables_utils\
-				local_variables/local_variables_checks\
+				variables/local_variables\
+				variables/local_variables_utils\
+				variables/local_variables_checks\
+				variables/sh_lvl\
 				lexer/lexer_utils\
 				lexer/lexer\
 				lexer/tokens\

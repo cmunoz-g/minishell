@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:22:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/13 11:22:15 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/14 12:14:31 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,24 @@ void	init_signal_vars(void)
 	g_global.reset_pipes = 1;
 }
 
+int	get_sh_lvl(char **envp)
+{
+	int	i;
+	int	res;
+
+	i = 0;
+	res = 0;
+	while (envp[i] && ft_strncmp(envp[i], "SHLVL=", 6))
+		i++;
+	if (envp[i])
+	{
+		res = ft_atoi(envp[i] + 6);
+		return (res);
+	}
+	else 
+		return (1);
+}
+
 t_minishell	*init(char **envp)
 {
 	t_minishell	*data;
@@ -31,6 +49,7 @@ t_minishell	*init(char **envp)
 	data->pids = NULL;
 	data->fd_in = dup(STDIN_FILENO);
 	data->fd_out = dup(STDOUT_FILENO);
+	data->sh_lvl = get_sh_lvl(envp);
 	data->env_vars = ft_arrdup(envp);
 	data->local_vars = NULL;
 	data->export_vars = ft_arrdup(data->env_vars);

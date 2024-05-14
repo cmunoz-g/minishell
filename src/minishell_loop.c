@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/14 11:53:28 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/14 12:38:09 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ static void	parse_data(t_minishell *data, bool *err_syntax)
 	lexer(data->line, &(data->token_list));
 	data->token_list->data = data;
 	token_tmp = data->token_list;
-	//print_tokens(data->token_list);
-	//exit(0);
+	// print_tokens(data->token_list);
+	// exit(0);
 	if (!check_comments(&(data->token_list)))
 	{
 		*err_syntax = true;

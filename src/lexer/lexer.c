@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:30:07 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/14 11:53:22 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:42:25 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,22 +111,6 @@ int	is_there_space(t_token *it_variable, char *line)
 	return (1);
 }
 
-int	check_if_variable(t_token *it_variable)
-{
-	t_token *tmp;
-
-	tmp = it_variable;
-	while (tmp->prev)
-	{
-		if (tmp->type == CMD && tmp->variable == true)
-			return (0);
-		else if (tmp->type == PIPE)
-			return (1);
-		tmp = tmp->prev;
-	}
-	return (1);
-}
-
 void	check_local_var(t_token **token_list, char *line) 
 {
 	t_token	*it_variable;
@@ -150,11 +134,10 @@ void	check_local_var(t_token **token_list, char *line)
 		}
 		else if (it_variable->prev && it_variable->variable == false)
 		{
-			if (it_variable->type != PIPE && it_variable->prev->variable == true && (!is_there_space(it_variable, line)))
+			if (it_variable->type != PIPE && it_variable->prev->variable == true && is_quoted_var(it_variable->value))
 				it_variable->type = CMD;
-			else if (it_variable->type != PIPE && it_variable->prev->type != CMD && (!is_there_space(it_variable, line)) && !check_if_variable(it_variable)) 
-					it_variable->type = CMD;
-			//printf("itvalue %s, valor de checkif %d\n", it_variable->value, check_if_variable(it_variable));
+			else if (it_variable->prev->type != CMD && !is_quoted_var(it_variable->value) && (!is_there_space(it_variable, line))) 
+				it_variable->type = CMD;
 		}
 		it_variable = it_variable->next;
 	}

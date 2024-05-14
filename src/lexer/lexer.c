@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:30:07 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/13 12:17:31 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/14 10:21:47 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,9 +134,9 @@ void	check_local_var(t_token **token_list, char *line)
 		}
 		else if (it_variable->prev && it_variable->variable == false)
 		{
-			if (it_variable->type != PIPE && it_variable->prev->variable == true && is_quoted_var(it_variable->value))
+			if (it_variable->type != PIPE && it_variable->prev->variable == true && (!is_there_space(it_variable, line)))
 				it_variable->type = CMD;
-			else if (it_variable->prev->type != CMD && !is_quoted_var(it_variable->value) && (!is_there_space(it_variable, line))) 
+			else if (it_variable->type != PIPE && it_variable->prev->type != CMD && (!is_there_space(it_variable, line))) 
 				it_variable->type = CMD;
 		}
 		it_variable = it_variable->next;

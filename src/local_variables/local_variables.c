@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:16:35 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 11:51:49 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/14 10:07:55 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	get_new_var_space(t_cmd_table *tmp)
 		{
 			if (tmp->args[i][j] == quote && in_quotes == true)
 				in_quotes = false;
-			if (tmp->args[i][j] == '\'' || tmp->args[i][j] == '\"')
+			else if (tmp->args[i][j] == '\'' || tmp->args[i][j] == '\"')
 			{
 				in_quotes = true;
 				quote = tmp->args[i][j];

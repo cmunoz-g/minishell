@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/14 12:08:55 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:09:36 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,7 +252,7 @@ t_token		*get_last_token(t_token *token_list);
 void		add_token(t_token **token_list, char *cmd_line, int start, int end);
 void		get_token_type(t_token *token);
 
-/***							LOCAL_VARIABLES							***/
+/***							VARIABLES							***/
 //	local_variables_checks
 int			check_new_var(char *cmd, t_variable *local_vars);
 int			check_variable(t_cmd_table *cmd_table);
@@ -268,6 +268,9 @@ void		change_var_value(char *cmd, t_variable **loc,
 				int l, t_minishell *data);
 void		local_variables(t_minishell *data);
 void		local_variables_aux(t_minishell *data, t_cmd_table *tmp);
+
+//	sh_lvl
+void		update_sh_lvl(t_minishell *data, int operation);
 
 /***							PARSER							***/
 //	cmd_table_utils

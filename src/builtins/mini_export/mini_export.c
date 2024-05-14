@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:59:49 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 11:49:32 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/14 10:57:20 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,13 @@ void	no_declaration(t_minishell *data, int i, char *new_var, char **new_env)
 
 void	reset_export(t_minishell *data, int i, int *declaration, int *laps)
 {
+	char *expanded;
+
+	expanded = expand(data->cmd_table->args[i], 0, data);
+	free(data->cmd_table->args[i]);
+	data->cmd_table->args[i] = expanded;
+	printf("EXPANDED: %s\n",expanded);
+	exit(0);
 	*declaration = check_if_declaration(data->cmd_table->args[i]);
 	*laps = check_new_var(data->cmd_table->args[i], data->local_vars);
 }

@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:16:35 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/14 10:07:55 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/14 10:51:10 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ void	local_variables(t_minishell *data)
 	t_cmd_table	*tmp;
 	char		**new_env;
 	char		**new_export;
+	char		*expanded;
 	bool		var;
 
 	tmp = data->cmd_table;
@@ -180,6 +181,9 @@ void	local_variables(t_minishell *data)
 	var = false;
 	while (tmp)
 	{
+		expanded = expand(tmp->cmd, 0, data); // a=$NAME si vale pero $NAME=a no
+		free(tmp->cmd);
+		tmp->cmd = expanded;
 		if (!check_variable(tmp))
 		{
 			if (tmp->n_args)

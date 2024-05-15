@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:50:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/11 14:30:42 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/15 13:18:59 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	simple_builtin_executor(t_minishell *data)
 		ret = redirect(data->cmd_table, 1);
 		if (ret)
 		{
-			g_global.error_num = ret;
+			g_global.error_num = 1;
 			return ;
 		}
 	}

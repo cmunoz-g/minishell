@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:00:23 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/15 13:33:48 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/15 13:47:55 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	wait_pids(t_minishell *data, int n_pipes)
 		waitpid(data->pids[i], &status, 0);
 		if (WIFEXITED(status))
 		{
-			if (WEXITSTATUS(status))
+			if (WEXITSTATUS(status) && i == n_pipes)
 				g_global.error_num = WEXITSTATUS(status);
 		}
 		else if (WIFSIGNALED(status))

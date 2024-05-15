@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:13:47 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/10 18:25:06 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/15 13:14:59 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ static void	change_path_on_mini(t_minishell *data, char *buff)
 
 	tmp = ft_strdup(data->pwd);
 	if (data->old_pwd)
+	{
 		free(data->old_pwd);
+		data->old_pwd = NULL;
+	}
 	data->old_pwd = tmp;
 	free(data->pwd);
 	data->pwd = getcwd(buff, PATH_MAX);

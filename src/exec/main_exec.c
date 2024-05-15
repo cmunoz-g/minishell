@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:00:23 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/13 17:02:21 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/15 13:33:48 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ static void	wait_pids(t_minishell *data, int n_pipes)
 	{
 		waitpid(data->pids[i], &status, 0);
 		if (WIFEXITED(status))
-			g_global.error_num = WEXITSTATUS(status);
+		{
+			if (WEXITSTATUS(status))
+				g_global.error_num = WEXITSTATUS(status);
+		}
 		else if (WIFSIGNALED(status))
 		{
 			signo = WTERMSIG(status);
@@ -79,12 +82,14 @@ static int	iter_over_cmds(t_minishell *data)
 	int			p_fd[2];
 	int			fd_in;
 	t_cmd_table	*start;
+	int			ret;
 
 	fd_in = data->fd_in;
 	start = data->cmd_table;
 	while (data->cmd_table)
 	{
-		redirect_all(data);
+		ret = redirect_all(data);
+		g_global.error_num = ret;
 		if (pipe(p_fd) == -1)
 			return (EXIT_FAILURE);
 		ft_fork(data, p_fd);

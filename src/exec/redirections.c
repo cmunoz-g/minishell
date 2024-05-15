@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:02:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/15 13:19:17 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/15 13:23:20 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ int	redirect_all(t_minishell *data)
 		ret = redirect(data->cmd_table, 0);
 		if (ret)
 		{
-			g_global.error_num = 1;
-			return (ret);
+			g_global.error_num = EXIT_FAILURE;
+			return (EXIT_FAILURE);
 		}
 	}
 	return (EXIT_SUCCESS);

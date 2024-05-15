@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/14 11:00:46 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/15 13:12:38 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ char	*expand(char *str, int is_heredoc, t_minishell *data)
 	char	*ret;
 
 	i = 0;
+	if (!str)
+		return (NULL);
 	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'' && !is_heredoc)
 		return (remove_quotes(str));
 	ret = remove_quotes(str);

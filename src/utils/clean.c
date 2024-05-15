@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:01:30 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/13 12:09:54 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/15 13:08:01 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ void	clean_data(t_minishell **data)
 	if ((*data)->pwd)
 		free((*data)->pwd);
 	if ((*data)->old_pwd)
+	{
 		free((*data)->old_pwd);
+		(*data)->old_pwd = NULL;
+	}
 	if ((*data)->local_vars)
 		clean_local_vars(&(*data)->local_vars);
 	if ((*data)->cmd_table)

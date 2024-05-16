@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/16 10:15:18 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/16 10:49:52 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,9 @@ int			executor(t_minishell *data);
 
 //	expand
 char		*expand(char *str, int is_heredoc, t_minishell *data);
+
+// expand_utils
+int			pass_over_expand(char c);
 
 //	heredoc
 int			check_all_heredocs(t_minishell *data);

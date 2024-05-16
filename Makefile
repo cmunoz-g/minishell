@@ -6,7 +6,7 @@
 #    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/05/14 12:17:05 by camunozg         ###   ########.fr        #
+#    Updated: 2024/05/15 18:38:35 by camunozg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME 		= 	minishell
 
 # Compiler
 CC 			= 	gcc
-CFLAGS 		= 	-Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS 		= 	-Wall -Werror -Wextra -g3 #-fsanitize=address
 
 # Sources
 # Removed signal_handler\ for now

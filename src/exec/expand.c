@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/15 13:12:38 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/16 09:54:26 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,12 @@ static char	*expand_word(char *str, int start, int end, t_minishell *data)
 	keyword = ft_substr(str, start + 1, end - start);
 	keyword_cleaned = ft_strtrim(keyword, " ");
 	free(keyword);
-	value = ft_strdup(my_getenv(keyword_cleaned, data->env_vars));
+	keyword = ft_strtrim(keyword_cleaned, "=");
+	free(keyword_cleaned);
+	value = ft_strdup(my_getenv(keyword, data->env_vars));
 	if (!value)
-		value = ft_strdup(expand_local(keyword_cleaned, data->local_vars));
-	return (free(keyword_cleaned), value);
+		value = ft_strdup(expand_local(keyword, data->local_vars));
+	return (free(keyword), value);
 }
 
 static char	*expand_str(char *str, int start, int *i, t_minishell *data)
@@ -99,13 +101,13 @@ char	*expand(char *str, int is_heredoc, t_minishell *data)
 	ret = remove_quotes(str);
 	while (ret[i])
 	{
-		if (ret[i] == '$' && ret[i + 1] && !ft_isspace(ret[i + 1]))
+		if (ret[i] == '$' && ret[i + 1] && pass_over_expand(ret[i + 1]))
 		{
 			start = i;
-			while (ret[i] && !(ft_isspace(ret[i])))
+			while (ret[i] && pass_over_expand(ret[i]))
 				i++;
 			ret = expand_str(ret, start, &i, data);
-			if (!ret || !ft_strlen(ret))
+			if (!ret || !ft_strlen(ret) || i == -1)
 				return (ret);
 		}
 		else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/14 13:09:36 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/16 09:44:25 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,9 @@ int			executor(t_minishell *data);
 
 //	expand
 char		*expand(char *str, int is_heredoc, t_minishell *data);
+
+// expand_utils
+int			pass_over_expand(char c);
 
 //	heredoc
 int			check_all_heredocs(t_minishell *data);

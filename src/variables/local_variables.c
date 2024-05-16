@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:16:35 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/14 10:51:10 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/16 09:45:02 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,25 @@ void	cmd_table_no_vars(t_minishell *data)
 		tmp = next;
 	}
 }
+void	add_local_variables(char **new_env, char **new_export, t_minishell *data, t_cmd_table *tmp)
+{
+	if (tmp->n_args)
+		variable_with_quotes(&tmp);
+	if (!variable_in_env_char(tmp->cmd, data->env_vars))
+	{
+		new_env = mod_var(data->env_vars, data, tmp->cmd);
+		free_arr(data->env_vars);
+		data->env_vars = new_env;
+	}
+	if (!variable_in_env_char(tmp->cmd, data->export_vars))
+	{
+		new_export = mod_var_export(data->env_vars, data, tmp->cmd);
+		free_arr(data->export_vars);
+		data->export_vars = new_export;
+	}
+	else
+		local_variables_aux(data, tmp);
+}
 
 void	local_variables(t_minishell *data) 
 {
@@ -186,22 +205,7 @@ void	local_variables(t_minishell *data)
 		tmp->cmd = expanded;
 		if (!check_variable(tmp))
 		{
-			if (tmp->n_args)
-				variable_with_quotes(&tmp);
-			if (!variable_in_env_char(tmp->cmd, data->env_vars))
-			{
-				new_env = mod_var(data->env_vars, data, tmp->cmd);
-				free_arr(data->env_vars);
-				data->env_vars = new_env;
-			}
-			if (!variable_in_env_char(tmp->cmd, data->export_vars))
-			{
-				new_export = mod_var_export(data->env_vars, data, tmp->cmd);
-				free_arr(data->export_vars);
-				data->export_vars = new_export;
-			}
-			else
-				local_variables_aux(data, tmp);
+			add_local_variables(new_env, new_export, data, tmp);
 			var = true;
 		}
 		else if (check_variable(tmp) && var == true)

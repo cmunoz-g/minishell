@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/14 13:09:36 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/16 10:15:18 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,6 +234,18 @@ int			redirect(t_cmd_table *tbl, int is_builtin);
 int			redirect_all(t_minishell *data);
 
 /***							LEXER							***/
+//	lexer_checks
+int			check_first_cmd(t_token *it_variable);
+int			check_if_pipe(t_token *it_variable);
+int			check_if_repeated_value(t_token *it_variable);
+int			check_if_variable(t_token *it_variable);
+int			is_there_space(t_token *it_variable, char *line);
+
+//	lexer_token_checks
+void	check_local_var(t_token **token_list, char *line);
+void	check_local_var_aux(char *line, t_token **it_variable);
+void	check_redirections(t_token **token_list);
+
 //	lexer_utils
 int			is_quoted_var(char *value);
 int			is_pos_variable(char *value);
@@ -241,7 +253,6 @@ void		init_lexer(bool *qt, int *i, int *start);
 void		set_qt(bool *quotes, char *quote_type, char *cmd_line, int i);
 
 //	lexer
-void		check_redirections(t_token **token_list);
 void		lexer(char *line, t_token **list);
 void		lexer_qt(t_token **token_list, char *cmd_line, int *start, int i);
 void		lexer_new_token(t_token **list, char *line, int *start, int *i);

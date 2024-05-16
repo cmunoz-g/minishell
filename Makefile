@@ -6,7 +6,7 @@
 #    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/05/16 09:38:59 by camunozg         ###   ########.fr        #
+#    Updated: 2024/05/16 10:12:27 by camunozg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,8 @@ SRC_FILES 	= 	main\
 				lexer/lexer_utils\
 				lexer/lexer\
 				lexer/tokens\
+				lexer/lexer_checks\
+				lexer/lexer_token_checks\
 				syntax/syntax\
 				syntax/comments\
 				parser/cmd_table_utils\

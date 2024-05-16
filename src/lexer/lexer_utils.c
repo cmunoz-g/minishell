@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:01 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 09:33:07 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/16 10:08:33 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ int	is_quoted_var(char *value)
 		}
 		i++;
 	}
-	if (is_quote == false && quote_type == '\0') // no ha habido ninguna quote 
+	if (is_quote == false && quote_type == '\0')
 		return (1);
-	else // ha habido quote y la ha cerrado o ha encontrado quote pero no la ha cerrado
+	else 
 		return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/16 09:54:26 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/16 10:18:10 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ static char	*expand_str(char *str, int start, int *i, t_minishell *data)
 		free(word);
 	}
 	free(begin);
-	begin = ft_strjoin(newstr, end);
+	if (ft_strlen(newstr) || ft_strlen(end))
+		begin = ft_strjoin(newstr, end);
+	else
+		begin = NULL;
 	return (free(newstr), free(end), free(str), begin);
 }
 

@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 11:26:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/13 12:37:56 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/16 09:40:33 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,5 @@ void	error(t_minishell *data, char *error_message)
 	write(2, "Error: ", 8);
 	write(2, error_message, msg_len);
 	write(2, "\n", 1);
+	exit(EXIT_FAILURE);
 }

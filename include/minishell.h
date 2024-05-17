@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/17 09:30:34 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:07:53 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,12 @@
 
 typedef struct s_minishell	t_minishell;
 extern struct s_global		g_global;
+
+typedef struct	s_quotes
+{
+	bool qt;
+	char qtt;
+}				t_quotes;
 
 typedef struct s_variable
 {

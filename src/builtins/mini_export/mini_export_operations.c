@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:59:52 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/17 09:15:34 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:28:43 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,11 @@ char	**mod_var_export(char **export_vars, t_minishell *data, char *variable)
 	while (export_vars[i])
 	{
 		if (!ft_strncmp(variable, export_vars[i], size))
-		{
 			new_export[i] = ft_strdup(variable); 
-		}
-		//proteget
 		else
 			new_export[i] = ft_strdup(export_vars[i]);
-		// proteger
+		if (!new_export[i])
+			(free_arr(new_export), error(data, "Memory problems in mini_export"));
 		i++;
 	}
 	new_export[i] = NULL;

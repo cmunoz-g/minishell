@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:59:49 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/17 09:16:57 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:47:31 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,44 +39,61 @@ char	*get_new_var(char *variable, t_variable *local_vars, t_minishell *data)
 	return (new_var);
 }
 
+void	declaration_aux_laps(int laps, int i, t_minishell *data)
+{
+	if (laps < 0)
+		create_new_variable(data->cmd_table->args[i],
+			&(data->local_vars), data);
+	else
+		change_var_value(data->cmd_table->args[i],
+			&(data->local_vars), laps, data);
+}
+
+void	declaration_aux_check(t_minishell *data, int i, char **new_env, char **new_export)
+{
+	char *tmp;
+	
+	new_env = mod_var(data->env_vars, data, data->cmd_table->args[i]);
+	new_export = mod_var(data->export_vars, data, data->cmd_table->args[i]);
+	tmp = new_env[0];
+	tmp = new_export[0];
+	tmp++;
+}
+
+void	declaration_aux_free(t_minishell *data, char **new_export, char **new_env)
+{
+	(free_arr(data->export_vars), free_arr(data->env_vars));
+	data->env_vars = new_env;
+	data->export_vars = new_export;
+}
+
 void	declaration(t_minishell *data, int i, int laps, char **new_env)
 {
-	char	**new_export;
+	char	**exp;
 	
+	exp = NULL;
 	if (!variable_in_env_char(data->cmd_table->args[i], data->env_vars))
-	{
-		new_env = mod_var(data->env_vars, data, data->cmd_table->args[i]);
-		new_export = mod_var(data->export_vars, data, data->cmd_table->args[i]);
-	}
+		declaration_aux_check(data, i, new_env, exp);
 	else
 	{
-		if (laps < 0)
-			create_new_variable(data->cmd_table->args[i],
-				&(data->local_vars), data);
-		else
-			change_var_value(data->cmd_table->args[i],
-				&(data->local_vars), laps, data);
+		declaration_aux_laps(laps, i, data);
 		if (laps >= 0 && !variable_in_env(get_var_to_mod(data->local_vars,
 					laps), data->env_vars))
 			{
 				new_env = mod_var(data->env_vars, data, data->cmd_table->args[i]);
-				new_export = mod_var_export(data->export_vars, data, data->cmd_table->args[i]);
+				exp = mod_var_export(data->export_vars, data, data->cmd_table->args[i]);
 			}
 		else
 		{
 			new_env = add_variable(data->cmd_table->args[i],
 					data->env_vars, data);
 			if (!variable_in_env_char(data->cmd_table->args[i], data->export_vars))
-			{
-				new_export = mod_var_export(data->export_vars, data, data->cmd_table->args[i]); 
-			}
+				exp = mod_var_export(data->export_vars, data, data->cmd_table->args[i]); 
 			else
-				new_export = add_variable(data->cmd_table->args[i], data->export_vars, data);
+				exp = add_variable(data->cmd_table->args[i], data->export_vars, data);
 		}
 	}
-	(free_arr(data->export_vars), free_arr(data->env_vars));
-	data->env_vars = new_env;
-	data->export_vars = new_export;
+	declaration_aux_free(data, exp, new_env);
 }
 
 char	**add_var_no_value(char *variable, char **exp, t_minishell *data)
@@ -107,10 +124,21 @@ char	**add_var_no_value(char *variable, char **exp, t_minishell *data)
 	return (new_export);
 }
 
+void	no_declaration_aux(t_minishell *data, int i, char **new_export)
+{
+	if (variable_in_env_char(data->cmd_table->args[i], data->export_vars))
+	{
+		new_export = add_var_no_value(data->cmd_table->args[i], data->export_vars, data);
+		free_arr(data->export_vars);
+		data->export_vars = new_export;	
+	}
+}
+
 void	no_declaration(t_minishell *data, int i, char *new_var, char **new_env)
 {
 	char	**new_export;
 	
+	new_export = NULL;
 	if (check_new_var(data->cmd_table->args[i], data->local_vars) >= 0)
 	{
 		if (variable_in_env_char(data->cmd_table->args[i], data->export_vars))
@@ -129,14 +157,7 @@ void	no_declaration(t_minishell *data, int i, char *new_var, char **new_env)
 		}
 	}
 	else
-	{
-		if (variable_in_env_char(data->cmd_table->args[i], data->export_vars))
-		{
-			new_export = add_var_no_value(data->cmd_table->args[i], data->export_vars, data);
-			free_arr(data->export_vars);
-			data->export_vars = new_export;	
-		}
-	}
+		no_declaration_aux(data, i, new_export);
 }
 
 void	reset_export(t_minishell *data, int i, int *declaration, int *laps)

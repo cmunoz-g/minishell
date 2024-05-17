@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:00:36 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 10:56:33 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:24:38 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,15 @@ void	quicksort(char **arr, int low, int high)
 	}
 }
 
+void	env_order_aux(int i, int *j, char **sorted_env)
+{
+	printf("=\"");
+	(*j)++;
+	while (sorted_env[i][(*j)])
+		printf("%c", sorted_env[i][(*j)++]);
+	printf("\"\n");
+}
+
 void	env_order(t_minishell *data)
 {
 	char	**sorted_env;
@@ -73,13 +82,7 @@ void	env_order(t_minishell *data)
 		while (sorted_env[i][j] && sorted_env[i][j] != '=')
 			printf("%c", sorted_env[i][j++]);
 		if (sorted_env[i][j] == '=')
-		{
-			printf("=\"");
-			j++;
-			while (sorted_env[i][j])
-				printf("%c", sorted_env[i][j++]);
-			printf("\"\n");
-		}
+			env_order_aux(i, &j, sorted_env);
 		else
 			printf("\n");
 		j = 0;

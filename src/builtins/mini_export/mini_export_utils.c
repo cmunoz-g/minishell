@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 16:01:55 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 12:04:34 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:17:03 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,20 @@ int	check_all_numbers(char *arg)
 		i++;
 	}
 	return (0);
+}
+
+void	check_if_declaration_aux(char *arg, bool flag)
+{
+	if (!check_all_numbers(arg))
+	{
+		printf("minishell: export: '%s': not a valid identifier\n", arg);
+		g_global.error_num = 1;
+	}
+	else if (flag)
+	{
+		printf("minishell: export: '%s': not a valid identifier\n", arg);
+		g_global.error_num = 1;
+	}
 }
 
 int	check_if_declaration(char *arg)
@@ -46,16 +60,7 @@ int	check_if_declaration(char *arg)
 		}
 		i++;
 	}
-	if (!check_all_numbers(arg))
-	{
-		printf("minishell: export: '%s': not a valid identifier\n", arg);
-		g_global.error_num = 1;
-	}
-	else if (flag)
-	{
-		printf("minishell: export: '%s': not a valid identifier\n", arg);
-		g_global.error_num = 1;
-	}
+	check_if_declaration_aux(arg, flag);
 	return (1);
 }
 

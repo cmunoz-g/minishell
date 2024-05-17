@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:16:35 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/17 09:17:39 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:09:15 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,82 +46,101 @@ void	local_variables_aux(t_minishell *data, t_cmd_table *tmp)
 		change_var_value(tmp->cmd, &(data->local_vars), laps, data);
 }
 
+void	init_get_new_var_space(int *res, int *i_j, t_quotes *quote)
+{
+	i_j[0] = 0;
+	i_j[1] = 0;
+	*res = 0;
+	quote->qtt = '\0';
+	quote->qt = false;
+}
+
+void	set_quote_var_space(t_quotes *quote, t_cmd_table *tmp, int *i_j)
+{
+	quote->qt = true;
+	quote->qtt = tmp->args[i_j[0]][i_j[1]];
+}
+
 int	get_new_var_space(t_cmd_table *tmp)
 {
-	int		res;
-	int		i;
-	int		j;
-	bool	in_quotes;
-	char	quote;
+	int			res;
+	int			i_j[2];
+	t_quotes	quote;
 
-	j = 0;
-	i = 0;
-	res = 0;
-	quote = '\0';
-	in_quotes = false;
-	while (tmp->args[i])
+	init_get_new_var_space(&res, i_j, &quote);
+	while (tmp->args[i_j[0]])
 	{
-		while (tmp->args[i][j])
+		while (tmp->args[i_j[0]][i_j[1]])
 		{
-			if (tmp->args[i][j] == quote && in_quotes == true)
-				in_quotes = false;
-			else if (tmp->args[i][j] == '\'' || tmp->args[i][j] == '\"')
-			{
-				in_quotes = true;
-				quote = tmp->args[i][j];
-			}
-			if (in_quotes == true || (tmp->args[i][j] != '\'' && tmp->args[i][j] != '\"'))
+			if (tmp->args[i_j[0]][i_j[1]] == quote.qtt
+				&& quote.qt == true)
+				quote.qt = false;
+			else if (tmp->args[i_j[0]][i_j[1]] == '\''
+				|| tmp->args[i_j[0]][i_j[1]] == '\"')
+				set_quote_var_space(&quote, tmp, i_j);
+			if (quote.qt == true || (tmp->args[i_j[0]][i_j[1]] != '\''
+				&& tmp->args[i_j[0]][i_j[1]] != '\"'))
 				res++;
-			j++;
+			i_j[1]++;
 		}
-		i++;
-		j = 0;
+		i_j[0]++;
+		i_j[1] = 0;
 	}
 	return (res);
 }
 
-void	variable_with_quotes(t_cmd_table **tmp)
+void	init_var_quotes(int *i_j_w, t_cmd_table **tmp, int *new_space, t_quotes *quote)
 {
-	int		i;
-	int		j;
-	int		w;
-	int		new_space;
-	char	*new_cmd;
-	bool	quote;
-	char	quote_type;
+	quote->qtt = '\0';
+	quote->qt = false;
+	i_j_w[0] = 0;
+	i_j_w[1] = 0;
+	i_j_w[2] = ft_strlen((*tmp)->cmd);
+	*new_space = get_new_var_space((*tmp)); 
+}
 
-	quote = false;
-	quote_type = '\0';
-	i = 0;
-	j = 0;
-	w = ft_strlen((*tmp)->cmd);
-	new_space = get_new_var_space((*tmp)); 
-	new_cmd = (char *)malloc(w + new_space + 1);
-	//if (!new_cmd)
-	// proteger
-	ft_strlcpy(new_cmd, (*tmp)->cmd, (size_t)(w + 1));
-	while (i < (*tmp)->n_args)
+void	var_quotes_loop(t_cmd_table **tmp, int *i_j_w, t_quotes *quote, char *new_cmd)
+{
+	while ((*tmp)->args[i_j_w[0]][i_j_w[1]])
 	{
-		while ((*tmp)->args[i][j])
+		if ((*tmp)->args[i_j_w[0]][i_j_w[1]] == quote->qtt && quote->qt == true)
+			quote->qt = false;
+		if (quote->qt == false && ((*tmp)->args[i_j_w[0]][i_j_w[1]] == '\''
+			|| (*tmp)->args[i_j_w[0]][i_j_w[1]] == '\"'))
 		{
-			if ((*tmp)->args[i][j] == quote_type && quote == true)
-				quote = false;
-			if (quote == false && ((*tmp)->args[i][j] == '\'' || (*tmp)->args[i][j] == '\"'))
-			{
-				quote = true;
-				quote_type = (*tmp)->args[i][j];
-			}
-			if ((quote == true && quote_type != (*tmp)->args[i][j]) || ((*tmp)->args[i][j] != '\'' && (*tmp)->args[i][j] != '\"'))
-			{
-				new_cmd[w] = (*tmp)->args[i][j];
-				w++;
-			}
-			j++;
+			quote->qt = true;
+			quote->qtt = (*tmp)->args[i_j_w[0]][i_j_w[1]];
 		}
-		j = 0;
-		i++;
+		if ((quote->qt == true && quote->qtt != (*tmp)->args[i_j_w[0]][i_j_w[1]])
+			|| ((*tmp)->args[i_j_w[0]][i_j_w[1]] != '\''
+			&& (*tmp)->args[i_j_w[0]][i_j_w[1]] != '\"'))
+		{
+			new_cmd[i_j_w[2]] = (*tmp)->args[i_j_w[0]][i_j_w[1]];
+			i_j_w[2]++;
+		}
+		i_j_w[1]++;
 	}
-	new_cmd[w] = '\0';
+}
+
+void	variable_with_quotes(t_cmd_table **tmp, t_minishell *data)
+{	
+	int			i_j_w[3];
+	int			new_space;
+	char		*new_cmd;
+	t_quotes	quote;
+
+	init_var_quotes(i_j_w, tmp, &new_space, &quote);
+	new_cmd = (char *)malloc(i_j_w[2] + new_space + 1);
+	if (!new_cmd)
+		error(data, "Could not parse local variable");
+	ft_strlcpy(new_cmd, (*tmp)->cmd, (size_t)(i_j_w[2] + 1));
+	while (i_j_w[0] < (*tmp)->n_args)
+	{
+		var_quotes_loop(tmp, i_j_w, &quote, new_cmd);
+		i_j_w[1] = 0;
+		i_j_w[0]++;
+	}
+	new_cmd[i_j_w[2]] = '\0';
 	free_arr((*tmp)->args);
 	(*tmp)->args = NULL;
 	free((*tmp)->cmd);
@@ -129,47 +148,51 @@ void	variable_with_quotes(t_cmd_table **tmp)
 	(*tmp)->n_args = 0;
 }
 
+void	clean_table_var(t_cmd_table **tmp, t_cmd_table **next, t_minishell *data)
+{
+	int			i;
+
+	i = 0;
+	free((*tmp)->cmd);
+	free_arr((*tmp)->args);
+	while (i < (*tmp)->n_redirections)
+	{
+		free((*tmp)->redirections[i]->value);
+		free((*tmp)->redirections[i++]);
+	}
+	free((*tmp)->redirections);
+	if ((*tmp)->prev)
+	{
+		(*tmp)->prev->next = (*next)->next;
+		(*tmp)->prev->in = STDIN;
+	}
+	else
+	{
+		(*next)->prev = NULL;
+		data->cmd_table = (*next);	
+		(*next)->in = STDIN;
+	}
+	free((*tmp));
+}
+
 void	cmd_table_no_vars(t_minishell *data)
 {
 	t_cmd_table	*tmp;
 	t_cmd_table	*next;
-	int			i;
 
-	i = 0;
 	tmp = data->cmd_table;
 	while (tmp)
 	{
 		next = tmp->next;
 		if (!check_variable(tmp))
-		{
-			free(tmp->cmd);
-			free_arr(tmp->args);
-			while (i < tmp->n_redirections)
-			{
-				free(tmp->redirections[i]->value);
-				free(tmp->redirections[i++]);
-			}
-			free(tmp->redirections);
-			if (tmp->prev)
-			{
-				tmp->prev->next = next->next;
-				tmp->prev->in = STDIN;
-			}
-			else
-			{
-				next->prev = NULL;
-				data->cmd_table = next;	
-				next->in = STDIN;
-			}
-			free(tmp);
-		}
+			clean_table_var(&tmp, &next, data);
 		tmp = next;
 	}
 }
 void	add_local_variables(char **new_env, char **new_export, t_minishell *data, t_cmd_table *tmp)
 {
 	if (tmp->n_args)
-		variable_with_quotes(&tmp);
+		variable_with_quotes(&tmp, data);
 	if (!variable_in_env_char(tmp->cmd, data->env_vars))
 	{
 		new_env = mod_var(data->env_vars, data, tmp->cmd);
@@ -185,7 +208,14 @@ void	add_local_variables(char **new_env, char **new_export, t_minishell *data, t
 	local_variables_aux(data, tmp);
 }
 
-void	local_variables(t_minishell *data) 
+int	break_variables_loop(t_minishell *data)
+{
+	clean_local_vars(&data->local_vars);
+	cmd_table_no_vars(data);
+	return (1);
+}
+
+void	local_variables(t_minishell *data)
 {
 	t_cmd_table	*tmp;
 	char		**new_env;
@@ -208,11 +238,8 @@ void	local_variables(t_minishell *data)
 			var = true;
 		}
 		else if (check_variable(tmp) && var == true)
-		{
-			clean_local_vars(&data->local_vars);
-			cmd_table_no_vars(data);
-			return ;
-		}
+			if (break_variables_loop(data))
+				return ;
 		tmp = tmp->next;
 	}
 }

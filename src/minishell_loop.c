@@ -6,13 +6,22 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/17 09:28:00 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/17 10:27:46 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	parse_data(t_minishell *data, bool *err_syntax);
+
+void	print_tokens(t_token *token_list) // borrar
+{
+	while (token_list)
+	{
+	 	printf("value:%s type:%d\n",token_list->value, token_list->type);
+	 	token_list = token_list->next;
+	}
+}
 
 void	print_cmd_table(t_cmd_table *cmd_table) // borrar
 {
@@ -50,15 +59,6 @@ void	print_cmd_table(t_cmd_table *cmd_table) // borrar
 	}
 }
 
-void	print_tokens(t_token *token_list) // borrar
-{
-	while (token_list)
-	{
-	 	printf("value:%s type:%d\n",token_list->value, token_list->type);
-	 	token_list = token_list->next;
-	}
-}
-
 static void	parse_data(t_minishell *data, bool *err_syntax)
 {
 	t_token	*token_tmp;
@@ -67,8 +67,6 @@ static void	parse_data(t_minishell *data, bool *err_syntax)
 	lexer(data->line, &(data->token_list));
 	data->token_list->data = data;
 	token_tmp = data->token_list;
-	// print_tokens(data->token_list);
-	// exit(0);
 	if (!check_comments(&(data->token_list)))
 	{
 		*err_syntax = true;
@@ -98,6 +96,8 @@ void	minishell_loop(t_minishell *data)
 	else if (check_spaces(data->line) || ft_strlen(data->line) == 0)
 		reset_loop(data);
 	parse_data(data, &err_syntax);
+	//print_cmd_table(data->cmd_table);
+	//exit(0);
 	local_variables(data);
 	if (!err_syntax)
 	{

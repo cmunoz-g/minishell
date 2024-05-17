@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:59:49 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/17 11:47:31 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:21:23 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,61 +39,44 @@ char	*get_new_var(char *variable, t_variable *local_vars, t_minishell *data)
 	return (new_var);
 }
 
-void	declaration_aux_laps(int laps, int i, t_minishell *data)
-{
-	if (laps < 0)
-		create_new_variable(data->cmd_table->args[i],
-			&(data->local_vars), data);
-	else
-		change_var_value(data->cmd_table->args[i],
-			&(data->local_vars), laps, data);
-}
-
-void	declaration_aux_check(t_minishell *data, int i, char **new_env, char **new_export)
-{
-	char *tmp;
-	
-	new_env = mod_var(data->env_vars, data, data->cmd_table->args[i]);
-	new_export = mod_var(data->export_vars, data, data->cmd_table->args[i]);
-	tmp = new_env[0];
-	tmp = new_export[0];
-	tmp++;
-}
-
-void	declaration_aux_free(t_minishell *data, char **new_export, char **new_env)
-{
-	(free_arr(data->export_vars), free_arr(data->env_vars));
-	data->env_vars = new_env;
-	data->export_vars = new_export;
-}
-
 void	declaration(t_minishell *data, int i, int laps, char **new_env)
 {
-	char	**exp;
+	char	**new_export;
 	
-	exp = NULL;
 	if (!variable_in_env_char(data->cmd_table->args[i], data->env_vars))
-		declaration_aux_check(data, i, new_env, exp);
+	{
+		new_env = mod_var(data->env_vars, data, data->cmd_table->args[i]);
+		new_export = mod_var(data->export_vars, data, data->cmd_table->args[i]);
+	}
 	else
 	{
-		declaration_aux_laps(laps, i, data);
+		if (laps < 0)
+			create_new_variable(data->cmd_table->args[i],
+				&(data->local_vars), data);
+		else
+			change_var_value(data->cmd_table->args[i],
+				&(data->local_vars), laps, data);
 		if (laps >= 0 && !variable_in_env(get_var_to_mod(data->local_vars,
 					laps), data->env_vars))
 			{
 				new_env = mod_var(data->env_vars, data, data->cmd_table->args[i]);
-				exp = mod_var_export(data->export_vars, data, data->cmd_table->args[i]);
+				new_export = mod_var_export(data->export_vars, data, data->cmd_table->args[i]);
 			}
 		else
 		{
 			new_env = add_variable(data->cmd_table->args[i],
 					data->env_vars, data);
 			if (!variable_in_env_char(data->cmd_table->args[i], data->export_vars))
-				exp = mod_var_export(data->export_vars, data, data->cmd_table->args[i]); 
+			{
+				new_export = mod_var_export(data->export_vars, data, data->cmd_table->args[i]); 
+			}
 			else
-				exp = add_variable(data->cmd_table->args[i], data->export_vars, data);
+				new_export = add_variable(data->cmd_table->args[i], data->export_vars, data);
 		}
 	}
-	declaration_aux_free(data, exp, new_env);
+	(free_arr(data->export_vars), free_arr(data->env_vars));
+	data->env_vars = new_env;
+	data->export_vars = new_export;
 }
 
 char	**add_var_no_value(char *variable, char **exp, t_minishell *data)
@@ -171,6 +154,17 @@ void	reset_export(t_minishell *data, int i, int *declaration, int *laps)
 	*laps = check_new_var(data->cmd_table->args[i], data->local_vars);
 }
 
+// void	check_possible_quotes(t_minishell *data)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (i < data->cmd_table->n_args)
+// 	{
+// 		if (is_quoted_var(data->cmd_table->args[0]))
+// 	}
+// }
+
 int	mini_export(t_minishell *data)
 {
 	int		i;
@@ -184,6 +178,7 @@ int	mini_export(t_minishell *data)
 		env_order(data);
 	new_env = NULL;
 	new_var = NULL;
+	//check_possible_quotes(data);
 	while (i < data->cmd_table->n_args)
 	{
 		reset_export(data, i, &dec, &laps);

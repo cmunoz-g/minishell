@@ -9,9 +9,9 @@ void	check_local_var_aux(char *line, t_token **it_variable)
 			&& (!is_there_space((*it_variable), line))
 			&& !check_if_variable((*it_variable)))
 		(*it_variable)->type = CMD;
-	else if ((*it_variable)->prev && (*it_variable)->prev->variable == true
-		&& is_quoted_var((*it_variable)->value))
-		(*it_variable)->type = CMD;
+	else if ((*it_variable)->type != PIPE && (*it_variable)->prev && (*it_variable)->prev->variable == true
+		&& is_quoted_var((*it_variable)->value) && check_first_cmd((*it_variable)))
+			(*it_variable)->type = CMD;
 }
 
 void	check_local_var(t_token **token_list, char *line)

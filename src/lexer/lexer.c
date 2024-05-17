@@ -6,11 +6,20 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:30:07 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/16 10:11:50 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:15:39 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// void	print_tokens(t_token *token_list) // borrar
+// {
+// 	while (token_list)
+// 	{
+// 	 	printf("value:%s type:%d\n",token_list->value, token_list->type);
+// 	 	token_list = token_list->next;
+// 	}
+// }
 
 void	lexer(char *line, t_token **list)
 {

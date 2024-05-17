@@ -54,6 +54,8 @@ int	check_first_cmd(t_token *it_variable)
 		tmp = tmp->prev;
 	if (!ft_strncmp("export", tmp->value, 6))
 		return (0);
+	if (!ft_strncmp("\"export\"", tmp->value, 6))
+		return (0);
 	else
 		return (1);
 }

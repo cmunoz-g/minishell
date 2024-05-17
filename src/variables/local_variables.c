@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:16:35 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/16 09:45:02 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:17:39 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,12 +178,11 @@ void	add_local_variables(char **new_env, char **new_export, t_minishell *data, t
 	}
 	if (!variable_in_env_char(tmp->cmd, data->export_vars))
 	{
-		new_export = mod_var_export(data->env_vars, data, tmp->cmd);
+		new_export = mod_var_export(data->export_vars, data, tmp->cmd);
 		free_arr(data->export_vars);
 		data->export_vars = new_export;
 	}
-	else
-		local_variables_aux(data, tmp);
+	local_variables_aux(data, tmp);
 }
 
 void	local_variables(t_minishell *data) 
@@ -200,7 +199,7 @@ void	local_variables(t_minishell *data)
 	var = false;
 	while (tmp)
 	{
-		expanded = expand(tmp->cmd, 0, data); // a=$NAME si vale pero $NAME=a no
+		expanded = expand(tmp->cmd, 0, data);
 		free(tmp->cmd);
 		tmp->cmd = expanded;
 		if (!check_variable(tmp))

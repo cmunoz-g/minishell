@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/14 12:38:09 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:28:00 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ static void	parse_data(t_minishell *data, bool *err_syntax)
 	else
 	{
 		if (!check_syntax(data->token_list))
+		{
+			check_end(&(data->token_list));	
 			parser(&(data->cmd_table), &(data->token_list));
+		}
 		else
 			*err_syntax = true;
 	}

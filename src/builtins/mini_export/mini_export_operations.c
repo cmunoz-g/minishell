@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:59:52 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 11:49:38 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:15:34 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,15 @@ char	**mod_var_export(char **export_vars, t_minishell *data, char *variable)
 	i = 0;
 	size = get_var_size(variable, true);
 	nbr_export = get_nbr_env(export_vars);
-	new_export = (char **)malloc(sizeof(char *) * (nbr_export + 1));
+	new_export = (char **)malloc(sizeof(char *) * (nbr_export + 2));
 	if (!new_export)
 		error(data, "Memory problems while modifying export variables");
 	while (export_vars[i])
 	{
 		if (!ft_strncmp(variable, export_vars[i], size))
+		{
 			new_export[i] = ft_strdup(variable); 
+		}
 		//proteget
 		else
 			new_export[i] = ft_strdup(export_vars[i]);

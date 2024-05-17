@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/16 10:49:52 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:30:34 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,9 +322,10 @@ void		parser(t_cmd_table **cmd_table, t_token **token_list);
 void		parser_aux(t_token **token_list, int *s_e);
 
 /***							SYNTAX							***/
-//	comments
+//	comments_end
 int			check_comments(t_token **token_list);
 void		take_out_tokens(t_token **tmp);
+void		check_end(t_token **token_list);
 
 //	syntax
 int			check_syntax(t_token *token_list);

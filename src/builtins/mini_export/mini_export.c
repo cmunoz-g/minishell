@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:59:49 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/14 11:34:11 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:16:57 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	**add_var_no_value(char *variable, char **exp, t_minishell *data)
 		i_j[1]++;
 	}
 	new_export[i_j[1]] = ft_strdup(variable);
-	if (!new_export[i_j[0]])
+	if (!new_export[i_j[1]])
 		(free_arr(new_export), error(data, "Memory problems in mini_export"));
 	i_j[1]++;
 	new_export[i_j[1]] = NULL;
@@ -134,7 +134,7 @@ void	no_declaration(t_minishell *data, int i, char *new_var, char **new_env)
 		{
 			new_export = add_var_no_value(data->cmd_table->args[i], data->export_vars, data);
 			free_arr(data->export_vars);
-			data->export_vars = new_export;
+			data->export_vars = new_export;	
 		}
 	}
 }

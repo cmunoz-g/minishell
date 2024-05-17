@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   comments.c                                         :+:      :+:    :+:   */
+/*   comments_end.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:17:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 11:23:46 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:30:28 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,19 @@ int	check_comments(t_token **token_list)
 		tmp = tmp->next;
 	}
 	return (first);
+}
+void	check_end(t_token **token_list)
+{
+	t_token	*tmp;
+
+	tmp = (*token_list);
+	while (tmp)
+	{
+		if (tmp->type == END)
+		{
+			take_out_tokens(&tmp);
+			return ;
+		}
+		tmp = tmp->next;
+	}
 }

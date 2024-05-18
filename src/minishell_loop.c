@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/17 12:20:40 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/18 15:13:23 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,42 +20,6 @@ void	print_tokens(t_token *token_list) // borrar
 	{
 	 	printf("value:%s type:%d\n",token_list->value, token_list->type);
 	 	token_list = token_list->next;
-	}
-}
-
-void	print_cmd_table(t_cmd_table *cmd_table) // borrar
-{
-	int i = 0; 
-
-	while (cmd_table) 
-	{
-		printf("CMD:%s\n",cmd_table->cmd);
-		if (cmd_table->args)
-		{
-			while (cmd_table->args[i])
-			{
-				printf("ARG%d:%s\n", i, cmd_table->args[i]);
-				i++;
-			}
-
-		}
-		if (cmd_table->in)
-			printf("IN:%d\n", cmd_table->in);
-		printf("OUT:%d\n", cmd_table->out);
-		printf("ERR:%d\n", cmd_table->err);
-		i = 0;
-		while (i < cmd_table->n_redirections)
-		{
-			printf("redir number: %d type: %d value: %s\n", i, cmd_table->redirections[i]->type, cmd_table->redirections[i]->value);
-			i++;
-		}
-		printf("nbr redir: %d\n", cmd_table->n_redirections);
-		// if (cmd_table->new_cmd)
-		// 	printf("new cdm TRUE\n");
-		// else
-		// 	printf("new cdm FALSE\n");
-		cmd_table = cmd_table->next;
-		printf("\n");
 	}
 }
 
@@ -98,8 +62,6 @@ void	minishell_loop(t_minishell *data)
 	else if (check_spaces(data->line) || ft_strlen(data->line) == 0)
 		reset_loop(data);
 	parse_data(data, &err_syntax);
-	// print_cmd_table(data->cmd_table);
-	// exit(0);
 	local_variables(data);
 	if (!err_syntax)
 	{

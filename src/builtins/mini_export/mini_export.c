@@ -6,11 +6,47 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:59:49 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/17 12:21:23 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/18 16:00:45 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_cmd_table(t_cmd_table *cmd_table) // borrar
+{
+	int i = 0; 
+
+	while (cmd_table) 
+	{
+		printf("CMD:%s\n",cmd_table->cmd);
+		if (cmd_table->args)
+		{
+			while (cmd_table->args[i])
+			{
+				printf("ARG%d:%s\n", i, cmd_table->args[i]);
+				i++;
+			}
+
+		}
+		if (cmd_table->in)
+			printf("IN:%d\n", cmd_table->in);
+		printf("OUT:%d\n", cmd_table->out);
+		printf("ERR:%d\n", cmd_table->err);
+		i = 0;
+		while (i < cmd_table->n_redirections)
+		{
+			printf("redir number: %d type: %d value: %s\n", i, cmd_table->redirections[i]->type, cmd_table->redirections[i]->value);
+			i++;
+		}
+		printf("nbr redir: %d\n", cmd_table->n_redirections);
+		// if (cmd_table->new_cmd)
+		// 	printf("new cdm TRUE\n");
+		// else
+		// 	printf("new cdm FALSE\n");
+		cmd_table = cmd_table->next;
+		printf("\n");
+	}
+}
 
 char	*get_new_var(char *variable, t_variable *local_vars, t_minishell *data)
 {
@@ -154,16 +190,48 @@ void	reset_export(t_minishell *data, int i, int *declaration, int *laps)
 	*laps = check_new_var(data->cmd_table->args[i], data->local_vars);
 }
 
-// void	check_possible_quotes(t_minishell *data)
-// {
-// 	int	i;
 
-// 	i = 0;
-// 	while (i < data->cmd_table->n_args)
-// 	{
-// 		if (is_quoted_var(data->cmd_table->args[0]))
-// 	}
-// }
+// // to do: 
+// 1. hacer lo de new arg para que no queden arg sueltos
+// 2. aniadir lo de que si no termina en quote sume uno
+// 3. arreglar lo de que si mandas el cmd dos veces explota (con a="hola")
+// 5. arreglar que minishell> export a="qqq se queda pillado
+// 4. mirar lo de "a=”hola””hola”"
+
+void	check_possible_quotes(t_minishell *data)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+	//char	**new_args; 
+
+	i = 0;
+	j = 1;
+	//new_args = (char **)malloc(sizeof(char *) * get_nbr_declarations)
+ 	while (i < data->cmd_table->n_args)
+	{
+		if (!is_pos_variable(data->cmd_table->args[i]) && !get_var_size(data->cmd_table->args[i], false))
+		{
+			while (j < data->cmd_table->n_args && is_pos_variable(data->cmd_table->args[j]))
+			{
+				if (data->cmd_table->args[j] && !is_quoted_var(data->cmd_table->args[j]))
+				{
+					tmp = (char *)malloc(ft_strlen(data->cmd_table->args[i]) + ft_strlen(data->cmd_table->args[j]) + 1);
+					//proteger
+					ft_strlcpy(tmp, data->cmd_table->args[i], ft_strlen(data->cmd_table->args[i]) + 1);
+					data->cmd_table->args[j]++;
+					ft_strlcat(tmp, data->cmd_table->args[j], (ft_strlen(tmp) + ft_strlen(data->cmd_table->args[j]))); // si no acaba en quote deberia sumar uno al final
+					free(data->cmd_table->args[i]);
+					data->cmd_table->args[j]--;
+					data->cmd_table->args[i] = tmp;
+				}
+				j++;
+			}
+		}
+		i++;
+		j = i + 1;
+	}
+}
 
 int	mini_export(t_minishell *data)
 {
@@ -178,7 +246,9 @@ int	mini_export(t_minishell *data)
 		env_order(data);
 	new_env = NULL;
 	new_var = NULL;
-	//check_possible_quotes(data);
+	check_possible_quotes(data);
+	///print_cmd_table(data->cmd_table);
+	//exit(0);
 	while (i < data->cmd_table->n_args)
 	{
 		reset_export(data, i, &dec, &laps);

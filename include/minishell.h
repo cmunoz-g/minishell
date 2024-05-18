@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/17 11:07:53 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/18 15:00:49 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,6 +288,7 @@ void		change_var_value(char *cmd, t_variable **loc,
 				int l, t_minishell *data);
 void		local_variables(t_minishell *data);
 void		local_variables_aux(t_minishell *data, t_cmd_table *tmp);
+void		variable_with_quotes(t_cmd_table **tmp, t_minishell *data);
 
 //	sh_lvl
 void		update_sh_lvl(t_minishell *data, int operation);

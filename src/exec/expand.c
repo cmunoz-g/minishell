@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/16 10:18:10 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/22 12:01:42 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,12 @@ static char	*expand_word(char *str, int start, int end, t_minishell *data)
 	if (str[start + 1] == '?')
 		return (ft_itoa(g_global.error_num));
 	keyword = ft_substr(str, start + 1, end - start);
-	keyword_cleaned = ft_strtrim(keyword, " ");
+	keyword_cleaned = ft_strtrim(keyword, EXPAND_CLEANER);
 	free(keyword);
-	keyword = ft_strtrim(keyword_cleaned, "=");
-	free(keyword_cleaned);
-	value = ft_strdup(my_getenv(keyword, data->env_vars));
+	value = ft_strdup(my_getenv(keyword_cleaned, data->env_vars));
 	if (!value)
-		value = ft_strdup(expand_local(keyword, data->local_vars));
-	return (free(keyword), value);
+		value = ft_strdup(expand_local(keyword_cleaned, data->local_vars));
+	return (free(keyword_cleaned), value);
 }
 
 static char	*expand_str(char *str, int start, int *i, t_minishell *data)

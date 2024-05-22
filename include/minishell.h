@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/16 09:44:25 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/22 12:06:21 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define PATH_MAX	4096
 
 # define HEREDOC_MSG "\033[1;34m> \033[0m"
+# define EXPAND_CLEANER " !#%%&()*+,-./:;<=>?¿@[]^{}~"
 
 # include <stdlib.h>
 # include <stdio.h>

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:49:59 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/22 10:41:50 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/14 13:52:44 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,7 @@ int	single_cmd(t_minishell *data)
 		return (EXIT_FAILURE);
 	if (pid == 0)
 	{
-		if (!data->cmd_table->cmd && data->cmd_table->hd_file)
-		{
-			data->cmd_table->cmd = ft_strdup("cat");
-			exec_process(data);
-		}
-		else if (!data->cmd_table->cmd)
+		if (!data->cmd_table->cmd)
 			exit (EXIT_SUCCESS);
 		exec_process(data);
 	}
@@ -119,13 +114,8 @@ void	ft_fork(t_minishell *data, int *p_fd)
 static void	handle_cmd(t_minishell *data, int *p_fd)
 {
 	close(p_fd[0]);
-	if (!data->cmd_table->cmd && data->cmd_table->hd_file)
-	{
-		data->cmd_table->cmd = ft_strdup("cat");
-		exec_process(data);
-	}
 	if (!data->cmd_table->cmd)
-		exit (EXIT_SUCCESS);
+		exit(EXIT_SUCCESS);
 	if (!data->cmd_table->next || data->cmd_table->out == TRUNC
 		|| data->cmd_table->out == APPEND)
 		exec_process(data);

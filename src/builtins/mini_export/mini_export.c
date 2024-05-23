@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:59:49 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/18 16:00:45 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/23 10:42:16 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,24 +190,65 @@ void	reset_export(t_minishell *data, int i, int *declaration, int *laps)
 	*laps = check_new_var(data->cmd_table->args[i], data->local_vars);
 }
 
+int		get_new_args_nbr(char **args)
+{
+	int	i;
 
-// // to do: 
-// 1. hacer lo de new arg para que no queden arg sueltos
-// 2. aniadir lo de que si no termina en quote sume uno
-// 3. arreglar lo de que si mandas el cmd dos veces explota (con a="hola")
-// 5. arreglar que minishell> export a="qqq se queda pillado
-// 4. mirar lo de "a=”hola””hola”"
+	i = 0;
+	while (args[i] != NULL)
+		i++;
+	return (i);
+}
+
+int	quote_in_middle(char *arg, char quote_type)
+{
+	int	i;
+
+	i = 0;
+	while (arg[i + 1])
+	{
+		if (arg[i] == quote_type)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+char	*take_out_quotes(char **args, int i)
+{
+	char *new_arg;
+	int	j;
+	int	w;
+
+	j = 0;
+	w = 0;
+	new_arg = (char *)malloc(ft_strlen(args[i]) + 1);
+	//proteger
+	while (args[i][j])
+	{
+		if (args[i][j] != '\"' && args[i][j] != '\'')
+			new_arg[w++] = args[i][j];
+		j++;
+	}
+	new_arg[w] = '\0';
+	return (new_arg);
+}
 
 void	check_possible_quotes(t_minishell *data)
 {
 	int		i;
 	int		j;
+	int		w;
 	char	*tmp;
-	//char	**new_args; 
+	char	*middle;
+	char	**new_args;
 
 	i = 0;
+	w = 0;
 	j = 1;
-	//new_args = (char **)malloc(sizeof(char *) * get_nbr_declarations)
+	tmp = NULL;
+	new_args = (char **)malloc(sizeof(char *) * (data->cmd_table->n_args + 1));
+	// proteger
  	while (i < data->cmd_table->n_args)
 	{
 		if (!is_pos_variable(data->cmd_table->args[i]) && !get_var_size(data->cmd_table->args[i], false))
@@ -216,21 +257,47 @@ void	check_possible_quotes(t_minishell *data)
 			{
 				if (data->cmd_table->args[j] && !is_quoted_var(data->cmd_table->args[j]))
 				{
-					tmp = (char *)malloc(ft_strlen(data->cmd_table->args[i]) + ft_strlen(data->cmd_table->args[j]) + 1);
-					//proteger
-					ft_strlcpy(tmp, data->cmd_table->args[i], ft_strlen(data->cmd_table->args[i]) + 1);
+					if (!tmp)
+					{
+						tmp = (char *)malloc(ft_strlen(data->cmd_table->args[i]) + ft_strlen(data->cmd_table->args[j]) + 1);
+						//proteger
+						ft_strlcpy(tmp, data->cmd_table->args[i], ft_strlen(data->cmd_table->args[i]) + 1);
+					}
 					data->cmd_table->args[j]++;
-					ft_strlcat(tmp, data->cmd_table->args[j], (ft_strlen(tmp) + ft_strlen(data->cmd_table->args[j]))); // si no acaba en quote deberia sumar uno al final
-					free(data->cmd_table->args[i]);
+					if (!quote_in_middle(data->cmd_table->args[j], (*(data->cmd_table->args[j] - 1))))
+					{
+						middle = take_out_quotes(data->cmd_table->args, j);
+						ft_strlcat(tmp, middle, (ft_strlen(tmp) + ft_strlen(data->cmd_table->args[j]) + 1));
+						free(middle);
+					}
+					else
+						ft_strlcat(tmp, data->cmd_table->args[j], (ft_strlen(tmp) + ft_strlen(data->cmd_table->args[j]))); 
 					data->cmd_table->args[j]--;
-					data->cmd_table->args[i] = tmp;
+					
 				}
 				j++;
 			}
+			if (j == i + 1)
+				new_args[w] = ft_strdup(data->cmd_table->args[i]);
+			else
+				new_args[w] = ft_strdup(tmp);
+			// proteger
+			w++;
+			free(tmp);
+			tmp = NULL;
+		}
+		else if (is_quoted_var(data->cmd_table->args[i]))
+		{
+			new_args[w] = ft_strdup(data->cmd_table->args[i]);
+			w++;
 		}
 		i++;
 		j = i + 1;
 	}
+	new_args[w] = NULL;
+	free_arr(data->cmd_table->args);
+	data->cmd_table->args = new_args;
+	data->cmd_table->n_args = get_new_args_nbr(data->cmd_table->args);
 }
 
 int	mini_export(t_minishell *data)
@@ -247,8 +314,8 @@ int	mini_export(t_minishell *data)
 	new_env = NULL;
 	new_var = NULL;
 	check_possible_quotes(data);
-	///print_cmd_table(data->cmd_table);
-	//exit(0);
+	// print_cmd_table(data->cmd_table);
+	// exit(0);
 	while (i < data->cmd_table->n_args)
 	{
 		reset_export(data, i, &dec, &laps);

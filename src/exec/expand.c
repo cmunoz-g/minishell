@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/24 11:19:30 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/24 11:32:38 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ static char	*expand_str(char *str, int start, int *i, t_minishell *data)
 	return (free(newstr), free(end), free(str), begin);
 }
 
+// '$PWD' gets expanded
 char	*expand(char *str, int is_heredoc, t_minishell *data)
 {
 	int		i;

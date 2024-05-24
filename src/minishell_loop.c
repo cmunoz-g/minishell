@@ -6,22 +6,13 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/18 15:13:23 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/24 09:41:39 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	parse_data(t_minishell *data, bool *err_syntax);
-
-void	print_tokens(t_token *token_list) // borrar
-{
-	while (token_list)
-	{
-	 	printf("value:%s type:%d\n",token_list->value, token_list->type);
-	 	token_list = token_list->next;
-	}
-}
 
 static void	parse_data(t_minishell *data, bool *err_syntax)
 {
@@ -31,8 +22,6 @@ static void	parse_data(t_minishell *data, bool *err_syntax)
 	lexer(data->line, &(data->token_list));
 	data->token_list->data = data;
 	token_tmp = data->token_list;
-	// print_tokens(data->token_list);
-	// exit(0);
 	if (!check_comments(&(data->token_list)))
 	{
 		*err_syntax = true;
@@ -40,9 +29,10 @@ static void	parse_data(t_minishell *data, bool *err_syntax)
 	}
 	else
 	{
-		if (!check_syntax(data->token_list))
+		if (!check_syntax(data->token_list)
+			&& !check_only_quote(data->token_list))
 		{
-			check_end(&(data->token_list));	
+			check_end(&(data->token_list));
 			parser(&(data->cmd_table), &(data->token_list));
 		}
 		else

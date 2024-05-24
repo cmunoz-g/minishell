@@ -6,47 +6,11 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:59:49 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/23 10:42:16 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/24 09:26:08 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_cmd_table(t_cmd_table *cmd_table) // borrar
-{
-	int i = 0; 
-
-	while (cmd_table) 
-	{
-		printf("CMD:%s\n",cmd_table->cmd);
-		if (cmd_table->args)
-		{
-			while (cmd_table->args[i])
-			{
-				printf("ARG%d:%s\n", i, cmd_table->args[i]);
-				i++;
-			}
-
-		}
-		if (cmd_table->in)
-			printf("IN:%d\n", cmd_table->in);
-		printf("OUT:%d\n", cmd_table->out);
-		printf("ERR:%d\n", cmd_table->err);
-		i = 0;
-		while (i < cmd_table->n_redirections)
-		{
-			printf("redir number: %d type: %d value: %s\n", i, cmd_table->redirections[i]->type, cmd_table->redirections[i]->value);
-			i++;
-		}
-		printf("nbr redir: %d\n", cmd_table->n_redirections);
-		// if (cmd_table->new_cmd)
-		// 	printf("new cdm TRUE\n");
-		// else
-		// 	printf("new cdm FALSE\n");
-		cmd_table = cmd_table->next;
-		printf("\n");
-	}
-}
 
 char	*get_new_var(char *variable, t_variable *local_vars, t_minishell *data)
 {

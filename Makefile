@@ -6,7 +6,7 @@
 #    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/05/17 09:29:57 by camunozg         ###   ########.fr        #
+#    Updated: 2024/05/24 10:21:33 by camunozg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,8 @@ SRC_FILES 	= 	main\
 				variables/local_variables\
 				variables/local_variables_utils\
 				variables/local_variables_checks\
+				variables/local_variables_utils_aux\
+				variables/local_variables_quotes\
 				variables/sh_lvl\
 				lexer/lexer_utils\
 				lexer/lexer\
@@ -63,6 +65,7 @@ SRC_FILES 	= 	main\
 				builtins/mini_export/mini_export_order\
 				builtins/mini_export/mini_export_utils\
 				builtins/mini_export/mini_export_operations\
+				builtins/mini_export/mini_export_quotes\
 				builtins/utils_builtins\
 				signals\
 				

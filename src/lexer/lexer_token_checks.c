@@ -1,17 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_token_checks.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/24 10:12:34 by camunozg          #+#    #+#             */
+/*   Updated: 2024/05/24 10:13:53 by camunozg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	check_local_var_aux(char *line, t_token **it_variable)
 {
 	if ((*it_variable)->type != PIPE && (*it_variable)->prev->variable == true
-			&& (!is_there_space((*it_variable), line)))
+		&& (!is_there_space((*it_variable), line)))
 		(*it_variable)->type = CMD;
 	else if ((*it_variable)->type != PIPE && (*it_variable)->prev->type != CMD
-			&& (!is_there_space((*it_variable), line))
-			&& !check_if_variable((*it_variable)))
+		&& (!is_there_space((*it_variable), line))
+		&& !check_if_variable((*it_variable)))
 		(*it_variable)->type = CMD;
-	else if ((*it_variable)->type != PIPE && (*it_variable)->prev && (*it_variable)->prev->variable == true
-		&& is_quoted_var((*it_variable)->value) && check_first_cmd((*it_variable)))
-			(*it_variable)->type = CMD;
+	else if ((*it_variable)->type != PIPE && (*it_variable)->prev
+		&& (*it_variable)->prev->variable == true
+		&& is_quoted_var((*it_variable)->value)
+		&& check_first_cmd((*it_variable)))
+		(*it_variable)->type = CMD;
 }
 
 void	check_local_var(t_token **token_list, char *line)
@@ -29,7 +43,8 @@ void	check_local_var(t_token **token_list, char *line)
 		{
 			if (it_variable->prev->variable || it_variable->prev->type != CMD)
 			{
-				if (!check_first_cmd(it_variable) && !check_if_pipe(it_variable))
+				if (!check_first_cmd(it_variable)
+					&& !check_if_pipe(it_variable))
 					it_variable->type = ARG;
 				else
 					it_variable->type = CMD;

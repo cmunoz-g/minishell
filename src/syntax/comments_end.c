@@ -6,20 +6,21 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:17:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/24 09:38:18 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/24 10:10:11 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		check_only_quote(t_token *token_list)
+int	check_only_quote(t_token *token_list)
 {
 	t_token	*tmp;
 
 	tmp = token_list;
 	while (tmp)
 	{
-		if (ft_strncmp(token_list->value, "\'", 1) && ft_strncmp(token_list->value, "\"", 1))
+		if (ft_strncmp(token_list->value, "\'", 1)
+			&& ft_strncmp(token_list->value, "\"", 1))
 			return (0);
 		tmp = tmp->next;
 	}

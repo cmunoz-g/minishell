@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/13 12:35:38 by camunozg         ###   ########.fr       */
+/*   Created: 2024/05/24 10:08:40 by camunozg          #+#    #+#             */
+/*   Updated: 2024/05/24 10:08:41 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 

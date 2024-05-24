@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:49:53 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/14 13:41:55 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/24 10:15:39 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,6 @@ int	mini_exit(t_minishell *data)
 	exit_code %= 256;
 	if (exit_code < 0)
 		exit_code += 256;
-	clean_data(&data); 
+	clean_data(&data);
 	(ft_putendl_fd("exit", 1), exit(exit_code));
 }

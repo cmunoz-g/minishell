@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:01 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/16 10:08:33 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/24 10:14:55 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	init_lexer(bool *qt, int *i, int *start)
 	*i = -1;
 	*start = 0;
 }
-int		is_pos_variable(char *value)
+
+int	is_pos_variable(char *value)
 {
 	int	i;
 
@@ -45,7 +46,7 @@ int	is_quoted_var(char *value)
 	int		i;
 	char	quote_type;
 	bool	is_quote;
-	
+
 	i = 0;
 	is_quote = false;
 	quote_type = '\0';
@@ -62,6 +63,6 @@ int	is_quoted_var(char *value)
 	}
 	if (is_quote == false && quote_type == '\0')
 		return (1);
-	else 
+	else
 		return (0);
 }

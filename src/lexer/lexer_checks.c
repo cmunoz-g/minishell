@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_checks.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/24 10:11:50 by camunozg          #+#    #+#             */
+/*   Updated: 2024/05/24 10:12:18 by camunozg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	is_there_space(t_token *it_variable, char *line)
@@ -31,7 +43,7 @@ int	is_there_space(t_token *it_variable, char *line)
 
 int	check_if_variable(t_token *it_variable)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	tmp = it_variable;
 	while (tmp->prev)
@@ -62,7 +74,7 @@ int	check_first_cmd(t_token *it_variable)
 
 int	check_if_pipe(t_token *it_variable)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	tmp = it_variable;
 	while (tmp->prev)
@@ -76,9 +88,9 @@ int	check_if_pipe(t_token *it_variable)
 
 int	check_if_repeated_value(t_token *it_variable)
 {
-	t_token *tmp;
+	t_token	*tmp;
 	int		i;
-	
+
 	i = 0;
 	while (it_variable)
 	{

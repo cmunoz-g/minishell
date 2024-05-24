@@ -6,13 +6,13 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:26:15 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/16 09:50:00 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/24 10:11:30 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		parser_conditions(t_token *token)
+int	parser_conditions(t_token *token)
 {
 	if (token->type == PIPE)
 		return (0);

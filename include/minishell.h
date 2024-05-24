@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/24 09:44:40 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/24 11:19:59 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,12 @@ void		quicksort(char **arr, int low, int high);
 int			partition(char *arr[], int low, int high);
 void		swap(char **x, char **y);
 
+//	mini_export_quotes
+void		check_possible_quotes(t_minishell *data);
+char		*take_out_quotes(char **args, int i, t_minishell *data);
+int			quote_in_middle(char *arg, char quote_type);
+int			get_new_args_nbr(char **args);
+
 //	mini_export_utils
 int			check_if_declaration(char *arg);
 int			get_comp_size(int name_size, char *var);
@@ -283,6 +289,11 @@ int			get_var_size(char *cmd, bool name);
 t_variable	*get_last_variable(t_variable *local_vars);
 void		create_new_variable(char *cmd, t_variable **loc, t_minishell *data);
 void		fill_variable(t_variable **variables, char *cmd, t_minishell *data);
+
+//	local_variables_utils_aux
+void		cmd_table_no_vars(t_minishell *data);
+void		clean_table_var(t_cmd_table **tmp, t_cmd_table **next, t_minishell *data);
+void		init_get_new_var_space(int *res, int *i_j, t_quotes *quote);
 
 //	local_variables
 void		change_var_value(char *cmd, t_variable **loc,

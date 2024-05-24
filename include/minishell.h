@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:09:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/24 09:36:44 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/24 09:44:40 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define PATH_MAX	4096
 
 # define HEREDOC_MSG "\033[1;34m> \033[0m"
+# define EXPAND_CLEANER " !#%%&()*+,-./:;<=>?¿@[]^{}~"
 
 # include <stdlib.h>
 # include <stdio.h>

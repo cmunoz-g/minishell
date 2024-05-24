@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 09:42:54 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/16 09:43:52 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/22 12:05:44 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 int	pass_over_expand(char c)
 {
-	return (!ft_isspace(c) && c != '=');
+	return (!ft_isspace(c) && !ft_strchr(EXPAND_CLEANER, c));
 }

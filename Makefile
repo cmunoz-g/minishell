@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+         #
+#    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/05/16 09:44:04 by juramos          ###   ########.fr        #
+#    Updated: 2024/05/26 12:33:02 by camunozg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,12 +27,16 @@ SRC_FILES 	= 	main\
 				variables/local_variables\
 				variables/local_variables_utils\
 				variables/local_variables_checks\
+				variables/local_variables_utils_aux\
+				variables/local_variables_quotes\
 				variables/sh_lvl\
 				lexer/lexer_utils\
 				lexer/lexer\
 				lexer/tokens\
+				lexer/lexer_checks\
+				lexer/lexer_token_checks\
 				syntax/syntax\
-				syntax/comments\
+				syntax/comments_end\
 				parser/cmd_table_utils\
 				parser/cmd_table\
 				parser/parser_utils\
@@ -60,7 +64,11 @@ SRC_FILES 	= 	main\
 				builtins/mini_export/mini_export\
 				builtins/mini_export/mini_export_order\
 				builtins/mini_export/mini_export_utils\
+				builtins/mini_export/mini_export_utils_aux\
 				builtins/mini_export/mini_export_operations\
+				builtins/mini_export/mini_export_quotes\
+				builtins/mini_export/mini_export_quotes_aux\
+				builtins/mini_export/mini_export_dec\
 				builtins/utils_builtins\
 				signals\
 				

@@ -1,16 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   comments.c                                         :+:      :+:    :+:   */
+/*   comments_end.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmunoz-g <cmunoz-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:17:45 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/07 11:23:46 by cmunoz-g         ###   ########.fr       */
+/*   Updated: 2024/05/26 11:00:21 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	check_only_quote(t_token *token_list)
+{
+	t_token	*tmp;
+
+	tmp = token_list;
+	if (tmp->value[0] && (tmp->value[0] == '\''
+			|| tmp->value[0] == '\"') && !tmp->value[1])
+		return (1);
+	else
+		return (0);
+}
 
 void	take_out_tokens(t_token **tmp)
 {
@@ -52,4 +64,20 @@ int	check_comments(t_token **token_list)
 		tmp = tmp->next;
 	}
 	return (first);
+}
+
+void	check_end(t_token **token_list)
+{
+	t_token	*tmp;
+
+	tmp = (*token_list);
+	while (tmp)
+	{
+		if (tmp->type == END)
+		{
+			take_out_tokens(&tmp);
+			return ;
+		}
+		tmp = tmp->next;
+	}
 }

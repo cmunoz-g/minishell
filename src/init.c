@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:22:55 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/14 13:57:02 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/24 09:42:03 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	get_sh_lvl(char **envp)
 		res = ft_atoi(envp[i] + 6);
 		return (res);
 	}
-	else 
+	else
 		return (1);
 }
 

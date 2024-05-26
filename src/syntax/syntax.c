@@ -6,7 +6,7 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:15:16 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/10 11:57:06 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/24 10:09:46 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ int	check_syntax_redir(t_token *it)
 
 int	check_syntax_pipe(t_token *it)
 {
+	if (it->type == DOUBLEPIPE)
+	{
+		print_syntax_error(it);
+		return (1);
+	}
 	if ((!it->prev && !it->next) || (!it->next))
 	{
 		print_syntax_error(it);
@@ -62,7 +67,7 @@ int	check_syntax_pipe(t_token *it)
 
 int	check_syntax_end(t_token *it)
 {
-	if (!it->prev && !it->next)
+	if (!it->prev)
 	{
 		print_syntax_error(it);
 		return (1);

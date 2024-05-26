@@ -6,58 +6,13 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/14 12:38:09 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/26 10:54:10 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	parse_data(t_minishell *data, bool *err_syntax);
-
-void	print_cmd_table(t_cmd_table *cmd_table) // borrar
-{
-	int i = 0; 
-
-	while (cmd_table) 
-	{
-		printf("CMD:%s\n",cmd_table->cmd);
-		if (cmd_table->args)
-		{
-			while (cmd_table->args[i])
-			{
-				printf("ARG%d:%s\n", i, cmd_table->args[i]);
-				i++;
-			}
-
-		}
-		if (cmd_table->in)
-			printf("IN:%d\n", cmd_table->in);
-		printf("OUT:%d\n", cmd_table->out);
-		printf("ERR:%d\n", cmd_table->err);
-		i = 0;
-		while (i < cmd_table->n_redirections)
-		{
-			printf("redir number: %d type: %d value: %s\n", i, cmd_table->redirections[i]->type, cmd_table->redirections[i]->value);
-			i++;
-		}
-		printf("nbr redir: %d\n", cmd_table->n_redirections);
-		// if (cmd_table->new_cmd)
-		// 	printf("new cdm TRUE\n");
-		// else
-		// 	printf("new cdm FALSE\n");
-		cmd_table = cmd_table->next;
-		printf("\n");
-	}
-}
-
-void	print_tokens(t_token *token_list) // borrar
-{
-	while (token_list)
-	{
-	 	printf("value:%s type:%d\n",token_list->value, token_list->type);
-	 	token_list = token_list->next;
-	}
-}
 
 static void	parse_data(t_minishell *data, bool *err_syntax)
 {
@@ -67,8 +22,6 @@ static void	parse_data(t_minishell *data, bool *err_syntax)
 	lexer(data->line, &(data->token_list));
 	data->token_list->data = data;
 	token_tmp = data->token_list;
-	// print_tokens(data->token_list);
-	// exit(0);
 	if (!check_comments(&(data->token_list)))
 	{
 		*err_syntax = true;
@@ -76,8 +29,12 @@ static void	parse_data(t_minishell *data, bool *err_syntax)
 	}
 	else
 	{
-		if (!check_syntax(data->token_list))
+		if (!check_syntax(data->token_list)
+			&& !check_only_quote(data->token_list))
+		{
+			check_end(&(data->token_list));
 			parser(&(data->cmd_table), &(data->token_list));
+		}
 		else
 			*err_syntax = true;
 	}

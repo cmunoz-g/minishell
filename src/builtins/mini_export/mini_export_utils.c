@@ -6,63 +6,11 @@
 /*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 16:01:55 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/17 11:17:03 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/26 12:30:52 by camunozg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	check_all_numbers(char *arg)
-{
-	int	i;
-
-	i = 0;
-	while (arg[i])
-	{
-		if (!ft_isdigit(arg[i]))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-void	check_if_declaration_aux(char *arg, bool flag)
-{
-	if (!check_all_numbers(arg))
-	{
-		printf("minishell: export: '%s': not a valid identifier\n", arg);
-		g_global.error_num = 1;
-	}
-	else if (flag)
-	{
-		printf("minishell: export: '%s': not a valid identifier\n", arg);
-		g_global.error_num = 1;
-	}
-}
-
-int	check_if_declaration(char *arg)
-{
-	int		i;
-	bool	flag;
-
-	i = 0;
-	flag = false;
-	while (arg[i])
-	{
-		if (arg[i] == '-')
-			flag = true;
-		if (!flag && arg[i] == '=' && i != 0)
-			return (0);
-		else if (arg[i] == '=' && i == 0)
-		{
-			printf("minishell: export: '%s': not a valid identifier\n", arg);
-			g_global.error_num = 1;
-		}
-		i++;
-	}
-	check_if_declaration_aux(arg, flag);
-	return (1);
-}
 
 t_variable	*get_var_to_mod(t_variable *local_vars, int laps)
 {

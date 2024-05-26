@@ -6,7 +6,7 @@
 #    By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 16:43:25 by juramos           #+#    #+#              #
-#    Updated: 2024/05/24 10:21:33 by camunozg         ###   ########.fr        #
+#    Updated: 2024/05/26 12:33:02 by camunozg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,8 +64,11 @@ SRC_FILES 	= 	main\
 				builtins/mini_export/mini_export\
 				builtins/mini_export/mini_export_order\
 				builtins/mini_export/mini_export_utils\
+				builtins/mini_export/mini_export_utils_aux\
 				builtins/mini_export/mini_export_operations\
 				builtins/mini_export/mini_export_quotes\
+				builtins/mini_export/mini_export_quotes_aux\
+				builtins/mini_export/mini_export_dec\
 				builtins/utils_builtins\
 				signals\
 				

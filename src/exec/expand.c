@@ -6,7 +6,7 @@
 /*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:22:51 by juramos           #+#    #+#             */
-/*   Updated: 2024/05/22 12:01:42 by juramos          ###   ########.fr       */
+/*   Updated: 2024/05/24 11:32:45 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,19 @@ static char	*remove_quotes(char *str)
 	char	*keyword_cleaned;
 	char	*keyword;
 
-	keyword_cleaned = ft_strtrim(str, "\"");
-	keyword = ft_strtrim(keyword_cleaned, "\'");
-	return (free(keyword_cleaned), keyword);
+	if (str[0] == '"' && str[ft_strlen(str) - 1] == '"')
+		keyword_cleaned = ft_strtrim(str, "\"");
+	else
+		keyword_cleaned = ft_strdup(str);
+	if (keyword_cleaned[0] == '\''
+		&& keyword_cleaned[ft_strlen(keyword_cleaned) - 1] == '\'')
+		keyword = ft_strtrim(keyword_cleaned, "\'");
+	else
+		keyword = ft_strdup(keyword_cleaned);
+	if (ft_strlen(keyword))
+		return (free(keyword_cleaned), keyword);
+	else
+		return (free(keyword_cleaned), free(keyword), NULL);
 }
 
 static char	*expand_local(char *str, t_variable *vars)
@@ -88,6 +98,7 @@ static char	*expand_str(char *str, int start, int *i, t_minishell *data)
 	return (free(newstr), free(end), free(str), begin);
 }
 
+// TODO: '$PWD' gets expanded
 char	*expand(char *str, int is_heredoc, t_minishell *data)
 {
 	int		i;
@@ -100,7 +111,7 @@ char	*expand(char *str, int is_heredoc, t_minishell *data)
 	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'' && !is_heredoc)
 		return (remove_quotes(str));
 	ret = remove_quotes(str);
-	while (ret[i])
+	while (ret && ret[i])
 	{
 		if (ret[i] == '$' && ret[i + 1] && pass_over_expand(ret[i + 1]))
 		{

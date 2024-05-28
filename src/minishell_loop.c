@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: camunozg <camunozg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juramos <juramos@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:41:43 by cmunoz-g          #+#    #+#             */
-/*   Updated: 2024/05/26 10:54:10 by camunozg         ###   ########.fr       */
+/*   Updated: 2024/05/28 10:25:32 by juramos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	minishell_loop(t_minishell *data)
 	err_syntax = false;
 	data->line = readline("\e[1;34m""minishell> ""\e[m");
 	if (!data->line)
-		exit(EXIT_SUCCESS);
+		(clean_data(&data), exit(EXIT_SUCCESS));
 	else if (check_spaces(data->line) || ft_strlen(data->line) == 0)
 		reset_loop(data);
 	parse_data(data, &err_syntax);

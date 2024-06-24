@@ -1,7 +1,7 @@
 # minishell
 Welcome to our minishell! This project was completed by [cmunoz-g](https://github.com/cmunoz-g) and [jjuanramos](https://github.com/jjuanramos).
 
-If you want context about the project, we recommend to read [maiadegraaf's README](https://github.com/maiadegraaf/minishell/), it is explained incredibly well so we thought it's redundant to re-do it.
+For the deepest context about the project, we recommend reading [maiadegraaf's README](https://github.com/maiadegraaf/minishell/): it is explained so incredibly well we thought it's redundant to re-do it.
 - [tl;dr](#tldr)
 - [Installation](#installation)
 - [Commands to try](#commands-to-try)
